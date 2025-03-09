@@ -7,6 +7,8 @@
       vimdoc
       doxygen
 
+      gitignore
+
       jsonc
       json
       toml
