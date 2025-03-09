@@ -4,18 +4,13 @@
 return {
   event = "BufEnter",
   mappings = {
-    {
-      lhs = "<Leader>g",
+    ["<Leader>g"] = {
       modes = "n",
       callback = function()
         local gitsigns = require("gitsigns")
+
         gitsigns.toggle_deleted()
         gitsigns.toggle_signs()
-
-        -- Hopefully fixes the deleted line sometimes not disappearing.
-        vim.schedule(function()
-          vim.cmd "redraw!"
-        end)
       end
     }
   },

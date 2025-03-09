@@ -28,7 +28,11 @@ local options = {
 
   --- Add and show a trailing slash at the end of directories.
   --- @type boolean
-  trailing_slash = true
+  trailing_slash = true,
+
+  --- The maximum number of items to show in the menu.
+  --- @type number
+  max_items = 100
 }
 
 --- @type plugin_config
@@ -39,7 +43,7 @@ return {
       preset = "none",
 
       ["<C-Space>"] = { "show" },
-      ["<Tab>"] = { "select_and_accept" },
+      ["<Tab>"] = { "select_and_accept", "fallback" },
       ["<S-CR>"] = { "snippet_forward", "fallback" },
 
       ["<C-n>"] = {
@@ -62,7 +66,7 @@ return {
     },
 
     completion = {
-      list = { max_items = 1000 },
+      list = { max_items = options.max_items },
       accept = {
         auto_brackets = { enabled = false }
       },
@@ -137,7 +141,7 @@ return {
               ellipsis = false,
 
               text = function(context)
-                return "(" .. context.source_name .. ")"
+                return "[" .. context.source_name .. "]"
               end,
 
               highlight = "BlinkCmpSource"
@@ -147,7 +151,10 @@ return {
       },
 
       documentation = { auto_show = options.show_docs },
-      ghost_text = { enabled = options.show_ghost_text }
+      ghost_text = {
+        enabled = options.show_ghost_text,
+        show_with_menu = false
+      }
     },
 
     fuzzy = {
@@ -168,19 +175,24 @@ return {
       prebuilt_binaries = { download = false }
     },
 
+    -- NOTE: Use 'should_show_items' to never hide a source's items.
+    --       E.g. always showing buffer items even when there are plenty of LSP
+    --       items.
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
 
       providers = {
         lsp = {
           name = "lsp",
-          module = "blink.cmp.sources.lsp"
+          module = "blink.cmp.sources.lsp",
+          fallbacks = { }
         },
 
         path = {
           name = "path",
           module = "blink.cmp.sources.path",
-          score_offset = 50,
+          score_offset = 100,
+          fallbacks = { },
 
           opts = {
             trailing_slash = options.trailing_slash,
@@ -190,9 +202,11 @@ return {
         },
 
         snippets = {
-          name = "Snippets",
+          name = "snippet",
           module = "blink.cmp.sources.snippets",
-          score_offset = 100,
+          score_offset = 200,
+          fallbacks = { },
+          should_show_items = true,
 
           opts = {
             friendly_snippets = false,
@@ -203,8 +217,10 @@ return {
         },
 
         buffer = {
-          name = "Buffer",
-          module = "blink.cmp.sources.buffer"
+          name = "buffer",
+          module = "blink.cmp.sources.buffer",
+          fallbacks = { },
+          should_show_items = true
         }
       }
     },
@@ -214,7 +230,7 @@ return {
       keymap = {
         preset = "none",
 
-        ["<Tab>"] = { "show", "accept" },
+        ["<Tab>"] = { "show", "accept", "fallback" },
         ["<C-n>"] = { "select_next" },
         ["<C-p>"] = { "select_prev" }
       },
@@ -231,7 +247,7 @@ return {
         Function = "f",
         Constructor = "m",
         Field = "v",
-        Variable = "v",
+        Variable = "x",
         Property = "p",
         Class = "t",
         Interface = "i",

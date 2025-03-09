@@ -38,16 +38,16 @@
     telescope-nvim
     telescope-zf-native-nvim
     blink-cmp
-    blink-compat
+    # blink-compat
     render-markdown-nvim
     alpha-nvim
 
-    # TODO: Obsidian.
+    # TODO: Obsidian. Unless markdown-oxide is enough.
     # obsidian-nvim
-    # TODO: Get rid of gitsigns and rewrite statusline Git module.
+
     gitsigns-nvim
-    smartcolumn-nvim
-    virt-column-nvim
+    # smartcolumn-nvim
+    # virt-column-nvim
   ];
 
   # Other LSPs should be in devShells.

@@ -4,8 +4,6 @@
     "snippets": [
       { "language": [ "tex", "latex" ], "path": "./latex.json" },
       { "language": "lua", "path": "./lua.json" },
-      { "language": [ "json", "jsonc" ], "path": "./json.json" },
-      { "language": "haskell", "path": "./haskell.json" },
       { "language": "bib", "path": "./bib.json" }
     ]
   }

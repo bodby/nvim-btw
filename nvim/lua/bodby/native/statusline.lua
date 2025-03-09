@@ -68,7 +68,6 @@ local function elem(e, xs)
 end
 
 --- @param col string Color name
---- @return highlight
 local function stl_hl(col)
   return "%#StatusLine" .. col .. "#"
 end
@@ -194,13 +193,14 @@ end
 --- @param ft string The filetype of the window's current buffer
 --- @return module
 local function pos(window, ft)
-  local row, col = unpack(vim.api.nvim_win_get_cursor(window))
+  local _, col = unpack(vim.api.nvim_win_get_cursor(window))
+  local line = #vim.fn.getline(".")
   if elem(ft, M.blocked_fts) then
     return ""
   else
     -- TODO: Use Lua to format the percentage instead of '%p'?
     return
-      stl_hl(M.colors.pos) .. " " .. row .. ":" .. col .. stl_hl(M.colors.percentage) .. " %p%% "
+      stl_hl(M.colors.pos) .. " " .. col .. "/" .. line .. stl_hl(M.colors.percentage) .. " %p%% "
   end
 end
 

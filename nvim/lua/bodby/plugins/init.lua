@@ -18,11 +18,12 @@
 return {
   ["blink.cmp"] = "blink-cmp",
   ["alpha"] = "alpha",
+  ["telescope"] = "telescope",
   ["gitsigns"] = "gitsigns",
   ["nvim-treesitter.configs"] = "nvim-treesitter",
-  ["render-markdown"] = "render-markdown",
-  -- TODO: The rest of these.
+  ["render-markdown"] = "render-markdown"
+
+  -- TODO
   -- ["smartcolumn"] = "smart-column",
-  -- ["virt-column"] = "virt-column",
-  -- ["telescope"] = "telescope"
+  -- ["virt-column"] = "virt-column"
 }

@@ -3,8 +3,7 @@ return {
   event = "FileType",
   pattern = "markdown",
   mappings = {
-    {
-      lhs = "<Leader>m",
+    ["<Leader>m"] = {
       modes = "n",
       callback = function()
         require("render-markdown").toggle()
@@ -21,6 +20,7 @@ return {
         default = vim.wo.conceallevel,
         rendered = 3
       },
+
       concealcursor = {
         default = vim.wo.concealcursor,
         rendered = "nc"
@@ -33,6 +33,8 @@ return {
     },
 
     -- TODO: 'quote_icon's and remove unused callouts.
+    --       Setting 'quote_icon' may not be necessary if this uses the default
+    --       blockquote one.
     callout = {
       note = { rendered = "Note" },
       tip = { rendered = "Tip" },
@@ -79,13 +81,12 @@ return {
       icon = "-"
     },
 
-    -- FIXME: If hovering your cursor over headings causes weird alignment
-    --        issues, then see render-markdown's config's window options.
     heading = {
       -- I love changelogs.
       icons = function(context)
         return table.concat(context.sections, ".") .. ". "
       end,
+
       backgrounds = { },
       -- This changes the icon highlight, not the text.
       foregrounds = { "RenderMarkdownHeader" }
@@ -104,7 +105,7 @@ return {
       image = "",
       email = "",
       hyperlink = "",
-      wiki = "",
+      wiki = { icon = "" },
       custom = {
         web = { icon = "" },
         discord = { icon = "" },
@@ -121,8 +122,6 @@ return {
 
     bullet = { enabled = false },
     paragraph = { enabled = false },
-
-    -- FIXME: If signs still appear then this doesn't work.
     sign = { enabled = false },
 
     pipe_table = {

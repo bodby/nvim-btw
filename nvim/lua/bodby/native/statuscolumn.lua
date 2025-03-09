@@ -39,7 +39,7 @@ end
 --- @return highlight
 local function stc_hl(col, cursor)
   local c = cursor and "Cursor" or ""
-  return "%#" .. c .. "LineNr" .. col .. "#"
+  return "%#" .. c .. "Line" .. col .. "#"
 end
 
 --- The HML motion indicators.
@@ -92,11 +92,11 @@ local function line_nr(window)
   end
 
   if vim.v.lnum == h then
-    return "%=" .. stc_hl("Special", false) .. "H"
+    return "%=" .. stc_hl("NrSpecial", false) .. "H"
   elseif vim.v.lnum == m then
-    return "%=" .. stc_hl("Special", false) .. "M"
+    return "%=" .. stc_hl("NrSpecial", false) .. "M"
   elseif vim.v.lnum == l then
-    return "%=" .. stc_hl("Special", false) .. "L"
+    return "%=" .. stc_hl("NrSpecial", false) .. "L"
   end
 
   return "%=" .. vim.v.relnum

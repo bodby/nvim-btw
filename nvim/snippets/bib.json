@@ -3,133 +3,18 @@
     "prefix": "article",
     "body": [
       "@article{${1:key},",
-      "\tauthor  = \"$2\",",
-      "\ttitle   = \"$3\",",
-      "\tjournal = \"$4\",",
-      "\tyear    = $0",
-      "}"
+      "\tauthor = \"\",",
+      "\ttitle = \"\",",
+      "\tjournal = \"\",",
+      "\tyear = \"\",",
+      "",
+      "\tvolume = \"\",",
+      "\tnumber = \"\",",
+      "\tpages = \"\",",
+      "\tmonth = \"\",",
+      "\tdoi = \"\",",
+      "\tnote = \"\"",
+      "}$0"
     ]
   },
-  "book": {
-    "prefix": "book",
-    "body": [
-      "@book{${1:key},",
-      "\tauthor    = \"$2\",",
-      "\ttitle     = \"$3\",",
-      "\tpublisher = \"$4\",",
-      "\tyear      = $0",
-      "}"
-    ]
-  },
-  "booklet": {
-    "prefix": "booklet",
-    "body": [
-      "@booklet{${1:key},",
-      "\ttitle = \"$2\"$0",
-      "}"
-    ]
-  },
-  "inbook": {
-    "prefix": "inbook",
-    "body": [
-      "@inbook{${1:key},",
-      "\tauthor    = \"$2\",",
-      "\ttitle     = \"$3\",",
-      "\tpages     = \"${4:1,3,6--18}\",",
-      "\tpublisher = \"$5\",",
-      "\tyear      = $0",
-      "}"
-    ]
-  },
-  "incollection": {
-    "prefix": "incollection",
-    "body": [
-      "@incollection{${1:key},,",
-      "\tauthor    = \"$2\",",
-      "\ttitle     = \"$3\",",
-      "\tbooktitle = \"$4\",",
-      "\tpublisher = \"$5\",",
-      "\tyear      = $0",
-      "}"
-    ]
-  },
-  "inproceedings": {
-    "prefix": [ "inproceedings", "article-proceedings" ],
-    "body": [
-      "@inproceedings{${1:key},",
-      "\tauthor    = \"$2\",",
-      "\ttitle     = \"$3\",",
-      "\tbooktitle = \"$4\",",
-      "\tyear      = $0",
-      "}"
-    ]
-  },
-  "manual": {
-    "prefix": [ "manual", "rtfm" ],
-    "body": [
-      "@manual{${1:key},",
-      "\ttitle = \"$2\"$0",
-      "}"
-    ]
-  },
-  "mastersthesis": {
-    "prefix": "mastersthesis",
-    "body": [
-      "@mastersthesis{${1:key},",
-      "\tauthor = \"$2\",",
-      "\ttitle  = \"$3\",",
-      "\tschool = \"$4\",",
-      "\tyear   = $0",
-      "}"
-    ]
-  },
-  "misc": {
-    "prefix": "misc",
-    "body": [
-      "@misc{${1:key},",
-      "\t$0",
-      "}"
-    ]
-  },
-  "phdthesis": {
-    "prefix": "phdthesis",
-    "body": [
-      "@phdthesis{${1:key},",
-      "\tauthor = \"$2\",",
-      "\ttitle  = \"$3\",",
-      "\tschool = \"$4\",",
-      "\tyear   = $0",
-      "}"
-    ]
-  },
-  "proceedings": {
-    "prefix": "proceedings",
-    "body": [
-      "@proceedings{${1:key},",
-      "\ttitle = \"$2\",",
-      "\tyear  = $0",
-      "}"
-    ]
-  },
-  "techreport": {
-    "prefix": "techreport",
-    "body": [
-      "@techreport{${1:key},",
-      "\tauthor      = \"$2\",",
-      "\ttitle       = \"$3\",",
-      "\tinstitution = \"$4\",",
-      "\tyear        = $0",
-      "}"
-    ]
-  },
-  "unpublished": {
-    "prefix": "unpublished",
-    "body": [
-      "@unpublished{${1:key},",
-      "\tauthor = \"$2\",",
-      "\ttitle  = \"$3\",",
-      "\tnote   = \"$4\"$0",
-      "}"
-    ]
-  }
 }

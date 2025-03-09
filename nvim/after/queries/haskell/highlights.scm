@@ -2,18 +2,6 @@
 
 (cpp) @keyword.directive
 
-; (type/unit
-;   [
-;     "("
-;     ")"
-;   ] @punctuation.bracket)
-
-; (type/list
-;   [
-;     "["
-;     "]"
-;   ] @punctuation.bracket)
-
 ((decl/signature
   name: (variable) @_name
   type: (_))
@@ -36,7 +24,6 @@
     name: (variable) @function
     (#eq? @_name @function)))
 
-; FIXME: I don't even know if this is needed.
 ((decl/signature
   name: (variable) @_name)
   (function
