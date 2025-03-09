@@ -17,7 +17,3 @@ nix run 'github:bodby/nvim-btw'
 # Neovide wrapper
 nix run 'github:bodby/nvim-btw#gui'
 ```
-
-___
-
-I hope Codeberg mirrors take no effort to setup.
