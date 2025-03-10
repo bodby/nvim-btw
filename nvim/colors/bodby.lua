@@ -55,7 +55,7 @@ local base = {
   --- Type constructors.
   constructor = { fg = colors.yellow },
   tag = { fg = colors.blue },
-  module = { fg = colors.yellow, bold = true },
+  module = { fg = colors.yellow },
   constant = { fg = colors.white1, bold = true },
   -- TODO: Find where this is used.
   special = { fg = colors.purple },
@@ -316,7 +316,10 @@ local highlights = {
   -- LSP highlights.
   ["@lsp.type.comment"] = { },
   ["@lsp.type.macro"] = { },
-  ["@lsp.mod.global"] = { link = "@module" }
+  ["@lsp.mod.global"] = { link = "@module" },
+
+  -- :)
+  ["GaslightingUnderline"] = { fg = colors.gray1 }
 }
 
 --- "Alpha" prefixed highlights.

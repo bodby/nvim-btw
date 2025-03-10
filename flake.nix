@@ -18,7 +18,7 @@
       packages = forall (system:
         let
           pkgs = import nixpkgs { inherit system; };
-          nvim-pkgs = import ./nix/plugins.nix { inherit pkgs; };
+          nvim-pkgs = import ./nix/plugins.nix pkgs;
         in {
           default = pkgs.callPackage ./nix/package.nix {
             inherit (nvim-pkgs) plugins packages;
