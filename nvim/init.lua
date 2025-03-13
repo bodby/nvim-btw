@@ -14,7 +14,6 @@ end)
 vim.api.nvim_create_augroup("status", { })
 
 -- TODO: Allow these to be configured like other plugins.
--- FIXME: Refactor these files.
 require("bodby.native.statusline").setup()
 require("bodby.native.statuscolumn").setup()
 require("bodby.native.tabline").setup()

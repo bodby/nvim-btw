@@ -31,7 +31,7 @@ local options = {
   trailing_slash = true,
 
   --- The maximum number of items to show in the menu.
-  --- @type number
+  --- @type integer
   max_items = 100
 }
 

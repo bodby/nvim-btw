@@ -5,7 +5,7 @@ local options = {
   top_margin = 0.28,
 
   --- Width of the dashboard in columns.
-  --- @type number
+  --- @type integer
   width = 48,
 
   --- The text shown in the header.

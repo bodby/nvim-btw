@@ -22,17 +22,11 @@
     ]
   },
 
-  "either": {
-    "prefix": "either",
-    "body": "$1 and $2 or $0"
-  },
-
   "elseif": {
     "prefix": "elseif",
     "body": [
       "elseif $1 then",
-      "\t$0",
-      "end"
+      "\t$0"
     ]
   },
 

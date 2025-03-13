@@ -45,11 +45,11 @@ local base = {
   _function = { fg = colors.blue },
   operator = { fg = colors.cyan },
   delimiter = { fg = colors.cyan },
-  boolean = { fg = colors.green },
+  boolean = { fg = colors.yellow },
   character = { fg = colors.green },
   --- Nix paths and escape codes.
   special_char = { fg = colors.cyan, italic = true },
-  number = { fg = colors.green },
+  number = { fg = colors.yellow },
   _string = { fg = colors.green, italic = true },
   type = { fg = colors.purple },
   --- Type constructors.
@@ -64,16 +64,12 @@ local base = {
   -- UI.
   normal = { fg = colors.white2, bg = colors.gray2 },
   popup = { fg = colors.white2, bg = colors.gray3 },
-  hover = {
-    fg = colors.white1,
-    bold = true,
-    italic = true
-  },
+  hover = { fg = colors.white1, bold = true },
+
   ghost = { fg = colors.white3, italic = true },
-  cursor_line = { bg = colors.gray3 },
+  cursor_line = { },
   line_number = { fg = colors.white3 },
   current_line_number = { fg = colors.cyan, bold = true },
-  hml_indicator = { fg = colors.white2, bold = true },
   accent = { fg = colors.cyan, bold = true },
   caret = { fg = colors.cyan },
   cursor = { bg = colors.cyan },
@@ -82,7 +78,6 @@ local base = {
   --- For blink.cmp and Telescope.
   matching_char = { bold = true },
   matching_search = {
-    fg = colors.white1,
     bg = colors.gray1,
     bold = true
   },
@@ -108,17 +103,12 @@ local base = {
   },
 
   statusline = { bg = colors.gray3 },
-  statusline_directory = { fg = colors.white3, italic = true },
-  statusline_file = { fg = colors.white2, italic = true },
+  statusline_path = { fg = colors.white2 },
   statusline_branch = { fg = colors.white1, bold = true },
-  statusline_delta = { fg = colors.white2 },
-  --- Line ending types (`CRLF` or `LF`).
-  statusline_endings = { fg = colors.white2 },
-  statusline_position = { fg = colors.white3 },
-  statusline_percent = { fg = colors.white2 },
+  statusline_diff = { fg = colors.white3 },
+  statusline_lines = { fg = colors.white3 },
   statusline_filetype = {
-    fg = colors.white1,
-    bold = true,
+    fg = colors.white2,
     italic = true
   },
 
@@ -141,11 +131,11 @@ local base = {
   },
 
   -- Diagnostics.
-  error = { fg = colors.red, bold = true },
-  warn = { fg = colors.yellow, bold = true },
-  info = { fg = colors.blue, bold = true },
-  hint = { fg = colors.purple, bold = true },
-  success = { fg = colors.green, bold = true },
+  error = { fg = colors.red },
+  warn = { fg = colors.yellow },
+  info = { fg = colors.blue },
+  hint = { fg = colors.purple },
+  success = { fg = colors.green },
   diff_added = { fg = colors.green },
   diff_changed = { fg = colors.yellow },
   diff_removed = { fg = colors.red },
@@ -186,9 +176,7 @@ local highlights = {
   ["Cursor"] = base.cursor,
   ["CursorLine"] = base.cursor_line,
   ["CursorLineNr"] = base.current_line_number,
-  ["CursorLineWrapped"] = base.line_number,
   ["LineNr"] = base.line_number,
-  ["LineNrSpecial"] = base.hml_indicator,
   ["WinSeparator"] = base.separator,
 
   ["Visual"] = base.visual,
@@ -400,15 +388,12 @@ local render_md_highlights = {
 --- "StatusLine" prefixed highlights.
 --- @type table<string, table>
 local statusline_highlights = {
-  ["Directory"] = base.statusline_directory,
-  ["File"] = base.statusline_file,
+  ["Path"] = base.statusline_path,
   ["Branch"] = base.statusline_branch,
-  ["Delta"] = base.statusline_delta,
+  ["Diff"] = base.statusline_diff,
   ["Macro"] = base.key,
   ["FileType"] = base.statusline_filetype,
-  ["NewLine"] = base.statusline_endings,
-  ["Pos"] = base.statusline_position,
-  ["Percent"] = base.statusline_percent,
+  ["Lines"] = base.statusline_lines,
 
   ["Error"] = inherit(base.error, { bg = base.statusline.bg }),
   ["Warn"] = inherit(base.warn, { bg = base.statusline.bg }),
@@ -430,6 +415,10 @@ local statusline_mode_highlights = {
   ["Limbo"] = colors.white3
 }
 
+--- "LineNr" and "CursorLineNr" prefixed highlights.
+--- @type table<string, table>
+local statuscolumn_highlights = { "Virt", "Wrapped" }
+
 --- "TabLine" prefixed highlights.
 --- @type table<string, table>
 local tabline_highlights = {
@@ -440,15 +429,15 @@ local tabline_highlights = {
   ["Index"] = base.tab_index,
   ["LineCount"] = base.tabline_loc,
 
-  ["EntryError"] = inherit(base.tab, { sp = base.error.fg ,underline = true }),
+  ["EntryError"] = inherit(base.tab, { sp = base.error.fg, underline = true }),
   ["EntryWarn"] = inherit(base.tab, { sp = base.warn.fg, underline = true }),
   ["EntryInfo"] = inherit(base.tab, { sp = base.info.fg, underline = true }),
   ["EntryHint"] = inherit(base.tab, { sp = base.hint.fg, underline = true }),
 
-  ["CountError"] = inherit(base.error, { underline = true }),
-  ["CountWarn"] = inherit(base.warn, { underline = true }),
-  ["CountInfo"] = inherit(base.info, { underline = true }),
-  ["CountHint"] = inherit(base.hint, { underline = true }),
+  ["CountError"] = inherit(base.error, { bold = true, underline = true }),
+  ["CountWarn"] = inherit(base.warn, { bold = true, underline = true }),
+  ["CountInfo"] = inherit(base.info, { bold = true, underline = true }),
+  ["CountHint"] = inherit(base.hint, { bold = true, underline = true }),
 
   ["EntryErrorNC"] = base.error,
   ["EntryWarnNC"] = base.warn,
@@ -492,11 +481,15 @@ for k, v in pairs(statusline_highlights) do
   hl("StatusLine" .. k, inherit(base.statusline, v))
 end
 
-for k, v in pairs(statusline_mode_highlights) do
-  local fg = inherit(base.statusline, { fg = v, bold = true })
+for _, v in ipairs(statuscolumn_highlights) do
+  hl("LineNr" .. v, base.line_number)
+  hl("CursorLineNr" .. v, base.current_line_number)
+end
 
-  hl("StatusLine" .. k .. "FG", fg)
-  hl("StatusLine" .. k .. "BG", { bg = v })
+for k, v in pairs(statusline_mode_highlights) do
+  local opts = inherit(base.statusline, { fg = v, bold = true })
+
+  hl("StatusLine" .. k, opts)
 end
 
 -- Tabline.

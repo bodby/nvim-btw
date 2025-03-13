@@ -1,58 +1,44 @@
-local M = { }
-
---- @alias statuscolumn string
---- @alias HPos number
---- @alias MPos number
---- @alias LPos number
-
-M.colors = {
-  wrapped = "Virt",
-  virtual = "Virt"
+local M = {
+  highlights = {
+    virtual = "Virt",
+    wrapped = "Wrapped"
+  }
 }
 
--- TODO: Take in an opts table.
-function M.setup()
-  -- vim.wo.statuscolumn = "%!v:lua.require('bodby.native.statuscolumn').active()"
+--- @param suffix string
+--- @param cursor boolean
+--- @return string
+local function hl(suffix, cursor)
+  return "%#" .. (cursor and "CursorLineNr" or "LineNr") .. suffix .. "#"
+end
 
-  vim.api.nvim_create_autocmd({
-    "WinEnter",
-    "BufEnter",
-  }, {
-    group    = "status",
+function M.setup()
+  vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+    group = vim.api.nvim_create_augroup("status", { clear = false }),
     callback = function(_)
-      local windows = vim.api.nvim_tabpage_list_wins(0);
+      local windows = vim.api.nvim_tabpage_list_wins(0)
 
       for _, window in pairs(windows) do
+        -- Don't apply to floating windows.
         if vim.api.nvim_win_get_config(window).relative ~= "" then
           return
         end
 
         vim.wo[window].statuscolumn =
-          "%!v:lua.require('bodby.native.statuscolumn').active(" .. window .. ")"
+          "%!v:lua.require('bodby.native.statuscolumn').text(" .. window .. ")"
       end
     end
   })
 end
 
---- @param col string Color name
---- @param cursor boolean Whether to prepend "Cursor" to the highlight name
---- @return highlight
-local function stc_hl(col, cursor)
-  local c = cursor and "Cursor" or ""
-  return "%#" .. c .. "Line" .. col .. "#"
-end
-
---- The HML motion indicators.
---- https://github.com/mawkler/hml.nvim
---- @param window winID
---- @return HPos
---- @return MPos
---- @return LPos
+--- @param window integer
+--- @return integer, integer, integer
 local function hml(window)
   local scrolloff = vim.wo[window].scrolloff
-  local buffer    = vim.api.nvim_win_get_buf(window)
+  local buffer = vim.api.nvim_win_get_buf(window)
+  local lines = vim.fn.getbufinfo(buffer)[1].linecount
 
-  local top    = vim.fn.getwininfo(window)[1].topline
+  local top = vim.fn.getwininfo(window)[1].topline
   local bottom = vim.fn.getwininfo(window)[1].botline
   local middle = math.floor((bottom - top) / 2 + top)
 
@@ -64,59 +50,53 @@ local function hml(window)
   end
 
   local l = bottom - scrolloff
-  if bottom >= vim.fn.getbufinfo(buffer)[1].linecount then
-    l = vim.fn.getbufinfo(buffer)[1].linecount
-  elseif l < middle then
-    l = middle
+  if bottom >= lines then
+    l = lines
+  else
+    l = math.max(l, middle)
   end
 
   return h, math.max(middle, h), l
 end
 
---- The relative/absolute line number along with HML indicators.
---- @param window winID
---- @return module
-local function line_nr(window)
-  local h, m, l = hml(window)
-
-  -- Negative when drawing virtual lines, zero when drawing normal lines, and positive when
-  -- drawing wrapped lines.
-  if vim.v.virtnum > 0 then
-    return stc_hl("Wrapped", vim.v.relnum == 0) .. "%=│"
-  elseif vim.v.virtnum < 0 then
-    return stc_hl("Wrapped", true) .. "%=│"
-  end
-
-  if vim.v.relnum == 0 then
-    return "%=" .. vim.v.lnum
-  end
-
-  if vim.v.lnum == h then
-    return "%=" .. stc_hl("NrSpecial", false) .. "H"
-  elseif vim.v.lnum == m then
-    return "%=" .. stc_hl("NrSpecial", false) .. "M"
-  elseif vim.v.lnum == l then
-    return "%=" .. stc_hl("NrSpecial", false) .. "L"
-  end
-
-  return "%=" .. vim.v.relnum
-end
-
---- Actual statuscolumn used in 'vim.wo[window].statuscolumn'.
---- @param window winID
---- @return statuscolumn
-function M.active(window)
+--- @param window integer
+--- @return string
+function M.text(window)
   if vim.api.nvim_win_is_valid(window) then
-    if not vim.wo[window].number or not vim.wo[window].relativenumber then
+    if not vim.wo[window].number and not vim.wo[window].relativenumber then
       return ""
     end
   end
 
-  return table.concat({
-    "%s",
-    line_nr(window),
-    " "
-  })
+  local cursor = (vim.v.relnum == 0)
+  local sign = "%s%="
+
+  if vim.v.virtnum > 0 then
+    return sign .. hl(M.highlights.wrapped, cursor) .. "| "
+  elseif vim.v.virtnum < 0 then
+    return sign .. hl(M.highlights.virtual, false) .. "- "
+  end
+
+  local highlight = hl("", cursor)
+
+  if vim.v.relnum == 0 then
+    return sign .. highlight .. tostring(vim.v.lnum) .. " "
+  end
+
+  local h, m, l = hml(window)
+  if vim.v.lnum == h then
+    return sign .. highlight .. "H "
+  elseif vim.v.lnum == m then
+    return sign .. highlight .. "M "
+  elseif vim.v.lnum == l then
+    return sign .. highlight .. "L "
+  end
+
+  if vim.wo[window].relativenumber then
+    return sign .. highlight .. tostring(vim.v.relnum) .. " "
+  else
+    return sign .. highlight .. tostring(vim.v.lnum) .. " "
+  end
 end
 
 return M
