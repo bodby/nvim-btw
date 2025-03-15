@@ -277,6 +277,7 @@ local highlights = {
   ["@punctuation.special.bash"] = inherit(base.delimiter, { nocombine = true }),
 
   ["@markup.raw.markdown_inline"] = base.code,
+  ["@markup.list"] = inherit(base.comment, { italic = false }),
   -- TODO: Resolved and unresolved link colors.
   --       The unresolved highlight belongs to LSP highlights.
   ["@markup.link"] = base.url,
