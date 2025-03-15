@@ -30,7 +30,9 @@ end
 --- @return string
 local function buffer_entry(buffer)
   local name = vim.fs.basename(vim.api.nvim_buf_get_name(buffer))
-  if name == "" then
+  if vim.bo[buffer].filetype == "alpha" then
+    name = "Alpha"
+  elseif name == "" then
     name = "New file"
   end
 
