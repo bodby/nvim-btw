@@ -115,8 +115,7 @@ end
 --- @return statusline.module
 local function path(buffer, length)
   local full = vim.api.nvim_buf_get_name(buffer)
-  --- @type boolean
-  if vim.fn.fnamemodify(full, ":~:.:t") == "" then
+  if full == "" then
     return { text = "", length = 0 }
   end
 
