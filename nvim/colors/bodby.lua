@@ -113,16 +113,16 @@ local base = {
   },
 
   tabline = { bg = colors.gray2 },
-  tab_index = { fg = colors.cyan, bold = true },
-  tabline_loc = { fg = colors.white3 },
   tab_inactive = { fg = colors.white3 },
-  tab_count = {
+  tab = {
     fg = colors.cyan,
+    bg = colors.gray1,
     bold = true,
     underline = true
   },
 
-  tab = {
+  buffer_inactive = { fg = colors.white3 },
+  buffer = {
     fg = colors.white1,
     sp = colors.cyan,
     bold = true,
@@ -292,9 +292,6 @@ local highlights = {
 
   ["@keyword.import.nix"] = { link = "Function" },
 
-  -- TODO
-  ["@constant.builtin.css"] = { link = "Keyword" },
-
   -- Todo comments.
   ["@comment.warning"] = { link = "Todo" },
   ["@comment.error"] = { link = "Todo" },
@@ -423,32 +420,10 @@ local statuscolumn_highlights = { "Virt", "Wrapped" }
 --- "TabLine" prefixed highlights.
 --- @type table<string, table>
 local tabline_highlights = {
-  ["Entry"] = base.tab,
-  ["EntryNC"] = base.tab_inactive,
-  ["Count"] = base.tab_count,
-  ["CountNC"] = base.tab_inactive,
-  ["Index"] = base.tab_index,
-  ["LineCount"] = base.tabline_loc,
-
-  ["EntryError"] = inherit(base.tab, { sp = base.error.fg, underline = true }),
-  ["EntryWarn"] = inherit(base.tab, { sp = base.warn.fg, underline = true }),
-  ["EntryInfo"] = inherit(base.tab, { sp = base.info.fg, underline = true }),
-  ["EntryHint"] = inherit(base.tab, { sp = base.hint.fg, underline = true }),
-
-  ["CountError"] = inherit(base.error, { bold = true, underline = true }),
-  ["CountWarn"] = inherit(base.warn, { bold = true, underline = true }),
-  ["CountInfo"] = inherit(base.info, { bold = true, underline = true }),
-  ["CountHint"] = inherit(base.hint, { bold = true, underline = true }),
-
-  ["EntryErrorNC"] = base.error,
-  ["EntryWarnNC"] = base.warn,
-  ["EntryInfoNC"] = base.info,
-  ["EntryHintNC"] = base.hint,
-
-  ["CountErrorNC"] = base.error,
-  ["CountWarnNC"] = base.warn,
-  ["CountInfoNC"] = base.info,
-  ["CountHintNC"] = base.hint
+  ["Tab"] = base.tab,
+  ["TabNC"] = base.tab_inactive,
+  ["Buffer"] = base.buffer,
+  ["BufferNC"] = base.buffer_inactive
 }
 
 vim.g.colors_name = "bodby"
