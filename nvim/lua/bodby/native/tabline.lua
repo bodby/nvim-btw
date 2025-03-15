@@ -1,9 +1,16 @@
+local elem = require("bodby.shared").elem
 local M = {
   highlights = {
     tab = "Tab",
     buffer = "Buffer"
   }
 }
+
+--- @param window integer
+--- @return boolean
+local function is_tiled(window)
+  return vim.api.nvim_win_get_config(window).relative == ""
+end
 
 --- @param suffix string
 --- @param current boolean
@@ -23,7 +30,9 @@ end
 --- @return string
 local function buffer_entry(buffer)
   local name = vim.fs.basename(vim.api.nvim_buf_get_name(buffer))
-  name = (name == "") and "New file" or name
+  if name == "" then
+    name = "New file"
+  end
 
   local current = vim.api.nvim_get_current_buf() == buffer
   return hl(M.highlights.buffer, current) .. " " .. name .. " "
@@ -38,7 +47,7 @@ local function tab_entry(tab)
 
   local tiled = 0
   for _, v in ipairs(windows) do
-    if vim.api.nvim_win_get_config(v).relative == "" then
+    if is_tiled(v) then
       tiled = tiled + 1
     end
   end
@@ -48,12 +57,18 @@ end
 
 --- @return string
 function M.text()
-  local current = vim.api.nvim_get_current_tabpage()
-
+  -- FIXME: Truncate buffers if the screen width is too small.
   local buffers = ""
   local windows = vim.api.nvim_tabpage_list_wins(0)
+  local opened = { }
   for _, v in ipairs(windows) do
-    buffers = buffers .. buffer_entry(vim.api.nvim_win_get_buf(v))
+    if is_tiled(v) then
+      local buffer = vim.api.nvim_win_get_buf(v)
+      if not elem(buffer, opened) then
+        table.insert(opened, buffer)
+        buffers = buffers .. buffer_entry(buffer)
+      end
+    end
   end
 
   local tabs = ""

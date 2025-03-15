@@ -1,3 +1,4 @@
+local elem = require("bodby.shared").elem
 --- @class statusline.module
 --- @field text string
 --- @field length integer
@@ -51,19 +52,6 @@ local M = {
     hint = "Hint"
   }
 }
-
---- @param e any
---- @param xs any[]
---- @return boolean
-local function elem(e, xs)
-  for _, v in ipairs(xs) do
-    if v == e then
-      return true
-    end
-  end
-  return false
-end
-
 --- @param suffix string
 --- @return string
 local function hl(suffix)
@@ -146,6 +134,17 @@ end
 --- @param type "diff" | "branch"
 --- @return statusline.module
 local function git(buffer, type)
+  --- @param num integer
+  --- @param symbol string
+  --- @return string
+  local function prefix_diff(num, symbol)
+    if num ~= 0 then
+      return symbol .. num .. " "
+    else
+      return ""
+    end
+  end
+
   --- @type table
   local git_info = vim.b[buffer].gitsigns_status_dict
   if not git_info then
@@ -159,12 +158,12 @@ local function git(buffer, type)
     end
 
     local highlight = hl(M.highlights.diff)
-    local added = (a ~= 0) and "+" .. a .. " " or ""
-    local changed = (c ~= 0) and "~" .. c .. " " or ""
-    local removed = (r ~= 0) and "-" .. r .. " " or ""
+    local added = prefix_diff(a, "+")
+    local changed = prefix_diff(c, "~")
+    local removed = prefix_diff(r, "-")
     local diff = added .. changed .. removed
 
-    return { text = highlight .. diff .. " ", length = #diff + 1 }
+    return { text = highlight .. diff, length = #diff + 1 }
   else
     local highlight = hl(M.highlights.branch)
     local branch = git_info.head
@@ -229,24 +228,21 @@ function M.text()
   local _filetype = filetype(buffer)
   local _diff = git(buffer, "diff")
   local _branch = git(buffer, "branch")
-  local _macro = macro()
 
-  -- 6 is the combined length of both mode modules.
-  local length = 6 + _diff.length + _branch.length + _macro.length
+  -- 6 is the combined length of both mode modules and the macro register.
+  local length = 7 + _diff.length + _branch.length
 
   local blocked = elem(vim.bo[buffer].filetype, M.blocked_filetypes)
-
+  local file_info = blocked and "" or _lines.text .. _filetype.text
   if not blocked then
     length = length + _lines.length + _filetype.length
   end
-
-  local file_info = blocked and "" or _lines.text .. _filetype.text
 
   return table.concat({
     mode(true).text,
     path(buffer, length).text,
     _diff.text,
-    _macro.text,
+    macro().text,
     "%#StatusLine#%=",
     file_info,
     _branch.text,

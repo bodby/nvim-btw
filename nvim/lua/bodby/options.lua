@@ -12,7 +12,7 @@ local options = {
   numberwidth = 1,
   signcolumn = "yes",
   laststatus = 3,
-  showtabline = 1,
+  showtabline = 2,
 
   pumheight = 16,
   scrolloff = 6,
