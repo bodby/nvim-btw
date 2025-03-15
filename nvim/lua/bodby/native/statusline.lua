@@ -8,9 +8,11 @@ local M = {
     ["no"] = "Normal",
     ["v"] = "Visual",
     ["V"] = "Visual",
+    -- <C-v> <C-v> in insert mode to get this.
     [""] = "Visual",
     ["s"] = "Select",
     ["S"] = "Select",
+    -- <C-v> <C-s> in insert mode to get this.
     [""] = "Select",
     ["i"] = "Insert",
     ["ic"] = "Insert",
