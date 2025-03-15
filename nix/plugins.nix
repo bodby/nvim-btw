@@ -3,7 +3,7 @@ let
   # TODO: Remove when nixpkgs version exceeds 2025-03-09.
   render-markdown-nvim' = pkgs.vimUtils.buildVimPlugin {
     pname = "render-markdown.nvim";
-    version = "2025-03-09";
+    version = "0-unstable-2025-03-09";
     src = pkgs.fetchFromGitHub {
       owner = "MeanderingProgrammer";
       repo = "render-markdown.nvim";
