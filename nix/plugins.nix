@@ -20,6 +20,7 @@ in {
       doxygen
 
       gitignore
+      git_rebase
 
       jsonc
       json
