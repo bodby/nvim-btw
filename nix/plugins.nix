@@ -35,6 +35,7 @@ in {
       markdown_inline
       latex
       bibtex
+      typst
       glsl
       zig
       meson

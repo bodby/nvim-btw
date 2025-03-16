@@ -1,6 +1,6 @@
 local lspconfig = require("lspconfig")
 
--- TODO: TexLab.
+-- TODO: TexLab, unless Typst really is as good as it seems.
 --- @type table<string, table> | string[]
 local servers = {
   "clangd",
@@ -8,6 +8,7 @@ local servers = {
   "ocamllsp",
   "rust_analyzer",
   "mesonlsp",
+  "tinymist",
   ["markdown_oxide"] = {
     capabilities = {
       workspace = {
