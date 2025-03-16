@@ -1,4 +1,5 @@
 local mappings = require("bodby.mappings")
+local nil_str = require("bodby.shared").nil_str
 
 vim.cmd.colorscheme("bodby")
 require("bodby.options")
@@ -34,7 +35,6 @@ end, plugins)
 local function setup(plugin)
   --- @type plugin_config
   local options = config[plugin]
-  assert(options, ("Invalid plugin passed (" .. plugin .. ")"))
 
   require(plugin).setup(options.opts)
   vim.schedule(function()
@@ -54,10 +54,10 @@ end
 -- don't have one.
 for p, o in pairs(config) do
   --- @type boolean
-  local has_event = o.event and o.event ~= ""
+  local has_event = not nil_str(o.event)
   if has_event then
     --- @type string
-    local pattern = o.pattern and o.pattern ~= "" and o.pattern or "*"
+    local pattern = not nil_str(o.pattern) and o.pattern or "*"
     if not mapped[o.event] then
       mapped[o.event] = { }
     end

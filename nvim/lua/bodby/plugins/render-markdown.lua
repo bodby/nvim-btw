@@ -1,3 +1,4 @@
+local render_md = require("render-markdown")
 --- @type plugin_config
 return {
   event = "FileType",
@@ -5,9 +6,7 @@ return {
   mappings = {
     ["<Leader>m"] = {
       modes = "n",
-      callback = function()
-        require("render-markdown").toggle()
-      end
+      callback = render_md.toggle
     }
   },
 

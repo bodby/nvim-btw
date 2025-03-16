@@ -12,4 +12,10 @@ function M.elem(e, xs)
   return false
 end
 
+--- @param str string
+--- @return boolean
+function M.nil_str(str)
+  return not str or str == ""
+end
+
 return M

@@ -18,9 +18,9 @@ local options = {
   --- @type boolean
   show_ghost_text = true,
 
-  --- Show the source that a completion icon came from, e.g. "(lsp)".
+  --- Show the source that a completion icon came from, e.g. "[lsp]".
   --- @type boolean
-  show_item_source = true,
+  show_item_source = false,
 
   --- Which implementation of the fuzzy algorithm to use.
   --- @type "prefer_rust" | "prefer_rust_with_warning" | "rust" | "lua"
@@ -158,11 +158,6 @@ return {
     },
 
     fuzzy = {
-      -- FIXME: When this used the Lua implementation, I was able to get proper
-      --        Neovim API LSP suggestions. Maybe I should use that instead of
-      --        the Rust implementation?
-      --
-      --        See https://github.com/Saghen/blink.cmp/pull/1356.
       implementation = options.fuzzy_impl,
 
       max_typos = function(keyword)
@@ -204,7 +199,6 @@ return {
         snippets = {
           name = "snippet",
           module = "blink.cmp.sources.snippets",
-          score_offset = 200,
           fallbacks = { },
           should_show_items = true,
 

@@ -1,5 +1,4 @@
 local lspconfig = require("lspconfig")
-local caps = require("blink.cmp").get_lsp_capabilities()
 
 -- TODO: TexLab.
 --- @type table<string, table> | string[]
@@ -9,7 +8,15 @@ local servers = {
   "ocamllsp",
   "rust_analyzer",
   "mesonlsp",
-  "markdown_oxide",
+  ["markdown_oxide"] = {
+    capabilities = {
+      workspace = {
+        didChangeWatchedFiles = {
+          dynamicRegistration = true
+        }
+      }
+    }
+  },
 
   ["hls"] = {
     settings = {
@@ -41,7 +48,6 @@ local servers = {
         completion = {
           callSnippet = "Replace",
           keywordSnippet = "Disable",
-          -- FIXME: Does disabling this fix blink.cmp's "buffer" source?
           showWord = "Disable"
         },
 
@@ -84,10 +90,14 @@ local diag_config = {
   }
 }
 
-local opts = { capabilities = caps, silent = true }
+local opts = {
+  capabilities = require("blink.cmp").get_lsp_capabilities(),
+  silent = true
+}
+
 for k, v in pairs(servers) do
   if type(v) == "table" then
-    lspconfig[k].setup(vim.tbl_deep_extend("force", v, opts))
+    lspconfig[k].setup(vim.tbl_deep_extend("keep", v, opts))
   else
     lspconfig[v].setup(opts)
   end

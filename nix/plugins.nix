@@ -1,17 +1,5 @@
 pkgs:
 let
-  # TODO: Remove when nixpkgs version exceeds 2025-03-09.
-  render-markdown-nvim' = pkgs.vimUtils.buildVimPlugin {
-    pname = "render-markdown.nvim";
-    version = "0-unstable-2025-03-09";
-    src = pkgs.fetchFromGitHub {
-      owner = "MeanderingProgrammer";
-      repo = "render-markdown.nvim";
-      rev = "c065031d030955e1d071a7fcdd8c59e0fd2f0343";
-      hash = "sha256-Wa5roH6etPACY7xtvycF4d9PE2jHIbkoS0M08HePXno=";
-    };
-  };
-
   # syntax-gaslighting = pkgs.vimUtils.buildVimPlugin {
   #   pname = "syntax-gaslighting.nvim";
   #   version = "2025-03-10";
@@ -65,8 +53,7 @@ in {
     telescope-zf-native-nvim
     blink-cmp
     # blink-compat
-    # render-markdown-nvim
-    render-markdown-nvim'
+    render-markdown-nvim
     alpha-nvim
 
     # TODO: Obsidian. Unless markdown-oxide is enough.
