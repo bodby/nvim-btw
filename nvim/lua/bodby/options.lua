@@ -93,9 +93,12 @@ local globals = {
   -- Unnecessary plugins.
   loaded_netrwPlugin = 1,
   loaded_netrw = 1,
+  loaded_tarPlugin = 1,
+  loaded_tar = 1,
+  loaded_zipPlugin = 1,
+  loaded_zip = 1,
   loaded_2html_plugin = 0,
   loaded_fzf = 0,
-  loaded_zipPlugin = 0,
   loaded_tutor_mode_plugin = 0,
 
   -- Per-filetype options. See `:h filetype`.

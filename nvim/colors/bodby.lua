@@ -427,8 +427,8 @@ local tabline_highlights = {
 }
 
 vim.g.colors_name = "bodby"
-vim.cmd("highlight clear")
-vim.cmd("syntax reset")
+vim.cmd.highlight("clear")
+vim.cmd.syntax("reset")
 
 -- TODO: Place all of the other tables into the `highlights` table to be looped
 --       over on its own.

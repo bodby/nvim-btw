@@ -40,23 +40,11 @@ local mappings = {
 
   -- Extra LSP actions.
   ["gd"] = { modes = "nv", callback = vim.lsp.buf.definition },
-  ["grn"] = { modes = "n", callback = vim.lsp.buf.rename },
-  ["gra"] = { modes = "n", callback = vim.lsp.buf.code_action }
 
-  -- TODO: Do I need these, or are they defaults?
-  --       I don't know if they work in Treesitter query files by default.
-  -- ["]d"] = {
-  --   modes = "n",
-  --   callback = vim.diagnostic.goto_next
-  -- },
-  -- ["[d"] = {
-  --   modes = "n",
-  --   callback = vim.diagnostic.goto_prev
-  -- },
-  -- ["<C-w>d"] = {
-  --   modes = "n",
-  --   callback = vim.lsp.buf.hover
-  -- }
+  -- TODO: Remove these when 0.11 comes out/they become defaults.
+  ["grn"] = { modes = "n", callback = vim.lsp.buf.rename },
+  ["grr"] = { modes = "n", callback = vim.lsp.buf.references },
+  ["gra"] = { modes = "n", callback = vim.lsp.buf.code_action }
 }
 
 --- Neovide zoom mappings.

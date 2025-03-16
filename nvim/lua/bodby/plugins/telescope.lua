@@ -4,9 +4,11 @@ local builtin = require("telescope.builtin")
 strategies.custom = function(picker, max_columns, max_lines, layout_config)
   local layout = strategies.flex(picker, max_columns, max_lines, layout_config)
 
-  layout.preview.col = layout.preview.col + 1
-  layout.preview.width = layout.preview.width - 2
-  layout.preview.height = layout.preview.height - 1
+  if layout.preview then
+    layout.preview.col = layout.preview.col + 1
+    layout.preview.width = layout.preview.width - 2
+    layout.preview.height = layout.preview.height - 1
+  end
 
   layout.results.col = layout.results.col + 1
   layout.results.width = layout.results.width - 2
@@ -21,14 +23,14 @@ end
 
 return {
   mappings = {
+    ["<Leader>fr"] = { modes = "n", callback = builtin.oldfiles },
+    ["<Leader>fw"] = { modes = "n", callback = builtin.lsp_workspace_symbols },
     ["<Leader>ff"] = {
       modes = "n",
       callback = function()
         builtin.find_files({ hidden = true })
       end
     },
-    ["<Leader>fr"] = { modes = "n", callback = builtin.oldfiles },
-    ["<Leader>fb"] = { modes = "n", callback = builtin.buffers },
 
     ["<Leader>fg"] = {
       modes = "n",
