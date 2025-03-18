@@ -2,7 +2,6 @@
   "name": "personal-snippets",
   "contributes": {
     "snippets": [
-      { "language": [ "tex", "latex" ], "path": "./latex.json" },
       { "language": "lua", "path": "./lua.json" },
       { "language": "bib", "path": "./bib.json" }
     ]
