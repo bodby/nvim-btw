@@ -27,21 +27,12 @@ local base = {
   identifier = { fg = colors.white1 },
   field = { fg = colors.white2 },
   property = { fg = colors.white2 },
-  keyword = {
-    fg = colors.cyan,
-    bold = true,
-    italic = true
-  },
+  keyword = { fg = colors.cyan, italic = true },
+  preprocessor = { fg = colors.cyan, italic = true },
 
-  preprocessor = {
-    fg = colors.cyan,
-    bold = true,
-    italic = true
-  },
-
-  conditional = { fg = colors.purple, bold = true },
+  conditional = { fg = colors.purple },
   --- Only works for langauges with a Treesitter parser.
-  function_keyword = { fg = colors.purple, bold = true },
+  function_keyword = { fg = colors.purple },
   _function = { fg = colors.blue },
   operator = { fg = colors.cyan },
   delimiter = { fg = colors.cyan },
@@ -65,7 +56,6 @@ local base = {
   normal = { fg = colors.white2, bg = colors.gray2 },
   popup = { fg = colors.white2, bg = colors.gray3 },
   hover = { fg = colors.white1, bold = true },
-
   ghost = { fg = colors.white3, italic = true },
   cursor_line = { },
   line_number = { fg = colors.white3 },
@@ -95,7 +85,6 @@ local base = {
   spell_bad = { sp = colors.red, undercurl = true },
   spell_rare = { sp = colors.purple, undercurl = true },
   spell_casing = { sp = colors.blue, undercurl = true },
-
   title = {
     fg = colors.white1,
     bold = true,
@@ -142,7 +131,7 @@ local base = {
   deprecated = { fg = colors.white3, strikethrough = true },
 
   -- Todo comments.
-  todo = { fg = colors.cyan, bold = true },
+  todo = { fg = colors.cyan },
   assignee = { fg = colors.blue },
 }
 
