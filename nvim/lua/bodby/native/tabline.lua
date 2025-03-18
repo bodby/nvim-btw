@@ -73,12 +73,12 @@ function M.text()
   -- FIXME: Truncate buffers if the screen width is too small.
   local buffers = ""
   local windows = vim.api.nvim_tabpage_list_wins(0)
-  local opened = { }
+  local skip = { }
   for _, v in ipairs(windows) do
     if is_tiled(v) then
       local buffer = vim.api.nvim_win_get_buf(v)
-      if not elem(buffer, opened) then
-        table.insert(opened, buffer)
+      if not elem(buffer, skip) then
+        table.insert(skip, buffer)
         buffers = buffers .. buffer_entry(buffer)
       end
     end
