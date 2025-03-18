@@ -98,7 +98,7 @@ local function mode(show_name)
 
   if show_name then
     return {
-      text = highlight .. "| " .. current:sub(1, 2):upper() .. " ",
+      text = highlight .. "| " .. current:sub(1, 1):upper() .. " ",
       length = 0
     }
   else
@@ -209,7 +209,7 @@ end
 ---
 --- @return statusline.module
 local function line_length()
-  -- TODO: Make this get the buffer cursor position instead of using 'getline'.
+  -- TODO: Make this get the window cursor position instead of using 'getline'.
   local length = #vim.fn.getline(".")
   local highlight = hl(M.highlights.lines)
 
@@ -252,7 +252,7 @@ function M.text()
   local _branch = git(buffer, "branch")
 
   -- 6 is the combined length of both mode modules and the macro register.
-  local length = 7 + _diff.length + _branch.length
+  local length = 6 + _diff.length + _branch.length
 
   local blocked = elem(vim.bo[buffer].filetype, M.blocked_filetypes)
   local file_info = blocked and "" or _lines.text .. _filetype.text
