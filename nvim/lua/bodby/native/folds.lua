@@ -8,16 +8,13 @@ function M.setup()
   vim.o.foldtext = "v:lua.require('bodby.native.folds').text()"
 end
 
+-- FIXME: THIS IS ATROCIOUS.
+--        Also doesn't consider the last 3-ish characters in the line for some
+--        reason.
 --- @param buffer integer
 --- @param row integer
 --- @return table<string, string>
 local function get_highlighted(buffer, row)
-  -- Loop through every character in the folded line.
-  -- Also watch vim.inspect_pos(). If it doesn't change, then skip any work and
-  -- move onto the next letter.
-  --
-  -- If it does change, then that means a new highlight is set, and start adding
-  -- each character to a table.
   local result = { }
   local token = ""
 
@@ -33,22 +30,19 @@ local function get_highlighted(buffer, row)
       if current == prev or prev == "" then
         length = length + 1
       else
+        token = line:sub(offset, offset + length)
+        table.insert(result, { token, prev })
         offset = offset + length + 1
         length = 0
-        print("------")
-        table.insert(result, { token, current })
       end
       prev = current
-      token = line:sub(offset, offset + length)
-      -- print(offset, length)
-      -- print(marks.treesitter[#marks.treesitter].hl_group)
-      print(token)
-      print(vim.inspect(result))
     end
   end
+
+  return result
 end
 
--- get_highlighted(vim.api.nvim_get_current_buf(), 51)
+-- print(vim.inspect(get_highlighted(vim.api.nvim_get_current_buf(), 43)))
 
 --- Expression used in 'foldtext'.
 ---
@@ -60,12 +54,13 @@ function M.text()
   local line = vim.fn.getline(vim.v.foldstart)
   local delimiter = vim.fn.getline(vim.v.foldend)
 
+  return get_highlighted(vim.api.nvim_get_current_buf(), vim.v.foldstart)
   -- Highlights can be added if a table is passed instead of just a string.
-  return {
-    { line, "Folded" },
-    { " ... ", "Delimiter" },
-    { trim(delimiter), "Folded" }
-  }
+  -- return {
+  --   { line, "Folded" },
+  --   { " ... ", "Delimiter" },
+  --   { trim(delimiter), "Folded" }
+  -- }
 end
 
 return M
