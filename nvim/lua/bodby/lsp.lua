@@ -1,6 +1,5 @@
 local lspconfig = require("lspconfig")
 
--- TODO: TexLab, unless Typst really is as good as it seems.
 --- @type table<string, table> | string[]
 local servers = {
   "clangd",

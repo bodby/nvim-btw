@@ -82,6 +82,7 @@ function M.map(modes, lhs, rhs, opts)
   vim.keymap.set(mode_tbl, lhs, rhs, opts or { })
 end
 
+--- Set up all mappings.
 function M.setup()
   for k, v in pairs(mappings) do
     M.map(v.modes, k, v.callback, v.opts)
