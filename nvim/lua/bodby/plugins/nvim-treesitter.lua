@@ -1,4 +1,5 @@
 local options = {
+  --- Whether to remove commands that modify parsers.
   --- @type boolean
   delete_user_commands = true
 }

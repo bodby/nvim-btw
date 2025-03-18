@@ -63,6 +63,7 @@ local options = {
 }
 
 --- Global options prefixed with "neovide_".
+---
 --- @type table<string, any>
 local neovide_options = {
   text_gamma = 0.8,

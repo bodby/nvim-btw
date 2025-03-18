@@ -1,4 +1,5 @@
 local elem = require("bodby.shared").elem
+
 --- @class statusline.module
 --- @field text string
 --- @field length integer
@@ -32,6 +33,8 @@ local M = {
       end
     }),
 
+  --- The line length and filetype won't be shown if the current buffer's
+  --- filetype is one of these.
   blocked_filetypes = {
     "alpha",
     "TelescopePrompt"
@@ -52,6 +55,9 @@ local M = {
     hint = "Hint"
   }
 }
+
+--- Return a highlight string.
+---
 --- @param suffix string
 --- @return string
 local function hl(suffix)
@@ -82,6 +88,8 @@ function M.setup()
   })
 end
 
+--- Show a pipe character and optionally the current mode name.
+---
 --- @param show_name boolean
 --- @return statusline.module
 local function mode(show_name)
@@ -98,6 +106,10 @@ local function mode(show_name)
   end
 end
 
+--- Return the path of the passed buffer's file relative to the current working
+--- directory. If the screen is too small, then either only the file is shown,
+--- or nothing at all.
+---
 --- @param buffer integer
 --- @param length integer Length of all other statusline modules.
 --- @return statusline.module
@@ -130,6 +142,8 @@ local function path(buffer, length)
   end
 end
 
+--- Return either the current branch or the status.
+---
 --- @param buffer integer
 --- @param type "diff" | "branch"
 --- @return statusline.module
@@ -176,6 +190,8 @@ local function git(buffer, type)
   end
 end
 
+--- Return the current macro register if one is being recorded.
+---
 --- @return statusline.module
 local function macro()
   local reg = vim.fn.reg_recording()
@@ -189,6 +205,8 @@ end
 
 -- TODO: Diagnostics.
 
+--- Return the character count of the current line.
+---
 --- @return statusline.module
 local function line_length()
   -- TODO: Make this get the buffer cursor position instead of using 'getline'.
@@ -205,6 +223,8 @@ local function line_length()
   end
 end
 
+--- Return the filetype, or "none" if it is unset.
+---
 --- @param buffer integer
 --- @return statusline.module
 local function filetype(buffer)
@@ -218,6 +238,8 @@ local function filetype(buffer)
   end
 end
 
+--- Text used in the statusline.
+---
 --- @return string
 function M.text()
   local window = vim.api.nvim_get_current_win()

@@ -1,6 +1,7 @@
 local M = { }
 
 --- Return whether or not an element exists in an array.
+---
 --- @param e any
 --- @param xs any[]
 --- @return boolean
@@ -14,6 +15,7 @@ function M.elem(e, xs)
 end
 
 --- Return whether the string passed is blank (`""`) or `nil`.
+---
 --- @param str string
 --- @return boolean
 function M.nil_str(str)

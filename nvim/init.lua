@@ -18,20 +18,24 @@ require("bodby.native.statuscolumn").setup()
 require("bodby.native.tabline").setup()
 
 --- Table of plugin module names and their config's filename.
+---
 --- @type table<string, string>
 local plugins = require("bodby.plugins")
 
 --- Table of filetypes and events, with a list of plugins inside them.
+---
 --- @type table<string, table<string, string[]>>
 local mapped = { }
 
 --- Table with plugin configs instead of just their filename.
+---
 --- @type table<string, plugin_config>
 local config = vim.tbl_map(function(p)
   return require("bodby.plugins." .. p)
 end, plugins)
 
 --- Setup the passed plugin, its mappings, and its post function.
+---
 --- @param plugin string
 local function setup(plugin)
   --- @type plugin_config

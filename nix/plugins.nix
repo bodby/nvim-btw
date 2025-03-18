@@ -58,9 +58,6 @@ in {
     render-markdown-nvim
     alpha-nvim
 
-    # TODO: Obsidian. Unless markdown-oxide is enough.
-    # obsidian-nvim
-
     gitsigns-nvim
     # smartcolumn-nvim
     # virt-column-nvim

@@ -21,6 +21,7 @@ local colors = {
 -- NOTE: Snippets should be highlighted like macros.
 
 --- Atomic highlights that other highlights can inherit.
+---
 --- @enum base
 local base = {
   -- Syntax.
@@ -135,7 +136,8 @@ local base = {
   assignee = { fg = colors.blue },
 }
 
---- Override a `base` highlight.
+--- Override a `base` highlight, returning a table usable in highlights.
+---
 --- @param orig base
 --- @param opts table
 --- @return table
@@ -144,13 +146,15 @@ local function inherit(orig, opts)
   return vim.tbl_deep_extend("force", orig, opts)
 end
 
+--- Shorter highlight function.
+---
 --- @param name string
 --- @param opts table
 local function hl(name, opts)
   vim.api.nvim_set_hl(0, name, opts)
 end
 
--- See `:h syntax` for some of these highlights.
+-- See `:h syntax` for some of these.
 --- @type table<string, table>
 local highlights = {
   ["Normal"] = base.normal,
@@ -298,6 +302,7 @@ local highlights = {
 }
 
 --- "Alpha" prefixed highlights.
+---
 --- @type table<string, table>
 local alpha_highlights = {
   ["Buttons"] = base.caret,
@@ -308,6 +313,7 @@ local alpha_highlights = {
 }
 
 --- "BlinkCmp" prefixed highlights.
+---
 --- @type table<string, table>
 local blink_highlights = {
   ["Menu"] = { link = "Pmenu" },
@@ -345,6 +351,7 @@ local blink_highlights = {
 }
 
 --- "Telescope" prefixed highlights.
+---
 --- @type table<string, table>
 local telescope_highlights = {
   ["PromptNormal"] = { link = "NormalFloat" },
@@ -362,6 +369,7 @@ local telescope_highlights = {
 }
 
 --- "RenderMarkdown" prefixed highlights.
+---
 --- @type table<string, table>
 local render_md_highlights = {
   ["Header"] = inherit(base.title, { fg = colors.white3, italic = false }),
@@ -373,6 +381,7 @@ local render_md_highlights = {
 }
 
 --- "StatusLine" prefixed highlights.
+---
 --- @type table<string, table>
 local statusline_highlights = {
   ["Path"] = base.statusline_path,
@@ -389,6 +398,7 @@ local statusline_highlights = {
 }
 
 --- For "BG" and "FG" suffixed highlights.
+---
 --- @type table<string, string>
 local statusline_mode_highlights = {
   ["Normal"] = colors.cyan,
@@ -403,10 +413,12 @@ local statusline_mode_highlights = {
 }
 
 --- "LineNr" and "CursorLineNr" prefixed highlights.
+---
 --- @type table<string, table>
 local statuscolumn_highlights = { "Virt", "Wrapped" }
 
 --- "TabLine" prefixed highlights.
+---
 --- @type table<string, table>
 local tabline_highlights = {
   ["Tab"] = base.tab,
@@ -419,8 +431,6 @@ vim.g.colors_name = "bodby"
 vim.cmd.highlight("clear")
 vim.cmd.syntax("reset")
 
--- TODO: Place all of the other tables into the `highlights` table to be looped
---       over on its own.
 for k, v in pairs(highlights) do
   hl(k, v)
 end

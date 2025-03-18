@@ -1,4 +1,5 @@
 local M = { }
+
 --- @class mapping
 --- @field modes string
 --- @field callback string | fun() : string?
@@ -48,6 +49,7 @@ local mappings = {
 }
 
 --- Neovide zoom mappings.
+---
 --- @type table<string, mapping>
 local neovide_mappings = {
   ["<C-+>"] = {
@@ -73,6 +75,7 @@ local neovide_mappings = {
 }
 
 --- Create a mapping.
+---
 --- @param modes string
 --- @param lhs string
 --- @param rhs string | fun()

@@ -5,6 +5,8 @@ local M = {
   }
 }
 
+--- Return a highlight string.
+---
 --- @param suffix string
 --- @param cursor boolean
 --- @return string
@@ -31,6 +33,12 @@ function M.setup()
   })
 end
 
+--- Return the line numbers that correspond to the top, center, and bottom of
+--- the screen.
+--- These can be jumped to using the H, M, and L motions.
+---
+--- See https://github.com/mawkler/hml.nvim for the original implementation.
+---
 --- @param window integer
 --- @return integer, integer, integer
 local function hml(window)
@@ -59,6 +67,8 @@ local function hml(window)
   return h, math.max(middle, h), l
 end
 
+--- Text used in the statuscolumn.
+---
 --- @param window integer
 --- @return string
 function M.text(window)

@@ -1,4 +1,5 @@
 local render_md = require("render-markdown")
+
 --- @type plugin_config
 return {
   event = "FileType",

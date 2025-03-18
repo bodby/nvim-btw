@@ -6,12 +6,16 @@ local M = {
   }
 }
 
+--- Return whether the window passed is floating or not.
+---
 --- @param window integer
 --- @return boolean
 local function is_tiled(window)
   return vim.api.nvim_win_get_config(window).relative == ""
 end
 
+--- Return a highlight string.
+---
 --- @param suffix string
 --- @param current boolean
 --- @return string
@@ -19,16 +23,18 @@ local function hl(suffix, current)
   return "%#TabLine" .. suffix .. (current and "" or "NC") .. "#"
 end
 
--- TODO: Take in an opts table.
 function M.setup()
   vim.o.tabline = "%!v:lua.require('bodby.native.tabline').text()"
 end
 
 -- TODO: Diagnostics.
 
+--- Reusable function to return a formatted buffer entry.
+---
 --- @param buffer integer
 --- @return string
 local function buffer_entry(buffer)
+  -- TODO: Format help buffers differently.
   local name = vim.fs.basename(vim.api.nvim_buf_get_name(buffer))
   if vim.bo[buffer].filetype == "alpha" then
     name = "Alpha"
@@ -40,6 +46,9 @@ local function buffer_entry(buffer)
   return hl(M.highlights.buffer, current) .. " " .. name .. " "
 end
 
+--- Reusable function to return a formatted tab entry, showing the number of
+--- windows in the tab.
+---
 --- @param tab integer
 --- @return string
 local function tab_entry(tab)
@@ -57,6 +66,8 @@ local function tab_entry(tab)
   return hl(M.highlights.tab, current) .. " " .. tiled .. " "
 end
 
+--- Text used in the tabline.
+---
 --- @return string
 function M.text()
   -- FIXME: Truncate buffers if the screen width is too small.

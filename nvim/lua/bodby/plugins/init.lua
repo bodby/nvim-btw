@@ -1,5 +1,3 @@
---- @module "bodby.plugins"
-
 --- @class plugin_config
 --- @field event? string
 --- @field pattern? string
