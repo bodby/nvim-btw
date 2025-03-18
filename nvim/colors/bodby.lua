@@ -462,7 +462,7 @@ for k, v in pairs(tabline_highlights) do
   hl("TabLine" .. k, inherit(base.tabline, v))
 end
 
-vim.g.terminal_color_0 = colors.gray3
+vim.g.terminal_color_0 = colors.gray1
 vim.g.terminal_color_1 = colors.red
 vim.g.terminal_color_2 = colors.green
 vim.g.terminal_color_3 = colors.yellow
@@ -470,7 +470,7 @@ vim.g.terminal_color_4 = colors.blue
 vim.g.terminal_color_5 = colors.purple
 vim.g.terminal_color_6 = colors.cyan
 vim.g.terminal_color_7 = colors.white2
-vim.g.terminal_color_8 = colors.gray1
+vim.g.terminal_color_8 = colors.white3
 vim.g.terminal_color_9 = colors.red
 vim.g.terminal_color_10 = colors.green
 vim.g.terminal_color_11 = colors.yellow
