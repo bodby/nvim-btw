@@ -16,8 +16,11 @@ local options = {
 
   pumheight = 16,
   scrolloff = 6,
+  sidescrolloff = 8,
   cmdheight = 0,
-  wrap = true,
+  -- TODO: Enable again when concealed line wrapping is fixed.
+  --       See https://github.com/neovim/neovim/pull/9496.
+  wrap = false,
   linebreak = true,
   conceallevel = 0,
   concealcursor = "",
@@ -46,7 +49,9 @@ local options = {
 
   listchars = {
     tab = "> ",
-    trail = "_"
+    trail = "_",
+    extends = "+",
+    precedes = "-"
   },
 
   confirm = true,
