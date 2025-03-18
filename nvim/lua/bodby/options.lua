@@ -18,9 +18,8 @@ local options = {
   scrolloff = 6,
   sidescrolloff = 8,
   cmdheight = 0,
-  -- TODO: Enable again when concealed line wrapping is fixed.
-  --       See https://github.com/neovim/neovim/pull/9496.
-  wrap = false,
+  -- https://github.com/neovim/neovim/pull/9496.
+  wrap = true,
   linebreak = true,
   conceallevel = 0,
   concealcursor = "",
