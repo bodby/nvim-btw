@@ -7,8 +7,8 @@ local colors = {
   gray3 = "#0e1119",
 
   white1 = "#bfd3ff",
-  white2 = "#93a5c8",
-  white3 = "#4c5771",
+  white2 = "#91a4ca",
+  white3 = "#495674",
 
   purple = "#9d7dff",
   blue = "#809cff",

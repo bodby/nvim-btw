@@ -1,6 +1,4 @@
-local shared = require("bodby.shared")
-local trim = shared.trim
-local elem = shared.elem
+local trim = require("bodby.shared").trim
 
 local M = { }
 
@@ -10,69 +8,64 @@ function M.setup()
   vim.o.foldtext = "v:lua.require('bodby.native.folds').text()"
 end
 
+--- @param buffer integer
+--- @param row integer
+--- @return table<string, string>
+local function get_highlighted(buffer, row)
+  -- Loop through every character in the folded line.
+  -- Also watch vim.inspect_pos(). If it doesn't change, then skip any work and
+  -- move onto the next letter.
+  --
+  -- If it does change, then that means a new highlight is set, and start adding
+  -- each character to a table.
+  local result = { }
+  local token = ""
+
+  local prev = ""
+  local line = vim.api.nvim_buf_get_lines(buffer, row - 1, row, true)[1]
+  local length = 0
+  local offset = 0
+  for i = 0, #line do
+    local marks = vim.inspect_pos(buffer, row - 1, i)
+
+    if next(marks.treesitter) ~= nil then
+      local current = marks.treesitter[#marks.treesitter].hl_group
+      if current == prev or prev == "" then
+        length = length + 1
+      else
+        offset = offset + length + 1
+        length = 0
+        print("------")
+        table.insert(result, { token, current })
+      end
+      prev = current
+      token = line:sub(offset, offset + length)
+      -- print(offset, length)
+      -- print(marks.treesitter[#marks.treesitter].hl_group)
+      print(token)
+      print(vim.inspect(result))
+    end
+  end
+end
+
+-- get_highlighted(vim.api.nvim_get_current_buf(), 51)
+
 --- Expression used in 'foldtext'.
 ---
 --- @return table<string, string>
 function M.text()
   -- TODO: Make this per-buffer, by passing the window (same with winbar).
+  --       And also make this somehow retain the normal buffer's highlights (so
+  --       folded text isn't a single color/has syntax highlighting).
   local line = vim.fn.getline(vim.v.foldstart)
   local delimiter = vim.fn.getline(vim.v.foldend)
 
-  -- get_captures_at_pos(buffer, row, col)
-  local capture = vim.treesitter.get_captures_at_pos(0, vim.v.foldstart - 1, 1)
-
-  local highlight = ""
-  if next(capture) ~= nil then
-    local last = capture[#capture]
-    highlight = "@" .. last.capture .. "." .. last.lang
-  end
-
-  -- Highlights can be returned if a table is passed instead of just a string.
+  -- Highlights can be added if a table is passed instead of just a string.
   return {
-    -- { line, highlight },
-    { line, "" },
-    { " ... ", "Folded" },
-    { trim(delimiter), "Delimiter" }
+    { line, "Folded" },
+    { " ... ", "Delimiter" },
+    { trim(delimiter), "Folded" }
   }
-end
-
--- https://github.com/kevinhwang91/nvim-ufo/blob/main/lua/ufo/render/match.lua
-local function get_hls()
-  local result = { }
-  local window = vim.api.nvim_get_current_win()
-  for _, v in pairs(vim.fn.getmatches(window)) do
-
-  end
-end
-
--- PERF: This is insanely expensive.
--- Trying to figure out how to highlight individual tokens.
-local function pain()
-  local skip = { }
-  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-  local buffer = vim.api.nvim_get_current_buf()
-
-  local line = vim.api.nvim_buf_get_lines(buffer, row - 1, row, false)
-  vim.treesitter.get_parser(buffer):parse(false)
-  if next(line) ~= nil then
-    local l = line[1]
-    for i = 1, #l do
-      local _, b, _, d = vim.treesitter.get_node_range(vim.treesitter.get_node({
-        bufnr = buffer,
-        pos = { row - 1, i }
-      }))
-
-      if not elem(b .. "." .. d, skip) then
-        table.insert(skip, b .. "." .. d)
-        local token = l:sub(b, d)
-
-        local highlight = vim.treesitter.get_captures_at_pos(buffer, row - 1, i)
-        if highlight[#highlight] then
-          print(highlight[#highlight].capture .. " for " .. token)
-        end
-      end
-    end
-  end
 end
 
 return M
