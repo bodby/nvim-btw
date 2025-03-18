@@ -59,7 +59,10 @@ local options = {
   shortmess = "oOstTWIcCFSqc",
 
   spelllang = "en",
-  spellsuggest = "best"
+  spellsuggest = "best",
+
+  foldenable = true,
+  foldlevel = 99
 }
 
 --- Global options prefixed with "neovide_".

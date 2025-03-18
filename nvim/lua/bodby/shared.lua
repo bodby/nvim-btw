@@ -22,4 +22,16 @@ function M.nil_str(str)
   return not str or str == ""
 end
 
+--- Trim a string, returning it without any leading or trailing whitespace.
+---
+--- @param str string
+--- @return string
+function M.trim(str)
+  if M.nil_str(str) then
+    return ""
+  else
+    return str:match("^%s*(.-)%s*$")
+  end
+end
+
 return M

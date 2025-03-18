@@ -16,6 +16,7 @@ end)
 require("bodby.native.statusline").setup()
 require("bodby.native.statuscolumn").setup()
 require("bodby.native.tabline").setup()
+require("bodby.native.folds").setup()
 
 --- Table of plugin module names and their config's filename.
 ---
