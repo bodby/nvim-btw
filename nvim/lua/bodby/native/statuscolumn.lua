@@ -27,7 +27,7 @@ function M.setup()
         end
 
         vim.wo[window].statuscolumn =
-          '%!v:lua.require('bodby.native.statuscolumn').text(' .. window .. ')'
+          '%!v:lua.require("bodby.native.statuscolumn").text(' .. window .. ')'
       end
     end
   })
