@@ -9,11 +9,11 @@ function M.setup()
 end
 
 -- FIXME: I wrote the two functions below on mobile. I think there's an
---        off-by-one error in 'highlight_line()'.
+--        off-by-one error in 'highlight_line()'. Or they just don't work
+--        entirely.
 --
---        Or they just don't work entirely.
---
---        The return type annotation on 'highlight_line()' doesn't make sense.
+--        The return type annotation on 'highlight_line()' and 'text()' don't
+--         make sense.
 
 --- Return the last Treesitter capture at a position or 'Folded' if none exist.
 ---
