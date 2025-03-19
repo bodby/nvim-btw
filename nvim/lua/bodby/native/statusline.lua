@@ -121,7 +121,7 @@ local function path(buffer, length)
 
   local formatted = vim.fn.fnamemodify(full, ':~:.')
   local modified = vim.api.nvim_get_option_value('modified', { buf = buffer })
-  local modified_symbol = modified and ''' or ''
+  local modified_symbol = modified and "'" or ''
   local highlight = hl(M.highlights.path)
 
   if vim.go.columns - (#formatted + 2) >= length then
