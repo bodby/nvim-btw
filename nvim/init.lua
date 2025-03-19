@@ -1,29 +1,29 @@
-local mappings = require("bodby.mappings")
-local nil_str = require("bodby.shared").nil_str
+local mappings = require('bodby.mappings')
+local nil_str = require('bodby.shared').nil_str
 
-vim.cmd.colorscheme("bodby")
-require("bodby.options")
+vim.cmd.colorscheme('bodby')
+require('bodby.options')
 
 vim.schedule(function()
-  vim.g.mapleader = " "
+  vim.g.mapleader = ' '
   mappings.setup()
 
   -- TODO: Lazy-load this somehow?
-  require("bodby.lsp")
+  require('bodby.lsp')
 end)
 
 -- TODO: Allow these to be configured like other plugins.
-require("bodby.native.statusline").setup()
-require("bodby.native.statuscolumn").setup()
-require("bodby.native.tabline").setup()
-require("bodby.native.folds").setup()
+require('bodby.native.statusline').setup()
+require('bodby.native.statuscolumn').setup()
+require('bodby.native.tabline').setup()
+require('bodby.native.folds').setup()
 -- TODO: Winbar to show Treesitter breadcrumbs.
--- require("bodby.native.winbar").setup()
+-- require('bodby.native.winbar').setup()
 
 --- Table of plugin module names and their config's filename.
 ---
 --- @type table<string, string>
-local plugins = require("bodby.plugins")
+local plugins = require('bodby.plugins')
 
 --- Table of filetypes and events, with a list of plugins inside them.
 ---
@@ -34,7 +34,7 @@ local mapped = { }
 ---
 --- @type table<string, plugin_config>
 local config = vim.tbl_map(function(p)
-  return require("bodby.plugins." .. p)
+  return require('bodby.plugins.' .. p)
 end, plugins)
 
 --- Setup the passed plugin, its mappings, and its post function.
@@ -65,7 +65,7 @@ for p, o in pairs(config) do
   local has_event = not nil_str(o.event)
   if has_event then
     --- @type string
-    local pattern = not nil_str(o.pattern) and o.pattern or "*"
+    local pattern = not nil_str(o.pattern) and o.pattern or '*'
     if not mapped[o.event] then
       mapped[o.event] = { }
     end
@@ -83,7 +83,7 @@ end
 -- Create autocommands for each filetype and pattern group.
 for ev, ps in pairs(mapped) do
   for p, vs in pairs(ps) do
-    local group = "Lazy" .. ev .. p
+    local group = 'Lazy' .. ev .. p
 
     vim.api.nvim_create_augroup(group, { })
     vim.api.nvim_create_autocmd(ev, {

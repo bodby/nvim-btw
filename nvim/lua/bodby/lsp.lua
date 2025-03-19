@@ -1,14 +1,14 @@
-local lspconfig = require("lspconfig")
+local lspconfig = require('lspconfig')
 
 --- @type table<string, table> | string[]
 local servers = {
-  "clangd",
-  "nixd",
-  "ocamllsp",
-  "rust_analyzer",
-  "mesonlsp",
-  "tinymist",
-  ["markdown_oxide"] = {
+  'clangd',
+  'nixd',
+  'ocamllsp',
+  'rust_analyzer',
+  'mesonlsp',
+  'tinymist',
+  ['markdown_oxide'] = {
     capabilities = {
       workspace = {
         didChangeWatchedFiles = {
@@ -18,26 +18,26 @@ local servers = {
     }
   },
 
-  ["hls"] = {
+  ['hls'] = {
     settings = {
       haskell = {
         maxCompletions = 100,
         checkProject = false,
-        checkParents = "CheckOnSave"
+        checkParents = 'CheckOnSave'
       }
     }
   },
 
-  ["lua_ls"] = {
+  ['lua_ls'] = {
     settings = {
       Lua = {
         runtime = {
-          version = "LuaJIT",
-          path = vim.split(package.path, ";")
+          version = 'LuaJIT',
+          path = vim.split(package.path, ';')
         },
 
         diagnostics = {
-          globals = { "vim" }
+          globals = { 'vim' }
         },
 
         workspace = {
@@ -46,9 +46,9 @@ local servers = {
         },
 
         completion = {
-          callSnippet = "Replace",
-          keywordSnippet = "Disable",
-          showWord = "Disable"
+          callSnippet = 'Replace',
+          keywordSnippet = 'Disable',
+          showWord = 'Disable'
         },
 
         type = {
@@ -74,30 +74,30 @@ local diag_config = {
 
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = "X",
-      [vim.diagnostic.severity.WARN] = "!",
-      [vim.diagnostic.severity.INFO] = "i",
-      [vim.diagnostic.severity.HINT] = "?"
+      [vim.diagnostic.severity.ERROR] = 'X',
+      [vim.diagnostic.severity.WARN] = '!',
+      [vim.diagnostic.severity.INFO] = 'i',
+      [vim.diagnostic.severity.HINT] = '?'
     }
   },
 
   float = {
-    scope = "line",
+    scope = 'line',
     severity_sort = true,
-    header = "",
+    header = '',
     source = false,
-    prefix = ""
+    prefix = ''
   }
 }
 
 local opts = {
-  capabilities = require("blink.cmp").get_lsp_capabilities(),
+  capabilities = require('blink.cmp').get_lsp_capabilities(),
   silent = true
 }
 
 for k, v in pairs(servers) do
-  if type(v) == "table" then
-    lspconfig[k].setup(vim.tbl_deep_extend("keep", v, opts))
+  if type(v) == 'table' then
+    lspconfig[k].setup(vim.tbl_deep_extend('keep', v, opts))
   else
     lspconfig[v].setup(opts)
   end

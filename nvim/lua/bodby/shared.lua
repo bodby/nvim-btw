@@ -14,12 +14,12 @@ function M.elem(e, xs)
   return false
 end
 
---- Return whether the string passed is blank (`""`) or `nil`.
+--- Return whether the string passed is blank (`''`) or `nil`.
 ---
 --- @param str string
 --- @return boolean
 function M.nil_str(str)
-  return not str or str == ""
+  return not str or str == ''
 end
 
 --- Trim a string, returning it without any leading or trailing whitespace.
@@ -28,9 +28,9 @@ end
 --- @return string
 function M.trim(str)
   if M.nil_str(str) then
-    return ""
+    return ''
   else
-    return str:match("^%s*(.-)%s*$")
+    return str:match('^%s*(.-)%s*$')
   end
 end
 

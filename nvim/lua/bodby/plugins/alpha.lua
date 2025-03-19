@@ -1,4 +1,4 @@
-local builtin = require("telescope.builtin")
+local builtin = require('telescope.builtin')
 
 local options = {
   --- How much padding should be added to the top of the dashboard, as a
@@ -14,25 +14,25 @@ local options = {
   --- Can be a single string or a list of strings for multiple lines.
   --- @type string[] | string
   header = {
-    "           ▄ ▄                   ",
-    "       ▄   ▄▄▄     ▄ ▄▄▄ ▄ ▄     ",
-    "       █ ▄ █▄█ ▄▄▄ █ █▄█ █ █     ",
-    "    ▄▄ █▄█▄▄▄█ █▄█▄█▄▄█▄▄█ █     ",
-    "  ▄ █▄▄█ ▄ ▄▄ ▄█ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄  ",
-    "  █▄▄▄▄ ▄▄▄ █ ▄ ▄▄▄ ▄ ▄▄▄ ▄ ▄ █ ▄",
-    "▄ █ █▄█ █▄█ █ █ █▄█ █ █▄█ ▄▄▄ █ █",
-    "█▄█ ▄ █▄▄█▄▄█ █ ▄▄█ █ ▄ █ █▄█▄█ █",
-    "    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ █▄█▄▄▄█    "
+    '           ▄ ▄                   ',
+    '       ▄   ▄▄▄     ▄ ▄▄▄ ▄ ▄     ',
+    '       █ ▄ █▄█ ▄▄▄ █ █▄█ █ █     ',
+    '    ▄▄ █▄█▄▄▄█ █▄█▄█▄▄█▄▄█ █     ',
+    '  ▄ █▄▄█ ▄ ▄▄ ▄█ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄  ',
+    '  █▄▄▄▄ ▄▄▄ █ ▄ ▄▄▄ ▄ ▄▄▄ ▄ ▄ █ ▄',
+    '▄ █ █▄█ █▄█ █ █ █▄█ █ █▄█ ▄▄▄ █ █',
+    '█▄█ ▄ █▄▄█▄▄█ █ ▄▄█ █ ▄ █ █▄█▄█ █',
+    '    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ █▄█▄▄▄█    '
   },
 
   --- The text shown in the footer.
   --- Can be a single string or a list of strings for multiple lines.
   --- @type string[] | string
-  footer = "Sent from my iPhone",
+  footer = 'Sent from my iPhone',
 
   --- The character used as a prefix for each button.
   --- @type string
-  button_char = "*"
+  button_char = '*'
 }
 
 local function button(shortcut, text, action)
@@ -43,21 +43,21 @@ local function button(shortcut, text, action)
   }
 
   local opts = {
-    position = "center",
+    position = 'center',
     shortcut = shortcut,
     cursor = 0,
     width = options.width,
     shrink_margin = true,
-    align_shortcut = "right",
+    align_shortcut = 'right',
 
     hl = {
-      { "AlphaButtons", 0, 2 },
-      { "AlphaHeaderLabel", 2, -1 }
+      { 'AlphaButtons', 0, 2 },
+      { 'AlphaHeaderLabel', 2, -1 }
     },
 
-    hl_shortcut = "AlphaShortcut",
+    hl_shortcut = 'AlphaShortcut',
     keymap = {
-      "n",
+      'n',
       shortcut,
       action,
       mapping_opts
@@ -65,50 +65,50 @@ local function button(shortcut, text, action)
   }
 
   return {
-    type = "button",
-    val = options.button_char .. " " .. text,
+    type = 'button',
+    val = options.button_char .. ' ' .. text,
     opts = opts,
     on_press = action
   }
 end
 
 local header = {
-  type = "text",
+  type = 'text',
   val = options.header,
 
   opts = {
-    position = "center",
-    hl = "AlphaHeader"
+    position = 'center',
+    hl = 'AlphaHeader'
   }
 }
 
 local footer = {
-  type = "text",
+  type = 'text',
   val = options.footer,
 
   opts = {
-    position = "center",
-    hl = "AlphaFooter"
+    position = 'center',
+    hl = 'AlphaFooter'
   }
 }
 
 local shortcuts = {
-  type = "group",
+  type = 'group',
   val = {
-    button("e", "New file", vim.cmd.enew),
+    button('e', 'New file', vim.cmd.enew),
 
-    button("f", "Find files", function()
+    button('f', 'Find files', function()
       builtin.find_files({
-        prompt_title = "",
-        preview_title = "",
+        prompt_title = '',
+        preview_title = '',
         hidden = true
       })
     end),
 
-    button("r", "Recent", function()
+    button('r', 'Recent', function()
       builtin.oldfiles({
-        prompt_title = "",
-        preview_title = ""
+        prompt_title = '',
+        preview_title = ''
       })
     end)
   },
@@ -116,9 +116,9 @@ local shortcuts = {
   opts = { spacing = 1 }
 }
 
-local margin = { type = "padding", val = 1 }
+local margin = { type = 'padding', val = 1 }
 local header_margin = {
-  type = "padding",
+  type = 'padding',
   val = vim.fn.max({
     2, vim.fn.floor(vim.fn.winheight(0) * options.top_margin)
   })

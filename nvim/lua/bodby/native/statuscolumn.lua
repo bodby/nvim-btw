@@ -1,7 +1,7 @@
 local M = {
   highlights = {
-    virtual = "Virt",
-    wrapped = "Wrapped"
+    virtual = 'Virt',
+    wrapped = 'Wrapped'
   }
 }
 
@@ -11,23 +11,23 @@ local M = {
 --- @param cursor boolean
 --- @return string
 local function hl(suffix, cursor)
-  return "%#" .. (cursor and "CursorLineNr" or "LineNr") .. suffix .. "#"
+  return '%#' .. (cursor and 'CursorLineNr' or 'LineNr') .. suffix .. '#'
 end
 
 function M.setup()
-  vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
-    group = vim.api.nvim_create_augroup("status", { clear = false }),
+  vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, {
+    group = vim.api.nvim_create_augroup('status', { clear = false }),
     callback = function(_)
       local windows = vim.api.nvim_tabpage_list_wins(0)
 
       for _, window in pairs(windows) do
         -- Don't apply to floating windows.
-        if vim.api.nvim_win_get_config(window).relative ~= "" then
+        if vim.api.nvim_win_get_config(window).relative ~= '' then
           return
         end
 
         vim.wo[window].statuscolumn =
-          "%!v:lua.require('bodby.native.statuscolumn').text(" .. window .. ")"
+          '%!v:lua.require('bodby.native.statuscolumn').text(' .. window .. ')'
       end
     end
   })
@@ -74,23 +74,23 @@ end
 function M.text(window)
   if vim.api.nvim_win_is_valid(window) then
     if not vim.wo[window].number and not vim.wo[window].relativenumber then
-      return ""
+      return ''
     end
   end
 
   local cursor = (vim.v.relnum == 0)
-  local sign = "%s%="
+  local sign = '%s%='
 
   if vim.v.virtnum > 0 then
-    return sign .. hl(M.highlights.wrapped, cursor) .. "| "
+    return sign .. hl(M.highlights.wrapped, cursor) .. '| '
   elseif vim.v.virtnum < 0 then
-    return sign .. hl(M.highlights.virtual, false) .. "- "
+    return sign .. hl(M.highlights.virtual, false) .. '- '
   end
 
-  local highlight = hl("", cursor)
+  local highlight = hl('', cursor)
 
   if vim.v.relnum == 0 then
-    return sign .. highlight .. tostring(vim.v.lnum) .. " "
+    return sign .. highlight .. tostring(vim.v.lnum) .. ' '
   end
 
   -- FIXME: I cannot figure out how to get this to work with folded text.
@@ -100,17 +100,17 @@ function M.text(window)
   --        https://stackoverflow.com/questions/19058016/how-do-i-count-the-number-of-displayed-lines-in-vim
   local h, m, l = hml(window)
   if vim.v.lnum == h then
-    return sign .. highlight .. "H "
+    return sign .. highlight .. 'H '
   elseif vim.v.lnum == m then
-    return sign .. highlight .. "M "
+    return sign .. highlight .. 'M '
   elseif vim.v.lnum == l then
-    return sign .. highlight .. "L "
+    return sign .. highlight .. 'L '
   end
 
   if vim.wo[window].relativenumber then
-    return sign .. highlight .. tostring(vim.v.relnum) .. " "
+    return sign .. highlight .. tostring(vim.v.relnum) .. ' '
   else
-    return sign .. highlight .. tostring(vim.v.lnum) .. " "
+    return sign .. highlight .. tostring(vim.v.lnum) .. ' '
   end
 end
 

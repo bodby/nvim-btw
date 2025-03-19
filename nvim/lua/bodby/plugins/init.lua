@@ -14,15 +14,15 @@
 --- @field post? fun()
 
 return {
-  ["blink.cmp"] = "blink-cmp",
-  ["alpha"] = "alpha",
-  ["telescope"] = "telescope",
-  ["gitsigns"] = "gitsigns",
-  ["nvim-treesitter.configs"] = "nvim-treesitter",
-  ["render-markdown"] = "render-markdown"
-  -- ["syntax-gaslighting"] = "gaslighting"
+  ['blink.cmp'] = 'blink-cmp',
+  ['alpha'] = 'alpha',
+  ['telescope'] = 'telescope',
+  ['gitsigns'] = 'gitsigns',
+  ['nvim-treesitter.configs'] = 'nvim-treesitter',
+  ['render-markdown'] = 'render-markdown'
+  -- ['syntax-gaslighting'] = 'gaslighting'
 
   -- TODO
-  -- ["smartcolumn"] = "smart-column",
-  -- ["virt-column"] = "virt-column"
+  -- ['smartcolumn'] = 'smart-column',
+  -- ['virt-column'] = 'virt-column'
 }

@@ -1,5 +1,5 @@
-local strategies = require("telescope.pickers.layout_strategies")
-local builtin = require("telescope.builtin")
+local strategies = require('telescope.pickers.layout_strategies')
+local builtin = require('telescope.builtin')
 
 strategies.custom = function(picker, max_columns, max_lines, layout_config)
   local layout = strategies.flex(picker, max_columns, max_lines, layout_config)
@@ -23,17 +23,17 @@ end
 
 return {
   mappings = {
-    ["<Leader>fr"] = { modes = "n", callback = builtin.oldfiles },
-    ["<Leader>fw"] = { modes = "n", callback = builtin.lsp_workspace_symbols },
-    ["<Leader>ff"] = {
-      modes = "n",
+    ['<Leader>fr'] = { modes = 'n', callback = builtin.oldfiles },
+    ['<Leader>fw'] = { modes = 'n', callback = builtin.lsp_workspace_symbols },
+    ['<Leader>ff'] = {
+      modes = 'n',
       callback = function()
         builtin.find_files({ hidden = true })
       end
     },
 
-    ["<Leader>fg"] = {
-      modes = "n",
+    ['<Leader>fg'] = {
+      modes = 'n',
       callback = function()
         builtin.live_grep({
           grep_open_files = false,
@@ -47,45 +47,45 @@ return {
     defaults = {
       mappings = {
         i = {
-          ["<C-n>"] = "move_selection_next",
-          ["<C-p>"] = "move_selection_previous",
-          ["<C-u>"] = "preview_scrolling_up",
-          ["<C-d>"] = "preview_scrolling_down",
-          ["<CR>"] = "select_default",
-          ["<Esc>"] = "close"
+          ['<C-n>'] = 'move_selection_next',
+          ['<C-p>'] = 'move_selection_previous',
+          ['<C-u>'] = 'preview_scrolling_up',
+          ['<C-d>'] = 'preview_scrolling_down',
+          ['<CR>'] = 'select_default',
+          ['<Esc>'] = 'close'
         }
       },
 
-      prompt_prefix = "",
-      entry_prefix = "",
-      selection_caret = "* ",
+      prompt_prefix = '',
+      entry_prefix = '',
+      selection_caret = '* ',
       hl_result_eol = true,
-      multi_icon = "+ ",
+      multi_icon = '+ ',
       border = true,
 
-      preview = { msg_bg_fillchar = " " },
+      preview = { msg_bg_fillchar = ' ' },
 
       borderchars = {
-        prompt = { " ", " ", " ", " ", " ", " ", " ", " " },
-        results = { " ", " ", " ", " ", " ", " ", " ", " " },
-        preview = { " ", " ", " ", " ", " ", " ", " ", " " }
+        prompt = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+        results = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+        preview = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
       },
 
       get_status_text = function(_)
-        return ""
+        return ''
       end,
 
-      layout_strategy = "custom",
-      sorting_strategy = "descending",
+      layout_strategy = 'custom',
+      sorting_strategy = 'descending',
 
       layout_config = {
         height = 0.8,
         width = 0.8,
-        prompt_position = "bottom"
+        prompt_position = 'bottom'
       }
     },
 
-    ["zf-native"] = {
+    ['zf-native'] = {
       file = {
         enable = true,
         highlight_results = false,
@@ -105,6 +105,6 @@ return {
   },
 
   post = function()
-    require("telescope").load_extension("zf-native")
+    require('telescope').load_extension('zf-native')
   end
 }

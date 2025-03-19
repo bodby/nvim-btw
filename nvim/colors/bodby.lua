@@ -2,20 +2,20 @@
 
 --- @type table<string, string>
 local colors = {
-  gray1 = "#1d232f",
-  gray2 = "#131720",
-  gray3 = "#0e1119",
+  gray1 = '#1d232f',
+  gray2 = '#131720',
+  gray3 = '#0e1119',
 
-  white1 = "#bfd3ff",
-  white2 = "#91a4ca",
-  white3 = "#495674",
+  white1 = '#bfd3ff',
+  white2 = '#91a4ca',
+  white3 = '#495674',
 
-  purple = "#9d7dff",
-  blue = "#809cff",
-  yellow = "#ffb96b",
-  green = "#bbef86",
-  red = "#f75fa8",
-  cyan = "#89bcff"
+  purple = '#9d7dff',
+  blue = '#809cff',
+  yellow = '#ffb96b',
+  green = '#bbef86',
+  red = '#f75fa8',
+  cyan = '#89bcff'
 }
 
 -- NOTE: Snippets should be highlighted like macros.
@@ -144,7 +144,7 @@ local base = {
 --- @return table
 --- @nodiscard
 local function inherit(orig, opts)
-  return vim.tbl_deep_extend("force", orig, opts)
+  return vim.tbl_deep_extend('force', orig, opts)
 end
 
 --- Shorter highlight function.
@@ -158,321 +158,322 @@ end
 -- See `:h syntax` for some of these.
 --- @type table<string, table>
 local highlights = {
-  ["Normal"] = base.normal,
-  ["StatusLine"] = base.statusline,
-  ["TabLine"] = base.tabline,
-  ["NormalFloat"] = base.popup,
-  ["FloatBorder"] = inherit(base.popup, { fg = base.popup.bg }),
-  ["Folded"] = base.folded,
-  ["MsgArea"] = base.popup,
-  ["Title"] = base.title,
-  ["Pmenu"] = inherit(base.popup, { fg = colors.white3 }),
-  ["PmenuSel"] = base.hover,
-  ["Cursor"] = base.cursor,
-  ["CursorLine"] = base.cursor_line,
-  ["CursorLineNr"] = base.current_line_number,
-  ["LineNr"] = base.line_number,
-  ["WinSeparator"] = base.separator,
+  ['Normal'] = base.normal,
+  ['StatusLine'] = base.statusline,
+  ['TabLine'] = base.tabline,
+  ['NormalFloat'] = base.popup,
+  ['FloatBorder'] = inherit(base.popup, { fg = base.popup.bg }),
+  ['Folded'] = base.folded,
+  ['MsgArea'] = base.popup,
+  ['Title'] = base.title,
+  ['Pmenu'] = inherit(base.popup, { fg = colors.white3 }),
+  ['PmenuSel'] = base.hover,
+  ['Cursor'] = base.cursor,
+  ['CursorLine'] = base.cursor_line,
+  ['CursorLineNr'] = base.current_line_number,
+  ['LineNr'] = base.line_number,
+  ['WinSeparator'] = base.separator,
 
-  ["Visual"] = base.visual,
-  ["Search"] = base.matching_search,
-  ["IncSearch"] = { link = "Search" },
-  ["CurSearch"] = { link = "Search" },
-  ["Substitute"] = { link = "Search" },
-  ["MatchParen"] = base.matching_punctuation,
-  ["NonText"] = base.ghost,
-  ["Conceal"] = { link = "NonText" },
-  ["SnippetTabstop"] = base.snippet_tabstop,
+  ['Visual'] = base.visual,
+  ['Search'] = base.matching_search,
+  ['IncSearch'] = { link = 'Search' },
+  ['CurSearch'] = { link = 'Search' },
+  ['Substitute'] = { link = 'Search' },
+  ['MatchParen'] = base.matching_punctuation,
+  ['NonText'] = base.ghost,
+  ['Conceal'] = { link = 'NonText' },
+  ['SnippetTabstop'] = base.snippet_tabstop,
 
-  ["Keyword"] = base.keyword,
-  ["PreProc"] = base.preprocessor,
-  ["Typedef"] = base.keyword,
-  ["StorageClass"] = base.keyword,
-  ["Label"] = base.keyword,
-  ["Repeat"] = base.keyword,
-  ["Exception"] = base.keyword,
-  ["Conditional"] = base.conditional,
-  ["Identifier"] = base.identifier,
-  ["Statement"] = { },
-  ["String"] = base._string,
-  ["Character"] = base.character,
-  ["Special"] = base.special,
-  ["SpecialKey"] = base.key,
-  ["QuickFixLine"] = base.accent,
-  ["SpecialChar"] = base.special_char,
-  ["Number"] = base.number,
-  ["Float"] = { link = "Number" },
-  ["Boolean"] = base.boolean,
-  ["Constant"] = base.constant,
-  ["Operator"] = base.operator,
-  ["Delimiter"] = base.delimiter,
-  ["Type"] = base.type,
-  ["Function"] = base._function,
-  ["Tag"] = { link = "Function" },
-  ["Macro"] = { link = "Function" },
-  ["Comment"] = base.comment,
+  ['Keyword'] = base.keyword,
+  ['PreProc'] = base.preprocessor,
+  ['Typedef'] = base.keyword,
+  ['StorageClass'] = base.keyword,
+  ['Label'] = base.keyword,
+  ['Repeat'] = base.keyword,
+  ['Exception'] = base.keyword,
+  ['Conditional'] = base.conditional,
+  ['Identifier'] = base.identifier,
+  ['Statement'] = { },
+  ['String'] = base._string,
+  ['Character'] = base.character,
+  ['Special'] = base.special,
+  ['SpecialKey'] = base.key,
+  ['QuickFixLine'] = base.accent,
+  ['SpecialChar'] = base.special_char,
+  ['Number'] = base.number,
+  ['Float'] = { link = 'Number' },
+  ['Boolean'] = base.boolean,
+  ['Constant'] = base.constant,
+  ['Operator'] = base.operator,
+  ['Delimiter'] = base.delimiter,
+  ['Type'] = base.type,
+  ['Function'] = base._function,
+  ['Tag'] = { link = 'Function' },
+  ['Macro'] = { link = 'Function' },
+  ['Comment'] = base.comment,
 
-  ["Underlined"] = base.url,
-  ["Directory"] = base.directory,
-  ["Todo"] = base.todo,
-  ["Added"] = base.diff_added,
-  ["Changed"] = base.diff_changed,
-  ["Removed"] = base.diff_removed,
-  ["DiffAdd"] = { link = "Added" },
-  ["DiffChange"] = { link = "Changed" },
-  ["DiffDelete"] = { link = "Removed" },
+  ['Underlined'] = base.url,
+  ['Directory'] = base.directory,
+  ['Todo'] = base.todo,
+  ['Added'] = base.diff_added,
+  ['Changed'] = base.diff_changed,
+  ['Removed'] = base.diff_removed,
+  ['DiffAdd'] = { link = 'Added' },
+  ['DiffChange'] = { link = 'Changed' },
+  ['DiffDelete'] = { link = 'Removed' },
 
   -- Diagnostics.
-  ["Error"] = base.error,
-  ["Warning"] = base.warn,
-  ["ErrorMsg"] = { link = "Error" },
-  ["WarningMsg"] = { link = "Warning" },
-  ["MoreMsg"] = { link = "Question" },
-  ["Question"] = base.popup,
-  ["DiagnosticDeprecated"] = base.deprecated,
-  ["DiagnosticError"] = base.error,
-  ["DiagnosticInfo"] = base.info,
-  ["DiagnosticHint"] = base.hint,
-  ["DiagnosticOk"] = base.success,
-  ["DiagnosticWarn"] = base.warn,
-  ["DiagnosticUnderlineError"] = inherit(base.error, { underline = true }),
-  ["DiagnosticUnderlineInfo"] = inherit(base.info, { underline = true }),
-  ["DiagnosticUnderlineHint"] = inherit(base.hint, { underline = true }),
-  ["DiagnosticUnderlineOk"] = inherit(base.success, { underline = true }),
-  ["DiagnosticUnderlineWarn"] = inherit(base.warn, { underline = true }),
+  ['Error'] = base.error,
+  ['Warning'] = base.warn,
+  ['ErrorMsg'] = { link = 'Error' },
+  ['WarningMsg'] = { link = 'Warning' },
+  ['MoreMsg'] = { link = 'Question' },
+  ['Question'] = base.popup,
+  ['DiagnosticDeprecated'] = base.deprecated,
+  ['DiagnosticError'] = base.error,
+  ['DiagnosticInfo'] = base.info,
+  ['DiagnosticHint'] = base.hint,
+  ['DiagnosticOk'] = base.success,
+  ['DiagnosticWarn'] = base.warn,
+  ['DiagnosticUnderlineError'] = inherit(base.error, { underline = true }),
+  ['DiagnosticUnderlineInfo'] = inherit(base.info, { underline = true }),
+  ['DiagnosticUnderlineHint'] = inherit(base.hint, { underline = true }),
+  ['DiagnosticUnderlineOk'] = inherit(base.success, { underline = true }),
+  ['DiagnosticUnderlineWarn'] = inherit(base.warn, { underline = true }),
 
-  ["SpellBad"] = base.spell_bad,
-  ["SpellRare"] = base.spell_rare,
-  ["SpellCap"] = base.spell_casing,
+  ['SpellBad'] = base.spell_bad,
+  ['SpellRare'] = base.spell_rare,
+  ['SpellCap'] = base.spell_casing,
 
   -- Treesitter.
-  ["@variable"] = { link = "Identifier" },
-  ["@property"] = base.property,
-  ["@variable.member"] = base.field,
-  ["@constructor"] = base.constructor,
-  ["@keyword.function"] = base.function_keyword,
-  ["@keyword.conditional"] = { link = "Conditional" },
-  ["@keyword.operator"] = { link = "Operator" },
-  ["@punctuation.special"] = { link = "Delimiter" },
-  ["@tag.delimiter"] = { link = "Delimiter" },
-  ["@property.toml"] = { link = "Tag" },
-  ["@character.special"] = { link = "Operator" },
-  ["@constant.builtin"] = { link = "Boolean" },
-  ["@function.builtin"] = { link = "@function" },
-  ["@type.builtin"] = { link = "Type" },
-  ["@module"] = base.module,
-  ["@module.builtin"] = { link = "@module" },
-  ["@namespace"] = { link = "@module" },
+  ['@variable'] = { link = 'Identifier' },
+  ['@property'] = base.property,
+  ['@variable.member'] = base.field,
+  ['@constructor'] = base.constructor,
+  ['@keyword.function'] = base.function_keyword,
+  ['@keyword.conditional'] = { link = 'Conditional' },
+  ['@keyword.operator'] = { link = 'Operator' },
+  ['@punctuation.special'] = { link = 'Delimiter' },
+  ['@tag.delimiter'] = { link = 'Delimiter' },
+  ['@property.toml'] = { link = 'Tag' },
+  ['@character.special'] = { link = 'Operator' },
+  ['@constant.builtin'] = { link = 'Boolean' },
+  ['@function.builtin'] = { link = '@function' },
+  ['@type.builtin'] = { link = 'Type' },
+  ['@module'] = base.module,
+  ['@module.builtin'] = { link = '@module' },
+  ['@namespace'] = { link = '@module' },
 
-  ["@constructor.lua"] = { link = "Delimiter" },
-  ["@constructor.ocaml"] = { link = "Delimiter" },
+  ['@constructor.lua'] = { link = 'Delimiter' },
+  ['@constructor.ocaml'] = { link = 'Delimiter' },
 
-  ["@tag.attribute.html"] = { link = "@property" },
+  ['@tag.attribute.html'] = { link = '@property' },
 
-  ["@variable.builtin.bash"] = { link = "Constant" },
-  ["@punctuation.special.bash"] = inherit(base.delimiter, { nocombine = true }),
+  ['@variable.builtin.bash'] = { link = 'Constant' },
+  ['@punctuation.special.bash'] = inherit(base.delimiter, { nocombine = true }),
 
-  ["@markup.raw.markdown_inline"] = base.code,
-  ["@markup.list"] = inherit(base.comment, { italic = false }),
+  ['@markup.raw.markdown_inline'] = base.code,
+  ['@markup.raw.block.markdown'] = base.delimiter,
+  ['@markup.list'] = inherit(base.comment, { italic = false }),
   -- TODO: Resolved and unresolved link colors.
   --       The unresolved highlight belongs to LSP highlights.
-  ["@markup.link"] = base.url,
-  ["@markup.strong"] = { fg = colors.white1, bold = true },
+  ['@markup.link'] = base.url,
+  ['@markup.strong'] = { fg = colors.white1, bold = true },
 
-  ["@module.latex"] = { link = "Keyword" },
-  ["@punctuation.bracket.latex"] = inherit(base.delimiter, { nocombine = true }),
-  ["@string.special.symbol.bibtex"] = { link = "Identifier" },
+  ['@module.latex'] = { link = 'Keyword' },
+  ['@punctuation.bracket.latex'] = inherit(base.delimiter, { nocombine = true }),
+  ['@string.special.symbol.bibtex'] = { link = 'Identifier' },
 
-  ["@string.special.path"] = { link = "String" },
-  ["@variable.parameter.builtin"] = { link = "Delimiter" },
+  ['@string.special.path'] = { link = 'String' },
+  ['@variable.parameter.builtin'] = { link = 'Delimiter' },
 
-  ["@keyword.import.nix"] = { link = "Function" },
+  ['@keyword.import.nix'] = { link = 'Function' },
 
   -- Todo comments.
-  ["@comment.warning"] = { link = "Todo" },
-  ["@comment.error"] = { link = "Todo" },
-  ["@comment.todo"] = { link = "Todo" },
-  ["@comment.note"] = { link = "Todo" },
-  ["@constant.comment"] = base.assignee,
+  ['@comment.warning'] = { link = 'Todo' },
+  ['@comment.error'] = { link = 'Todo' },
+  ['@comment.todo'] = { link = 'Todo' },
+  ['@comment.note'] = { link = 'Todo' },
+  ['@constant.comment'] = base.assignee,
 
   -- LSP highlights.
-  ["@lsp.type.comment"] = { },
-  ["@lsp.type.macro"] = { },
-  ["@lsp.mod.global"] = { link = "@module" },
+  ['@lsp.type.comment'] = { },
+  ['@lsp.type.macro'] = { },
+  ['@lsp.mod.global'] = { link = '@module' },
 
   -- :)
-  ["GaslightingUnderline"] = { fg = colors.gray1 }
+  ['GaslightingUnderline'] = { fg = colors.gray1 }
 }
 
 --- "Alpha" prefixed highlights.
 ---
 --- @type table<string, table>
 local alpha_highlights = {
-  ["Buttons"] = base.caret,
-  ["HeaderLabel"] = { fg = colors.white2 },
-  ["Shortcut"] = base.key,
-  ["Header"] = { fg = colors.white3 },
-  ["Footer"] = { link = "Comment" }
+  ['Buttons'] = base.caret,
+  ['HeaderLabel'] = { fg = colors.white2 },
+  ['Shortcut'] = base.key,
+  ['Header'] = { fg = colors.white3 },
+  ['Footer'] = { link = 'Comment' }
 }
 
 --- "BlinkCmp" prefixed highlights.
 ---
 --- @type table<string, table>
 local blink_highlights = {
-  ["Menu"] = { link = "Pmenu" },
-  ["MenuSelection"] = { link = "PmenuSel" },
-  ["Source"] = { link = "NormalFloat" },
-  ["LabelMatch"] = base.matching_char,
-  ["Deprecated"] = { link = "DiagnosticDeprecated" },
+  ['Menu'] = { link = 'Pmenu' },
+  ['MenuSelection'] = { link = 'PmenuSel' },
+  ['Source'] = { link = 'NormalFloat' },
+  ['LabelMatch'] = base.matching_char,
+  ['Deprecated'] = { link = 'DiagnosticDeprecated' },
 
   -- Types.
-  ["KindText"] = { link = "NormalFloat" },
-  ["KindMethod"] = { link = "Function" },
-  ["KindFunction"] = { link = "Function" },
-  ["KindConstructor"] = { link = "@constructor" },
-  ["KindField"] = { link = "@variable.member" },
-  ["KindVariable"] = { link = "Identifier" },
-  ["KindProperty"] = { link = "@property" },
-  ["KindClass"] = { link = "Type" },
-  ["KindInterface"] = { link = "Type" },
-  ["KindStruct"] = { link = "Structure" },
-  ["KindModule"] = { link = "@module" },
-  ["KindUnit"] = { link = "String" },
-  ["KindValue"] = { link = "Number" },
-  ["KindEnum"] = { link = "Type" },
-  ["KindEnumMember"] = { link = "Constant" },
-  ["KindKeyword"] = { link = "Keyword" },
-  ["KindConstant"] = { link = "Constant" },
-  ["KindSnippet"] = base.key,
-  ["KindColor"] = { link = "String" },
-  ["KindFile"] = { link = "SpecialChar" },
-  ["KindReference"] = { link = "Identifier" },
-  ["KindFolder"] = { link = "Directory" },
-  ["KindEvent"] = { link = "Type" },
-  ["KindOperator"] = { link = "Operator" },
-  ["KindTypeParameter"] = { link = "Identifier" }
+  ['KindText'] = { link = 'NormalFloat' },
+  ['KindMethod'] = { link = 'Function' },
+  ['KindFunction'] = { link = 'Function' },
+  ['KindConstructor'] = { link = '@constructor' },
+  ['KindField'] = { link = '@variable.member' },
+  ['KindVariable'] = { link = 'Identifier' },
+  ['KindProperty'] = { link = '@property' },
+  ['KindClass'] = { link = 'Type' },
+  ['KindInterface'] = { link = 'Type' },
+  ['KindStruct'] = { link = 'Structure' },
+  ['KindModule'] = { link = '@module' },
+  ['KindUnit'] = { link = 'String' },
+  ['KindValue'] = { link = 'Number' },
+  ['KindEnum'] = { link = 'Type' },
+  ['KindEnumMember'] = { link = 'Constant' },
+  ['KindKeyword'] = { link = 'Keyword' },
+  ['KindConstant'] = { link = 'Constant' },
+  ['KindSnippet'] = base.key,
+  ['KindColor'] = { link = 'String' },
+  ['KindFile'] = { link = 'SpecialChar' },
+  ['KindReference'] = { link = 'Identifier' },
+  ['KindFolder'] = { link = 'Directory' },
+  ['KindEvent'] = { link = 'Type' },
+  ['KindOperator'] = { link = 'Operator' },
+  ['KindTypeParameter'] = { link = 'Identifier' }
 }
 
 --- "Telescope" prefixed highlights.
 ---
 --- @type table<string, table>
 local telescope_highlights = {
-  ["PromptNormal"] = { link = "NormalFloat" },
-  ["PromptBorder"] = { link = "FloatBorder" },
-  ["ResultsNormal"] = { link = "Pmenu" },
-  ["ResultsBorder"] = { link = "FloatBorder" },
-  ["PreviewNormal"] = { link = "NormalFloat" },
-  ["PreviewBorder"] = { link = "FloatBorder" },
+  ['PromptNormal'] = { link = 'NormalFloat' },
+  ['PromptBorder'] = { link = 'FloatBorder' },
+  ['ResultsNormal'] = { link = 'Pmenu' },
+  ['ResultsBorder'] = { link = 'FloatBorder' },
+  ['PreviewNormal'] = { link = 'NormalFloat' },
+  ['PreviewBorder'] = { link = 'FloatBorder' },
 
-  ["Matching"] = base.matching_char,
-  ["Selection"] = { link = "PmenuSel" },
-  ["SelectionCaret"] = base.caret,
-  ["MultiSelection"] = { link = "NormalFloat" },
-  ["MultiIcon"] = base.accent
+  ['Matching'] = base.matching_char,
+  ['Selection'] = { link = 'PmenuSel' },
+  ['SelectionCaret'] = base.caret,
+  ['MultiSelection'] = { link = 'NormalFloat' },
+  ['MultiIcon'] = base.accent
 }
 
 --- "RenderMarkdown" prefixed highlights.
 ---
 --- @type table<string, table>
 local render_md_highlights = {
-  ["Header"] = inherit(base.title, { fg = colors.white3, italic = false }),
-  ["Code"] = { bg = base.code.bg },
-  ["CodeInline"] = base.code,
-  ["Dash"] = { link = "WinSeparator" },
-  ["TableHead"] = { link = "WinSeparator" },
-  ["TableRow"] = { link = "WinSeparator" }
+  ['Header'] = inherit(base.title, { fg = colors.white3, italic = false }),
+  ['Code'] = { bg = base.code.bg },
+  ['CodeInline'] = base.code,
+  ['Dash'] = { link = 'WinSeparator' },
+  ['TableHead'] = { link = 'WinSeparator' },
+  ['TableRow'] = { link = 'WinSeparator' }
 }
 
 --- "StatusLine" prefixed highlights.
 ---
 --- @type table<string, table>
 local statusline_highlights = {
-  ["Path"] = base.statusline_path,
-  ["Branch"] = base.statusline_branch,
-  ["Diff"] = base.statusline_diff,
-  ["Macro"] = base.key,
-  ["FileType"] = base.statusline_filetype,
-  ["Lines"] = base.statusline_lines,
+  ['Path'] = base.statusline_path,
+  ['Branch'] = base.statusline_branch,
+  ['Diff'] = base.statusline_diff,
+  ['Macro'] = base.key,
+  ['FileType'] = base.statusline_filetype,
+  ['Lines'] = base.statusline_lines,
 
-  ["Error"] = inherit(base.error, { bg = base.statusline.bg }),
-  ["Warn"] = inherit(base.warn, { bg = base.statusline.bg }),
-  ["Info"] = inherit(base.info, { bg = base.statusline.bg }),
-  ["Hint"] = inherit(base.hint, { bg = base.statusline.bg })
+  ['Error'] = inherit(base.error, { bg = base.statusline.bg }),
+  ['Warn'] = inherit(base.warn, { bg = base.statusline.bg }),
+  ['Info'] = inherit(base.info, { bg = base.statusline.bg }),
+  ['Hint'] = inherit(base.hint, { bg = base.statusline.bg })
 }
 
 --- For "BG" and "FG" suffixed highlights.
 ---
 --- @type table<string, string>
 local statusline_mode_highlights = {
-  ["Normal"] = colors.cyan,
-  ["Visual"] = colors.green,
-  ["Select"] = colors.green,
-  ["Insert"] = colors.purple,
-  ["Replace"] = colors.red,
-  ["Command"] = colors.yellow,
-  ["Prompt"] = colors.white3,
-  ["Shell"] = colors.green,
-  ["Limbo"] = colors.white3
+  ['Normal'] = colors.cyan,
+  ['Visual'] = colors.green,
+  ['Select'] = colors.green,
+  ['Insert'] = colors.purple,
+  ['Replace'] = colors.red,
+  ['Command'] = colors.yellow,
+  ['Prompt'] = colors.white3,
+  ['Shell'] = colors.green,
+  ['Limbo'] = colors.white3
 }
 
 --- "LineNr" and "CursorLineNr" prefixed highlights.
 ---
 --- @type table<string, table>
-local statuscolumn_highlights = { "Virt", "Wrapped" }
+local statuscolumn_highlights = { 'Virt', 'Wrapped' }
 
 --- "TabLine" prefixed highlights.
 ---
 --- @type table<string, table>
 local tabline_highlights = {
-  ["Tab"] = base.tab,
-  ["TabNC"] = base.tab_inactive,
-  ["Buffer"] = base.buffer,
-  ["BufferNC"] = base.buffer_inactive
+  ['Tab'] = base.tab,
+  ['TabNC'] = base.tab_inactive,
+  ['Buffer'] = base.buffer,
+  ['BufferNC'] = base.buffer_inactive
 }
 
-vim.g.colors_name = "bodby"
-vim.cmd.highlight("clear")
-vim.cmd.syntax("reset")
+vim.g.colors_name = 'bodby'
+vim.cmd.highlight('clear')
+vim.cmd.syntax('reset')
 
 for k, v in pairs(highlights) do
   hl(k, v)
 end
 
 for k, v in pairs(alpha_highlights) do
-  hl("Alpha" .. k, v)
+  hl('Alpha' .. k, v)
 end
 
 for k, v in pairs(blink_highlights) do
-  hl("BlinkCmp" .. k, v)
+  hl('BlinkCmp' .. k, v)
 end
 
 for k, v in pairs(telescope_highlights) do
-  hl("Telescope" .. k, v)
+  hl('Telescope' .. k, v)
 end
 
 for k, v in pairs(render_md_highlights) do
-  hl("RenderMarkdown" .. k, v)
+  hl('RenderMarkdown' .. k, v)
 end
 
 -- Statusline.
 for k, v in pairs(statusline_highlights) do
-  hl("StatusLine" .. k, inherit(base.statusline, v))
+  hl('StatusLine' .. k, inherit(base.statusline, v))
 end
 
 for _, v in ipairs(statuscolumn_highlights) do
-  hl("LineNr" .. v, base.line_number)
-  hl("CursorLineNr" .. v, base.current_line_number)
+  hl('LineNr' .. v, base.line_number)
+  hl('CursorLineNr' .. v, base.current_line_number)
 end
 
 for k, v in pairs(statusline_mode_highlights) do
   local opts = inherit(base.statusline, { fg = v, bold = true })
 
-  hl("StatusLine" .. k, opts)
+  hl('StatusLine' .. k, opts)
 end
 
 -- Tabline.
 for k, v in pairs(tabline_highlights) do
-  hl("TabLine" .. k, inherit(base.tabline, v))
+  hl('TabLine' .. k, inherit(base.tabline, v))
 end
 
 vim.g.terminal_color_0 = colors.gray1

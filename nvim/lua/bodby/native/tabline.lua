@@ -1,8 +1,8 @@
-local elem = require("bodby.shared").elem
+local elem = require('bodby.shared').elem
 local M = {
   highlights = {
-    tab = "Tab",
-    buffer = "Buffer"
+    tab = 'Tab',
+    buffer = 'Buffer'
   }
 }
 
@@ -11,7 +11,7 @@ local M = {
 --- @param window integer
 --- @return boolean
 local function is_tiled(window)
-  return vim.api.nvim_win_get_config(window).relative == ""
+  return vim.api.nvim_win_get_config(window).relative == ''
 end
 
 --- Return a highlight string.
@@ -20,11 +20,11 @@ end
 --- @param current boolean
 --- @return string
 local function hl(suffix, current)
-  return "%#TabLine" .. suffix .. (current and "" or "NC") .. "#"
+  return '%#TabLine' .. suffix .. (current and '' or 'NC') .. '#'
 end
 
 function M.setup()
-  vim.o.tabline = "%!v:lua.require('bodby.native.tabline').text()"
+  vim.o.tabline = '%!v:lua.require("bodby.native.tabline").text()'
 end
 
 -- TODO: Diagnostics.
@@ -36,14 +36,14 @@ end
 local function buffer_entry(buffer)
   -- TODO: Format help buffers differently.
   local name = vim.fs.basename(vim.api.nvim_buf_get_name(buffer))
-  if vim.bo[buffer].filetype == "alpha" then
-    name = "Alpha"
-  elseif name == "" then
-    name = "New file"
+  if vim.bo[buffer].filetype == 'alpha' then
+    name = 'Alpha'
+  elseif name == '' then
+    name = 'New file'
   end
 
   local current = vim.api.nvim_get_current_buf() == buffer
-  return hl(M.highlights.buffer, current) .. " " .. name .. " "
+  return hl(M.highlights.buffer, current) .. ' ' .. name .. ' '
 end
 
 --- Reusable function to return a formatted tab entry, showing the number of
@@ -63,7 +63,7 @@ local function tab_entry(tab)
     end
   end
 
-  return hl(M.highlights.tab, current) .. " " .. tiled .. " "
+  return hl(M.highlights.tab, current) .. ' ' .. tiled .. ' '
 end
 
 --- Text used in the tabline.
@@ -71,7 +71,7 @@ end
 --- @return string
 function M.text()
   -- FIXME: Truncate buffers if the screen width is too small.
-  local buffers = ""
+  local buffers = ''
   local windows = vim.api.nvim_tabpage_list_wins(0)
   local skip = { }
   for _, v in ipairs(windows) do
@@ -84,12 +84,12 @@ function M.text()
     end
   end
 
-  local tabs = ""
+  local tabs = ''
   for _, v in ipairs(vim.api.nvim_list_tabpages()) do
     tabs = tabs .. tab_entry(v)
   end
 
-  return buffers .. "%#TabLine#%=" .. tabs
+  return buffers .. '%#TabLine#%=' .. tabs
 end
 
 return M

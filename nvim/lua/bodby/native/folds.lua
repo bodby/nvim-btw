@@ -9,6 +9,7 @@ function M.setup()
 end
 
 --- Return the last Treesitter capture at a position or 'Folded' if none exist.
+--- The row and column are both 0-indexed.
 ---
 --- @param buffer integer
 --- @param row integer

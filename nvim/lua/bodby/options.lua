@@ -10,7 +10,7 @@ local options = {
   relativenumber = true,
   cursorline = true,
   numberwidth = 1,
-  signcolumn = "yes",
+  signcolumn = 'yes',
   laststatus = 3,
   showtabline = 2,
 
@@ -22,44 +22,44 @@ local options = {
   wrap = true,
   linebreak = true,
   conceallevel = 0,
-  concealcursor = "",
-  mouse = "",
+  concealcursor = '',
+  mouse = '',
 
   hlsearch = false,
   ignorecase = true,
   smartcase = true,
 
-  guicursor = { a = "Cursor/Cursor" },
+  guicursor = { a = 'Cursor/Cursor' },
   linespace = 6,
 
   list = true,
   fillchars = {
-    eob = " ",
-    fold = " ",
+    eob = ' ',
+    fold = ' ',
 
-    horiz = " ",
-    horizup = " ",
-    horizdown = " ",
-    vert = " ",
-    vertleft = " ",
-    vertright = " ",
-    verthoriz = " "
+    horiz = ' ',
+    horizup = ' ',
+    horizdown = ' ',
+    vert = ' ',
+    vertleft = ' ',
+    vertright = ' ',
+    verthoriz = ' '
   },
 
   listchars = {
-    tab = "> ",
-    trail = "_",
-    extends = "+",
-    precedes = "-"
+    tab = '> ',
+    trail = '_',
+    extends = '+',
+    precedes = '-'
   },
 
   confirm = true,
   undofile = true,
   undolevels = 10000,
-  shortmess = "oOstTWIcCFSqc",
+  shortmess = 'oOstTWIcCFSqc',
 
-  spelllang = "en",
-  spellsuggest = "best",
+  spelllang = 'en',
+  spellsuggest = 'best',
 
   foldenable = true,
   foldlevel = 99
@@ -110,17 +110,18 @@ local globals = {
   loaded_tutor_mode_plugin = 0,
 
   -- Per-filetype options. See `:h filetype`.
-  markdown_recommended_style = 0,
-  tex_flavor = "latex"
+  markdown_recommended_style = 1,
+  markdown_folding = 0,
+  tex_flavor = 'latex'
 }
 
 for k, v in pairs(options) do
-  if type(v) ~= "table" then
+  if type(v) ~= 'table' then
     vim.o[k] = v
   else
-    local result = ""
+    local result = ''
     for k2, v2 in pairs(v) do
-      result = result .. k2 .. ":" .. v2 .. ","
+      result = result .. k2 .. ':' .. v2 .. ','
     end
 
     vim.o[k] = result:sub(0, #result - 1)
@@ -129,7 +130,7 @@ end
 
 if vim.g.neovide then
   for k, v in pairs(neovide_options) do
-    vim.g["neovide_" .. k] = v
+    vim.g['neovide_' .. k] = v
   end
 end
 

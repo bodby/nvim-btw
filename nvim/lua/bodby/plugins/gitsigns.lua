@@ -1,14 +1,14 @@
--- TODO: Should I have the sign column on by default?
+local gitsigns = require('gitsigns')
+
+-- TODO: Full line and word diffs with translucent backgrounds.
 
 --- @type plugin_config
 return {
-  event = "BufEnter",
+  event = 'BufEnter',
   mappings = {
-    ["<Leader>g"] = {
-      modes = "n",
+    ['<Leader>g'] = {
+      modes = 'n',
       callback = function()
-        local gitsigns = require("gitsigns")
-
         gitsigns.toggle_deleted()
         gitsigns.toggle_signs()
       end
@@ -17,12 +17,12 @@ return {
 
   opts = {
     signs = {
-      add = { text = "+" },
-      change = { text = "~" },
-      delete = { text = "-" },
-      topdelete = { text = "-" },
-      changedelete = { text = "~" },
-      untracked = { text = "?" }
+      add = { text = '+' },
+      change = { text = '~' },
+      delete = { text = '-' },
+      topdelete = { text = '-' },
+      changedelete = { text = '~' },
+      untracked = { text = '?' }
     },
 
     signs_staged_enable = false,
