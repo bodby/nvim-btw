@@ -28,8 +28,7 @@
   name: (variable) @_name)
   (function
     name: (variable) @function
-    (#eq? @_name @function)
-    (#set! "priority" 101)))
+    (#eq? @_name @function)))
 
 ((decl/signature
   name: (variable) @_name
