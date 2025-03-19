@@ -55,8 +55,8 @@ let
     initLua = /* lua */ ''
       vim.loader.enable()
       -- Used for blink.cmp's snippet search path.
-      vim.g.root_path = "${nvimRtp}"
-      vim.o.rtp = "${nvimRtp}," .. vim.o.rtp .. ",${nvimRtp}/after"
+      vim.g.root_path = '${nvimRtp}'
+      vim.o.rtp = '${nvimRtp},' .. vim.o.rtp .. ',${nvimRtp}/after'
 
       ${builtins.readFile ../nvim/init.lua}
     '';
