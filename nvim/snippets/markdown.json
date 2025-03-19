@@ -10,5 +10,24 @@
       "# ${1:Title}",
       "$0"
     ]
+  },
+
+  "todo": {
+    "prefix": "todo",
+    "body": "- [ ] $0"
+  },
+
+  "link": {
+    "prefix": "link",
+    "body": "[${1:text}](https://${2:url})"
+  },
+
+  "code": {
+    "prefix": "code",
+    "body": [
+      "```${1:text}",
+      "$0",
+      "```"
+    ]
   }
 }

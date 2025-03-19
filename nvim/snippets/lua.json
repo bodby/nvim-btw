@@ -81,6 +81,6 @@
 
   "require": {
     "prefix": "require",
-    "body": "require(\"${1:module}\")"
+    "body": "require('${1:module}')"
   }
 }
