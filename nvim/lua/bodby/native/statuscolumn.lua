@@ -44,7 +44,7 @@ end
 local function hml(window)
   local scrolloff = vim.wo[window].scrolloff
   local buffer = vim.api.nvim_win_get_buf(window)
-  local lines = vim.fn.getbufinfo(buffer)[1].linecount
+  local lines = vim.api.nvim_buf_line_count(buffer)
 
   local top = vim.fn.getwininfo(window)[1].topline
   local bottom = vim.fn.getwininfo(window)[1].botline
@@ -93,6 +93,11 @@ function M.text(window)
     return sign .. highlight .. tostring(vim.v.lnum) .. " "
   end
 
+  -- FIXME: I cannot figure out how to get this to work with folded text.
+  --        Sometimes the indicators just disappear.
+  --
+  --        Maybe this helps:
+  --        https://stackoverflow.com/questions/19058016/how-do-i-count-the-number-of-displayed-lines-in-vim
   local h, m, l = hml(window)
   if vim.v.lnum == h then
     return sign .. highlight .. "H "
