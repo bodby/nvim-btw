@@ -36,6 +36,8 @@ local function get_highlighted(buffer, row)
         length = 0
       end
       prev = current
+    else
+      table.insert(result, { "", "Folded" })
     end
   end
 
