@@ -116,11 +116,7 @@ local shortcuts = {
   opts = { spacing = 1 }
 }
 
-local margin = {
-  type = "padding",
-  val = 1
-}
-
+local margin = { type = "padding", val = 1 }
 local header_margin = {
   type = "padding",
   val = vim.fn.max({
@@ -131,6 +127,7 @@ local header_margin = {
 --- @type plugin_config
 return {
   opts = {
+    opts = { noautocmd = true },
     layout = {
       header_margin,
       header,

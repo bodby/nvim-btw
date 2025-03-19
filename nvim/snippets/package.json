@@ -3,7 +3,7 @@
   "contributes": {
     "snippets": [
       { "language": "lua", "path": "./lua.json" },
-      { "language": "bib", "path": "./bib.json" }
+      { "language": "markdown", "path": "./markdown.json" }
     ]
   }
 }

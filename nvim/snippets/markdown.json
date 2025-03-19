@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "prefix": "yaml-aliases-metadata",
+    "body": [
+      "---",
+      "aliases:",
+      "\t- \"${1:Title}\"",
+      "---",
+      "",
+      "# ${1:Title}",
+      "$0"
+    ]
+  }
+}

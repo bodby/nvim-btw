@@ -199,7 +199,7 @@ return {
         snippets = {
           name = "snippet",
           module = "blink.cmp.sources.snippets",
-          score_offset = 5,
+          score_offset = 1,
           fallbacks = { },
           should_show_items = true,
 
