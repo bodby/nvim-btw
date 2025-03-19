@@ -77,5 +77,10 @@
       "\t$0",
       "until ${1:true}"
     ]
+  },
+
+  "require": {
+    "prefix": "require",
+    "body": "require(\"${1:module}\")"
   }
 }
