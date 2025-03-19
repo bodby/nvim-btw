@@ -71,6 +71,7 @@ return {
         preview = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
       },
 
+      file_ignore_patterns = { '^.git/' },
       get_status_text = function(_)
         return ''
       end,
