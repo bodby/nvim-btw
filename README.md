@@ -6,7 +6,7 @@ My Neovim configuration packaged as a standalone Nix flake, based off of
 You need [Nix](https://nixos.org/nix) to be able to run this.
 
 ```bash
-nix run 'github:bodby/nvim-btw'
+nix run github:bodby/nvim-btw
 ```
 
 There is also a Neovide wrapper available (unused for a while now). I plan on
@@ -14,8 +14,8 @@ There is also a Neovide wrapper available (unused for a while now). I plan on
 underline offset or thickness.
 
 ```bash
-nix run 'github:bodby/nvim-btw#gui'
+nix run github:bodby/nvim-btw#gui
 ```
 
 ## Preview
-![Lua screenshot](./.github/images/20250319-172505.png)
+![Don't look at the bottom left](./.github/images/20250319-172505.png)
