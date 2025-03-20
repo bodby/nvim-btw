@@ -1,4 +1,4 @@
-local elem = require('bodby.shared').elem
+local elem = require('bodby.shared').lib.elem
 
 --- @class statusline.module
 --- @field text string
@@ -43,6 +43,7 @@ local M = {
   -- Mode highlights are derived from `M.modes`.
   highlights = {
     path = 'Path',
+    cwd = 'CWD',
     branch = 'Branch',
     diff = 'Diff',
     macro = 'Macro',
@@ -53,6 +54,19 @@ local M = {
     warn = 'Warn',
     info = 'Info',
     hint = 'Hint'
+  },
+
+  --- Substitutions for the path module prefix (if there is enough space).
+  --- The order here matters; more specific paths should be listed first.
+  --- If a path prefix shown isn't here, then the path module will show the
+  --- relative path of the open file.
+  prefixes = {
+    { pattern = '^' .. vim.env.HOME .. '/dev/noots/', replacement = '$nixos/' },
+    { pattern = '^' .. vim.env.HOME .. '/dev/nvim/', replacement = '$nvim/' },
+    { pattern = '^' .. vim.env.HOME .. '/', replacement = '$home/' },
+    { pattern = '^/nix/store/%w+-', replacement = '$store/' },
+    { pattern = '^/etc/nixos/', replacement = '$nixos/' },
+    { pattern = '^/', replacement = '$root/' }
   }
 }
 
@@ -98,7 +112,7 @@ local function mode(show_name)
 
   if show_name then
     return {
-      text = highlight .. '| ' .. current:sub(1, 1):upper() .. ' ',
+      text = highlight .. '| ' .. current:sub(1, 2):upper() .. ' ',
       length = 0
     }
   else
@@ -106,9 +120,7 @@ local function mode(show_name)
   end
 end
 
---- Return the path of the passed buffer's file relative to the current working
---- directory. If the screen is too small, then either only the file is shown,
---- or nothing at all.
+--- Return the path of the passed buffer's file.
 ---
 --- @param buffer integer
 --- @param length integer Length of all other statusline modules.
@@ -119,31 +131,57 @@ local function path(buffer, length)
     return { text = '', length = 0 }
   end
 
-  local formatted = vim.fn.fnamemodify(full, ':~:.')
   local modified = vim.api.nvim_get_option_value('modified', { buf = buffer })
   local modified_symbol = modified and "'" or ''
   local highlight = hl(M.highlights.path)
 
-  if vim.go.columns - (#formatted + 2) >= length then
-    return {
-      text = highlight .. formatted .. modified_symbol .. ' ',
-      length = 0
-    }
+  local cwd = ''
+  local ei = 1
+  local suffix = formatted
+  for _, v in ipairs(M.prefixes) do
+    local _, match = full:find(v.pattern)
+    if match then
+      cwd = v.replacement
+      ei = match
+      suffix = full:sub(ei + 1)
+      break
+    end
   end
 
-  if vim.go.columns - (#vim.fn.fnamemodify(formatted, ':t') + 2) >= length then
-    local file = vim.fn.fnamemodify(full, ':t')
+  -- How?
+  if not suffix then
+    suffix = ''
+  end
+
+  -- 1 is the length of the macro module.
+  if vim.go.columns - (#cwd + #suffix + 1) >= length then
     return {
-      text = highlight .. file .. modified_symbol .. ' ',
+      text = hl(M.highlights.cwd) .. cwd .. highlight .. suffix .. modified_symbol
+        .. ' ',
       length = 0
     }
   else
-    return { text = '', length = 0 }
+    local formatted = vim.fn.fnamemodify(full, ':~:.')
+    if vim.go.columns - (#formatted + 1) >= length then
+      return {
+        text = highlight .. formatted .. modified_symbol .. ' ',
+        length = 0
+      }
+    else
+      local file = vim.fn.fnamemodify(full, ':t')
+      if vim.go.columns - (#file + 1) >= length then
+        return {
+          text = highlight .. file .. modified_symbol .. ' ',
+          length = 0
+        }
+      else
+        return { text = '', length = 0 }
+      end
+    end
   end
 end
 
 --- Return either the current branch or the status.
----
 --- @param buffer integer
 --- @param type 'diff' | 'branch'
 --- @return statusline.module
@@ -251,7 +289,7 @@ function M.text()
   local _diff = git(buffer, 'diff')
   local _branch = git(buffer, 'branch')
 
-  -- 6 is the combined length of both mode modules and the macro register.
+  -- 6 is the combined length of the mode module and the macro register.
   local length = 6 + _diff.length + _branch.length
 
   local blocked = elem(vim.bo[buffer].filetype, M.blocked_filetypes)
@@ -267,8 +305,7 @@ function M.text()
     macro().text,
     '%#StatusLine#%=',
     file_info,
-    _branch.text,
-    mode(false).text
+    _branch.text
   })
 end
 

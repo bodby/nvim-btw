@@ -98,14 +98,14 @@ function M.text(window)
   --
   --        Maybe this helps:
   --        https://stackoverflow.com/questions/19058016/how-do-i-count-the-number-of-displayed-lines-in-vim
-  local h, m, l = hml(window)
-  if vim.v.lnum == h then
-    return sign .. highlight .. 'H '
-  elseif vim.v.lnum == m then
-    return sign .. highlight .. 'M '
-  elseif vim.v.lnum == l then
-    return sign .. highlight .. 'L '
-  end
+  -- local h, m, l = hml(window)
+  -- if vim.v.lnum == h then
+  --   return sign .. highlight .. 'H '
+  -- elseif vim.v.lnum == m then
+  --   return sign .. highlight .. 'M '
+  -- elseif vim.v.lnum == l then
+  --   return sign .. highlight .. 'L '
+  -- end
 
   if vim.wo[window].relativenumber then
     return sign .. highlight .. tostring(vim.v.relnum) .. ' '

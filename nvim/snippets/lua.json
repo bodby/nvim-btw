@@ -17,6 +17,11 @@
     ]
   },
 
+  "either": {
+    "prefix": "either",
+    "body": "$1{true} and ${2:false} or $0"
+  },
+
   "if": {
     "prefix": "if",
     "body": [
@@ -46,7 +51,7 @@
   "for-pairs": {
     "prefix": "for-pairs",
     "body": [
-      "for ${1:k}, ${2:v} in pairs(${3:tbl}) do",
+      "for ${1:k}, ${2:v} in pairs(${3:xs}) do",
       "\t$0",
       "end"
     ]
@@ -55,7 +60,7 @@
   "for-ipairs": {
     "prefix": "for-ipairs",
     "body": [
-      "for ${1:i}, ${2:v} in ipairs(${3:arr}) do",
+      "for ${1:i}, ${2:v} in ipairs(${3:xs}) do",
       "\t$0",
       "end"
     ]
@@ -81,6 +86,6 @@
 
   "require": {
     "prefix": "require",
-    "body": "require('${1:module}')"
+    "body": "require('${1:module}')$0"
   }
 }

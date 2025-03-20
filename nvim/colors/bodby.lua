@@ -12,13 +12,11 @@ local colors = {
 
   purple = '#9d7dff',
   blue = '#809cff',
-  yellow = '#ffb96b',
-  green = '#bbef86',
+  yellow = '#ffc175',
+  green = '#bbf48a',
   red = '#f75fa8',
   cyan = '#89bcff'
 }
-
--- NOTE: Snippets should be highlighted like macros.
 
 --- Atomic highlights that other highlights can inherit.
 ---
@@ -58,7 +56,8 @@ local base = {
   popup = { fg = colors.white2, bg = colors.gray3 },
   hover = { fg = colors.white1, bold = true },
   ghost = { fg = colors.white3, italic = true },
-  folded = { fg = colors.cyan, bg = colors.gray2 },
+  folded = { fg = colors.white3, bg = colors.gray2 },
+  folded_range = { fg = colors.white3 },
   cursor_line = { },
   line_number = { fg = colors.white3 },
   current_line_number = { fg = colors.cyan, bold = true },
@@ -94,6 +93,7 @@ local base = {
   },
 
   statusline = { bg = colors.gray3 },
+  statusline_cwd = { fg = colors.white1, bold = true, italic = true },
   statusline_path = { fg = colors.white2 },
   statusline_branch = { fg = colors.white1, bold = true },
   statusline_diff = { fg = colors.white3 },
@@ -164,6 +164,7 @@ local highlights = {
   ['NormalFloat'] = base.popup,
   ['FloatBorder'] = inherit(base.popup, { fg = base.popup.bg }),
   ['Folded'] = base.folded,
+  ['FoldedRange'] = base.folded_range,
   ['MsgArea'] = base.popup,
   ['Title'] = base.title,
   ['Pmenu'] = inherit(base.popup, { fg = colors.white3 }),
@@ -388,6 +389,7 @@ local render_md_highlights = {
 ---
 --- @type table<string, table>
 local statusline_highlights = {
+  ['CWD'] = base.statusline_cwd,
   ['Path'] = base.statusline_path,
   ['Branch'] = base.statusline_branch,
   ['Diff'] = base.statusline_diff,

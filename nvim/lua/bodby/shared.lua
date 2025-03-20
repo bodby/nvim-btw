@@ -1,11 +1,16 @@
-local M = { }
+local M = {
+  --- TODO: UI config (borders, icons, etc.).
+  ui = { },
+  --- Helpful utility functions.
+  lib = { }
+}
 
 --- Return whether or not an element exists in an array.
 ---
 --- @param e any
 --- @param xs any[]
 --- @return boolean
-function M.elem(e, xs)
+function M.lib.elem(e, xs)
   for _, v in ipairs(xs) do
     if v == e then
       return true
@@ -18,7 +23,7 @@ end
 ---
 --- @param str string
 --- @return boolean
-function M.nil_str(str)
+function M.lib.nil_str(str)
   return not str or str == ''
 end
 
@@ -26,12 +31,25 @@ end
 ---
 --- @param str string
 --- @return string
-function M.trim(str)
-  if M.nil_str(str) then
+function M.lib.trim(str)
+  if M.lib.nil_str(str) then
     return ''
   else
     return str:match('^%s*(.-)%s*$')
   end
+end
+
+--- Insert all passed elements into an array.
+---
+--- @param xs any[]
+--- @param ... any
+--- @return any[]
+function M.lib.insert_elems(xs, ...)
+  local result = xs
+  for _, v in ipairs({ ... }) do
+    table.insert(result, v)
+  end
+  return result
 end
 
 return M

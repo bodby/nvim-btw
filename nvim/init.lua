@@ -1,5 +1,5 @@
 local mappings = require('bodby.mappings')
-local nil_str = require('bodby.shared').nil_str
+local nil_str = require('bodby.shared').lib.nil_str
 
 vim.cmd.colorscheme('bodby')
 require('bodby.options')
@@ -8,7 +8,7 @@ vim.schedule(function()
   vim.g.mapleader = ' '
   mappings.setup()
 
-  -- TODO: Lazy-load this somehow?
+  -- TODO: Lazy load this somehow?
   require('bodby.lsp')
 end)
 
@@ -27,12 +27,12 @@ local plugins = require('bodby.plugins')
 
 --- Table of filetypes and events, with a list of plugins inside them.
 ---
---- @type table<string, table<string, string[]>>
+--- @type { [string]: table<string, string[]> }
 local mapped = { }
 
 --- Table with plugin configs instead of just their filename.
 ---
---- @type table<string, plugin_config>
+--- @type { [string]: plugin_config }
 local config = vim.tbl_map(function(p)
   return require('bodby.plugins.' .. p)
 end, plugins)

@@ -58,6 +58,8 @@ in {
     render-markdown-nvim
     alpha-nvim
 
+    nightfox-nvim
+
     gitsigns-nvim
     # smartcolumn-nvim
     # virt-column-nvim

@@ -1,4 +1,4 @@
-local elem = require('bodby.shared').elem
+local elem = require('bodby.shared').lib.elem
 local M = {
   highlights = {
     tab = 'Tab',
