@@ -32,8 +32,6 @@ local function fold_line(buffer, row)
 
   --- @type { [1]: string, [2]: string }[]
   local result = { }
-  --- @type { [1]: integer, [2]: integer }[]
-  local ranges = { }
   local offset = 0
 
   local language = vim.treesitter.language.get_lang(vim.bo[buffer].filetype)
@@ -49,15 +47,17 @@ local function fold_line(buffer, row)
 
     local sr, sc, er, ec = node:range()
     if sc > offset then
-      table.insert(result, { line:sub(offset + 1, sc), 'Folded' })
-      table.insert(ranges, { offset, sc })
+      table.insert(result, {
+        line:sub(offset + 1, sc),
+        'Folded',
+        range = { offset, sc }
+      })
     end
     offset = ec
 
     local text = line:sub(sc + 1, ec)
     local highlight = '@' .. name .. '.' .. language
-    table.insert(result, { text, highlight })
-    table.insert(ranges, { sc, ec })
+    table.insert(result, { text, highlight, range = { sc, ec } })
   end
 
   -- Remove overlapping "tokens".
@@ -65,8 +65,8 @@ local function fold_line(buffer, row)
   while i <= #result do
     local j = i + 1
     while j <= #result
-      and ranges[j][1] >= ranges[i][1]
-      and ranges[j][2] <= ranges[i][2]
+      and result[j].range[1] >= result[i].range[1]
+      and result[j].range[2] <= result[i].range[2]
     do
       j = j + 1
     end
@@ -76,6 +76,11 @@ local function fold_line(buffer, row)
     else
       i = i + 1
     end
+  end
+
+  -- FIXME: A separate 'ranges' table so I don't have to do this.
+  for _, v in ipairs(result) do
+    v.range = nil
   end
 
   return result
