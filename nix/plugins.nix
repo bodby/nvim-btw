@@ -10,64 +10,61 @@ let
   #     hash = "sha256-k+HSFYn3stgs0IoCQnJPIpkig8EPtHMAdjdkLyckUOo=";
   #   };
   # };
+
+  treesitter-parsers = pkgs.vimPlugins.nvim-treesitter.withPlugins (p:
+    builtins.attrValues {
+      inherit (p)
+          comment
+          luadoc
+          vimdoc
+          doxygen
+          gitignore
+          git_rebase
+          jsonc
+          json
+          toml
+          yaml
+          bash
+          c
+          cpp
+          haskell
+          markdown
+          markdown_inline
+          latex
+          bibtex
+          typst
+          glsl
+          zig
+          meson
+          rust
+          ocaml
+          lua
+          vim
+          python
+          nix
+          html
+          css
+          javascript
+          query;
+    });
 in {
-  plugins = with pkgs.vimPlugins; [
-    nvim-lspconfig
-    (nvim-treesitter.withPlugins (p: with p; [
-      comment
-      luadoc
-      vimdoc
-      doxygen
-
-      gitignore
-      git_rebase
-
-      jsonc
-      json
-      toml
-      yaml
-
-      bash
-      c
-      cpp
-      haskell
-      markdown
-      markdown_inline
-      latex
-      bibtex
-      typst
-      glsl
-      zig
-      meson
-      rust
-      ocaml
-      lua
-      vim
-      python
-      nix
-      html
-      css
-      javascript
-      query
-    ]))
-
-    telescope-nvim
-    telescope-zf-native-nvim
-    blink-cmp
-    # blink-compat
-    render-markdown-nvim
-    alpha-nvim
-
-    gitsigns-nvim
-    # smartcolumn-nvim
-    # virt-column-nvim
-
+  plugins = builtins.attrValues {
+    inherit (pkgs.vimPlugins)
+      nvim-lspconfig
+      telescope-nvim
+      telescope-zf-native-nvim
+      blink-cmp
+      # blink-compat
+      render-markdown-nvim
+      alpha-nvim
+      gitsigns-nvim;
+  }
+  ++ [
     # syntax-gaslighting
+    treesitter-parsers
   ];
 
-  # Other LSPs should be in devShells.
-  packages = with pkgs; [
-    ripgrep
-    nixd
-  ];
+  packages = builtins.attrValues {
+    inherit (pkgs) ripgrep nixd;
+  };
 }

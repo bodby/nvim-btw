@@ -3,7 +3,6 @@
   plugins ? [ ],
   packages ? [ ],
   luaPackages ? p: [ ],
-
   appName ? null,
   viAlias ? appName == null || appName == "nvim",
   vimAlias ? appName == null || appName == "nvim",
@@ -11,6 +10,11 @@
 }:
 let
   inherit (pkgs) stdenv lib;
+  inherit (lib)
+    concatStringsSep
+    optionalString
+    makeBinPath
+    concatMapStringsSep;
 
   mkNeovim = {
     appName,
@@ -64,20 +68,19 @@ let
     modifiedAppName = appName != null && appName != "nvim" && appName != "";
     extraLuaPackages' = extraLuaPackages nvim-unwrapped.lua.pkgs;
 
-    makeWrapperArgs = with lib;
-      strings.concatStringsSep " " [
-        (optionalString modifiedAppName
-          "--set NVIM_APPNAME '${appName}'")
-        (optionalString (extraPackages != [ ])
-          "--prefix PATH ':' '${makeBinPath extraPackages}'")
-      ];
+    makeWrapperArgs = concatStringsSep " " [
+      (optionalString modifiedAppName
+        "--set NVIM_APPNAME '${appName}'")
+      (optionalString (extraPackages != [ ])
+        "--prefix PATH ':' '${makeBinPath extraPackages}'")
+    ];
 
-    luaWrapperArgs = with lib;
-      let paths = strings.concatMapStringsSep ";" luaPackages.getLuaPath extraLuaPackages';
+    luaWrapperArgs =
+      let paths = concatMapStringsSep ";" luaPackages.getLuaPath extraLuaPackages';
       in optionalString (extraLuaPackages' != [ ]) "--suffix LUA_PATH ';' '${paths}'";
 
-    luaCWrapperArgs = with lib;
-      let paths = strings.concatMapStringsSep ";" luaPackages.getLuaCPath extraLuaPackages';
+    luaCWrapperArgs =
+      let paths = concatMapStringsSep ";" luaPackages.getLuaCPath extraLuaPackages';
       in optionalString (extraLuaPackages' != [ ]) "--suffix LUA_CPATH ';' '${paths}'";
 
     nvim-wrapped = pkgs.wrapNeovimUnstable nvim-unwrapped
@@ -93,12 +96,15 @@ let
       });
   in
   nvim-wrapped.overrideAttrs (finalAttrs: {
+    meta.mainProgram =
+      if modifiedAppName
+      then appName
+      else finalAttrs.meta.mainProgram;
+
     buildPhase = finalAttrs.buildPhase
       + lib.optionalString modifiedAppName /* bash */ ''
         mv $out/bin/nvim $out/bin/${lib.escapeShellArgs appName}
       '';
-
-    meta.mainProgram = if modifiedAppName then appName else finalAttrs.meta.mainProgram;
   });
 in
 mkNeovim {
