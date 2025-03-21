@@ -11,11 +11,6 @@ function M.setup()
   vim.api.nvim_set_hl(0, 'FoldedRange', { link = 'Folded', default = true })
 end
 
-
--- FIXME: 'attempt to index a nil value' when I have foldlevel set to 0 (using
--- 'zM') and I add another foldable that isn't properly closed, e.g. local X = {
--- without a closing }.
-
 --- Return a list of pairs of text to highlight and their highlight.
 --- Directly usable in 'foldtext' if `v:foldstart` or `v:foldend` is passed.
 ---

@@ -15,4 +15,4 @@ nix run github:bodby/nvim-btw#gui
 ```
 
 ## Preview
-![Don't look at the bottom left](./.github/images/20250319-172505.png)
+![Screenshot](./.github/images/20250321-191201.png)

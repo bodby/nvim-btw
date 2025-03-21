@@ -261,7 +261,7 @@ end
 --- @return statusline.module
 local function macro()
   local reg = vim.fn.reg_recording()
-  if reg ~= '' then
+  if not nil_str(reg) then
     local highlight = hl(M.highlights.macro)
     return { text = highlight .. reg .. ' ', length = 2 }
   else
