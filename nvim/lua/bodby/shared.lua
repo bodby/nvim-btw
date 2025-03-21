@@ -65,13 +65,12 @@ end
 ---
 --- I don't know how to describe this, honestly.
 ---
---- @param fn fun(): any
+--- @param fn fun(...: any): any
 --- @param ... any
 --- @return any
 function M.lib.with_args(fn, ...)
   local args = { ... }
   return function()
-    --- @diagnostic disable-next-line: redundant-parameter
     return fn(unpack(args))
   end
 end
