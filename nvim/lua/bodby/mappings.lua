@@ -2,7 +2,7 @@ local M = { }
 
 --- @class mapping
 --- @field modes string
---- @field callback string | fun() : string?
+--- @field callback string | fun(): string?
 --- @field opts? table
 
 --- @type table<string, mapping>

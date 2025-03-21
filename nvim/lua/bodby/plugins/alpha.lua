@@ -1,3 +1,4 @@
+local with_args = require('bodby.shared').lib.with_args
 local builtin = require('telescope.builtin')
 
 local options = {
@@ -49,13 +50,12 @@ local function button(shortcut, text, action)
     width = options.width,
     shrink_margin = true,
     align_shortcut = 'right',
-
+    hl_shortcut = 'AlphaShortcut',
     hl = {
       { 'AlphaButtons', 0, 2 },
       { 'AlphaHeaderLabel', 2, -1 }
     },
 
-    hl_shortcut = 'AlphaShortcut',
     keymap = {
       'n',
       shortcut,
@@ -75,7 +75,6 @@ end
 local header = {
   type = 'text',
   val = options.header,
-
   opts = {
     position = 'center',
     hl = 'AlphaHeader'
@@ -85,7 +84,6 @@ local header = {
 local footer = {
   type = 'text',
   val = options.footer,
-
   opts = {
     position = 'center',
     hl = 'AlphaFooter'
@@ -94,26 +92,12 @@ local footer = {
 
 local shortcuts = {
   type = 'group',
+  opts = { spacing = 1 },
   val = {
     button('e', 'New file', vim.cmd.enew),
-
-    button('f', 'Find files', function()
-      builtin.find_files({
-        prompt_title = '',
-        preview_title = '',
-        hidden = true
-      })
-    end),
-
-    button('r', 'Recent', function()
-      builtin.oldfiles({
-        prompt_title = '',
-        preview_title = ''
-      })
-    end)
-  },
-
-  opts = { spacing = 1 }
+    button('f', 'Find files', with_args(builtin.find_files, { hidden = true })),
+    button('r', 'Recent', builtin.oldfiles)
+  }
 }
 
 local margin = { type = 'padding', val = 1 }

@@ -86,6 +86,7 @@ local base = {
   spell_bad = { sp = colors.red, undercurl = true },
   spell_rare = { sp = colors.purple, undercurl = true },
   spell_casing = { sp = colors.blue, undercurl = true },
+  title_number = { fg = colors.white3 },
   title = {
     fg = colors.white1,
     bold = true,
@@ -93,7 +94,8 @@ local base = {
   },
 
   statusline = { bg = colors.gray3 },
-  statusline_cwd = { fg = colors.white1, bold = true, italic = true },
+  statusline_cwd = { fg = colors.cyan },
+  statusline_prefix = { fg = colors.white1, bold = true, italic = true },
   statusline_path = { fg = colors.white2 },
   statusline_branch = { fg = colors.white1, bold = true },
   statusline_diff = { fg = colors.white3 },
@@ -370,14 +372,27 @@ local telescope_highlights = {
   ['Selection'] = { link = 'PmenuSel' },
   ['SelectionCaret'] = base.caret,
   ['MultiSelection'] = { link = 'NormalFloat' },
-  ['MultiIcon'] = base.accent
+  ['MultiIcon'] = base.accent,
+
+  -- Symbols.
+  ['ResultsMethod'] = { link = 'Function' },
+  ['ResultsFunction'] = { link = 'Function' },
+  ['ResultsField'] = { link = '@variable.member' },
+  ['ResultsVariable'] = { link = 'Identifier' },
+  ['ResultsIdentifier'] = { link = 'Identifier' },
+  ['ResultsClass'] = { link = 'Type' },
+  ['ResultsStruct'] = { link = 'Structure' },
+  ['ResultsNumber'] = { link = 'Number' },
+  ['ResultsConstant'] = { link = 'Constant' },
+  ['ResultsComment'] = { link = 'Comment' },
+  ['ResultsOperator'] = { link = 'Operator' }
 }
 
 --- "RenderMarkdown" prefixed highlights.
 ---
 --- @type table<string, table>
 local render_md_highlights = {
-  ['Header'] = inherit(base.title, { fg = colors.white3, italic = false }),
+  ['Header'] = base.title_number,
   ['Code'] = { bg = base.code.bg },
   ['CodeInline'] = base.code,
   ['Dash'] = { link = 'WinSeparator' },
@@ -389,6 +404,7 @@ local render_md_highlights = {
 ---
 --- @type table<string, table>
 local statusline_highlights = {
+  ['Prefix'] = base.statusline_prefix,
   ['CWD'] = base.statusline_cwd,
   ['Path'] = base.statusline_path,
   ['Branch'] = base.statusline_branch,
@@ -462,15 +478,15 @@ for k, v in pairs(statusline_highlights) do
   hl('StatusLine' .. k, inherit(base.statusline, v))
 end
 
-for _, v in ipairs(statuscolumn_highlights) do
-  hl('LineNr' .. v, base.line_number)
-  hl('CursorLineNr' .. v, base.current_line_number)
-end
-
 for k, v in pairs(statusline_mode_highlights) do
   local opts = inherit(base.statusline, { fg = v, bold = true })
 
   hl('StatusLine' .. k, opts)
+end
+
+for _, v in ipairs(statuscolumn_highlights) do
+  hl('LineNr' .. v, base.line_number)
+  hl('CursorLineNr' .. v, base.current_line_number)
 end
 
 -- Tabline.

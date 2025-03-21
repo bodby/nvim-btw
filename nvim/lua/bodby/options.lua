@@ -110,7 +110,7 @@ local globals = {
   loaded_tutor_mode_plugin = 0,
 
   -- Per-filetype options. See `:h filetype`.
-  markdown_recommended_style = 1,
+  markdown_recommended_style = 0,
   markdown_folding = 0,
   tex_flavor = 'latex'
 }

@@ -1,5 +1,5 @@
-local mappings = require('bodby.mappings')
 local nil_str = require('bodby.shared').lib.nil_str
+local mappings = require('bodby.mappings')
 
 vim.cmd.colorscheme('bodby')
 require('bodby.options')

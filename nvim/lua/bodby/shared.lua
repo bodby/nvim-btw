@@ -1,6 +1,12 @@
 local M = {
   --- TODO: UI config (borders, icons, etc.).
-  ui = { },
+  ui = {
+    border = {
+      name = 'none',
+      characters = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+    }
+  },
+
   --- Helpful utility functions.
   lib = { }
 }
@@ -50,6 +56,24 @@ function M.lib.insert_elems(xs, ...)
     table.insert(result, v)
   end
   return result
+end
+
+--- Return a lambda that calls the passed function with the passed arguments.
+--- This allows you to pass functions with arguments, rather than just the
+--- function as-is.
+--- If the passed function has a return value, then it is also returned.
+---
+--- I don't know how to describe this, honestly.
+---
+--- @param fn fun(): any
+--- @param ... any
+--- @return any
+function M.lib.with_args(fn, ...)
+  local args = { ... }
+  return function()
+    --- @diagnostic disable-next-line: redundant-parameter
+    return fn(unpack(args))
+  end
 end
 
 return M

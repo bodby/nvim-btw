@@ -66,7 +66,7 @@ local loc = function(window)
   local buffer = vim.api.nvim_win_get_buf(window)
   local lcount = vim.fn.getbufinfo(buffer)[1].linecount
 
-  if lcount ~= nil then
+  if lcount then
     return colors.loc .. " " .. lcount
   else
     return ""

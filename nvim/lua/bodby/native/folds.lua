@@ -11,6 +11,11 @@ function M.setup()
   vim.api.nvim_set_hl(0, 'FoldedRange', { link = 'Folded', default = true })
 end
 
+
+-- FIXME: 'attempt to index a nil value' when I have foldlevel set to 0 (using
+-- 'zM') and I add another foldable that isn't properly closed, e.g. local X = {
+-- without a closing }.
+
 --- Return a list of pairs of text to highlight and their highlight.
 --- Directly usable in 'foldtext' if `v:foldstart` or `v:foldend` is passed.
 ---
@@ -18,7 +23,7 @@ end
 ---
 --- @param buffer integer
 --- @param row integer
---- @return table<string>[]
+--- @return table<string>[] | string
 local function fold_line(buffer, row)
   local ok, parser = pcall(vim.treesitter.get_parser, buffer)
   if not ok then
@@ -32,6 +37,8 @@ local function fold_line(buffer, row)
 
   --- @type { [1]: string, [2]: string }[]
   local result = { }
+  --- @type { [1]: integer, [2]: integer }[]
+  local ranges = { }
   local offset = 0
 
   local language = vim.treesitter.language.get_lang(vim.bo[buffer].filetype)
@@ -45,48 +52,41 @@ local function fold_line(buffer, row)
   for id, node, _ in query:iter_captures(tree:root(), buffer, row - 1, row) do
     local name = query.captures[id]
 
-    local sr, sc, er, ec = node:range()
+    local _, sc, _, ec = node:range()
     if sc > offset then
-      table.insert(result, {
-        line:sub(offset + 1, sc),
-        'Folded',
-        range = { offset, sc }
-      })
+      table.insert(result, { line:sub(offset + 1, sc), 'Folded' })
+      table.insert(ranges, { offset, sc })
     end
+
     offset = ec
 
     local text = line:sub(sc + 1, ec)
     local highlight = '@' .. name .. '.' .. language
-    table.insert(result, { text, highlight, range = { sc, ec } })
+    table.insert(result, { text, highlight })
+    table.insert(ranges, { sc, ec })
   end
 
-  -- Remove overlapping "tokens".
+  -- Remove overlapping captures/ranges.
   local i = 1
-  while i <= #result do
+  while i <= #ranges do
     local j = i + 1
-    while j <= #result
-      and result[j].range[1] >= result[i].range[1]
-      and result[j].range[2] <= result[i].range[2]
+    while j <= #ranges
+      and ranges[j][1] >= ranges[i][1]
+      and ranges[j][2] <= ranges[i][2]
     do
       j = j + 1
     end
 
     if j > i + 1 then
       table.remove(result, i)
+      table.remove(ranges, i)
     else
       i = i + 1
     end
   end
 
-  -- FIXME: A separate 'ranges' table so I don't have to do this.
-  for _, v in ipairs(result) do
-    v.range = nil
-  end
-
   return result
 end
-
--- FIXME: Breaks when there are pointer or array params in C, e.g. 'int* foo'.
 
 --- Expression used in 'foldtext'.
 ---
@@ -96,7 +96,7 @@ function M.text()
   local result = fold_line(buffer, vim.v.foldstart)
   local foldend = fold_line(buffer, vim.v.foldend)
 
-  if foldend then
+  if next(foldend) and foldend[1][1] then
     foldend[1][1] = trim(foldend[1][1])
   end
 
@@ -108,11 +108,16 @@ function M.text()
   -- Prettier Nix folds. Sometimes.
   -- TODO: Make this disable fold end in certain filetypes, e.g. Markdown,
   --       because it doesn't work well there.
-  if result[#result - 3][1] == "let" then
-    table.insert(result, { 'in', '@keyword.nix' })
-  else
-    for _, v in ipairs(foldend) do
-      table.insert(result, v)
+  --       Also make this two tables, one for custom per-filetype folds and one
+  --       for custom delimiters, e.g. let ... in.
+  --       Also refactor. Very ugly.
+  if result[#result - 3] then
+    if result[#result - 3][1] == 'let' then
+      table.insert(result, { 'in', '@keyword.nix' })
+    elseif vim.bo[buffer].filetype ~= 'markdown' then
+      for _, v in ipairs(foldend) do
+        table.insert(result, v)
+      end
     end
   end
 

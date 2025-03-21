@@ -36,8 +36,9 @@ local servers = {
           path = vim.split(package.path, ';')
         },
 
+        -- FIXME: Why won't 'vim.uv' work?
         diagnostics = {
-          globals = { 'vim' }
+          globals = { 'vim', 'vim.uv' }
         },
 
         workspace = {
@@ -59,7 +60,7 @@ local servers = {
         format = { enable = false },
         hint = { enable = false },
         telemetry = { enable = false },
-        semantic = { variable = false }
+        semantic = { enable = false }
       }
     }
   }

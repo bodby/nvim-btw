@@ -1,4 +1,6 @@
-local elem = require('bodby.shared').lib.elem
+local lib = require('bodby.shared').lib
+local nil_str = lib.nil_str
+local elem = lib.elem
 
 --- @class statusline.module
 --- @field text string
@@ -43,6 +45,7 @@ local M = {
   -- Mode highlights are derived from `M.modes`.
   highlights = {
     path = 'Path',
+    prefix = 'Prefix',
     cwd = 'CWD',
     branch = 'Branch',
     diff = 'Diff',
@@ -124,58 +127,83 @@ end
 ---
 --- @param buffer integer
 --- @param length integer Length of all other statusline modules.
---- @return statusline.module
+--- @return string
 local function path(buffer, length)
+  -- TODO: Rewrite path module.
   local full = vim.api.nvim_buf_get_name(buffer)
   if full == '' then
-    return { text = '', length = 0 }
+    return ''
   end
 
   local modified = vim.api.nvim_get_option_value('modified', { buf = buffer })
   local modified_symbol = modified and "'" or ''
   local highlight = hl(M.highlights.path)
 
-  local cwd = ''
-  local ei = 1
-  local suffix = formatted
+  local prefix = ''
+  local cwd = vim.fn.getcwd()
+  local suffix = ''
+
+  local e1 = 1
   for _, v in ipairs(M.prefixes) do
     local _, match = full:find(v.pattern)
     if match then
-      cwd = v.replacement
-      ei = match
-      suffix = full:sub(ei + 1)
+      prefix = v.replacement
+      e1 = match + 1
       break
     end
   end
 
-  -- How?
-  if not suffix then
-    suffix = ''
+  local e2 = e1 - 1
+  local _, match = full:find(cwd, 1, true)
+  if match then
+    e2 = match + 1
   end
 
-  -- 1 is the length of the macro module.
-  if vim.go.columns - (#cwd + #suffix + 1) >= length then
-    return {
-      text = hl(M.highlights.cwd) .. cwd .. highlight .. suffix .. modified_symbol
-        .. ' ',
-      length = 0
-    }
+  if full:find(cwd, 1, true) then
+    cwd = not nil_str(cwd:sub(e1)) and cwd:sub(e1) .. '/' or ''
+  else
+    cwd = ''
+  end
+
+  local segments = vim.split(cwd, '/', { trimempty = true, plain = true })
+  local cwd_prefix = ''
+  if next(segments) and not nil_str(cwd) then
+    cwd = segments[#segments] .. '/'
+    cwd_prefix = table.concat(segments, '/', 1, #segments - 1)
+    if #segments > 1 then
+      cwd_prefix = cwd_prefix .. '/'
+    end
+  end
+
+  if cwd == '/' then
+    cwd = ''
+  end
+
+  suffix = full:sub(math.max(e2 + 1, e1))
+
+  if vim.go.columns - (#cwd + #prefix + #suffix) >= length then
+    return table.concat({
+      hl(M.highlights.prefix),
+      prefix,
+      highlight,
+      cwd_prefix,
+      hl(M.highlights.cwd),
+      cwd,
+      highlight,
+      suffix,
+      modified_symbol,
+      ' '
+    })
   else
     local formatted = vim.fn.fnamemodify(full, ':~:.')
-    if vim.go.columns - (#formatted + 1) >= length then
-      return {
-        text = highlight .. formatted .. modified_symbol .. ' ',
-        length = 0
-      }
+    if vim.go.columns - (#formatted) >= length then
+      return highlight .. formatted .. modified_symbol .. ' '
     else
       local file = vim.fn.fnamemodify(full, ':t')
-      if vim.go.columns - (#file + 1) >= length then
-        return {
-          text = highlight .. file .. modified_symbol .. ' ',
-          length = 0
-        }
+      if vim.go.columns - (#file) >= length then
+        return highlight .. file .. modified_symbol .. ' '
       else
-        return { text = '', length = 0 }
+        return ''
       end
     end
   end
@@ -289,8 +317,8 @@ function M.text()
   local _diff = git(buffer, 'diff')
   local _branch = git(buffer, 'branch')
 
-  -- 6 is the combined length of the mode module and the macro register.
-  local length = 6 + _diff.length + _branch.length
+  -- 7 is the combined length of the mode module and the macro register.
+  local length = 7 + _diff.length + _branch.length
 
   local blocked = elem(vim.bo[buffer].filetype, M.blocked_filetypes)
   local file_info = blocked and '' or _lines.text .. _filetype.text
@@ -300,7 +328,7 @@ function M.text()
 
   return table.concat({
     mode(true).text,
-    path(buffer, length).text,
+    path(buffer, length),
     _diff.text,
     macro().text,
     '%#StatusLine#%=',

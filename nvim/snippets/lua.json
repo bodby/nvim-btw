@@ -19,7 +19,7 @@
 
   "either": {
     "prefix": "either",
-    "body": "$1{true} and ${2:false} or $0"
+    "body": "${1:true} and ${2:false} or $0"
   },
 
   "if": {

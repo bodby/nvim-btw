@@ -1,3 +1,7 @@
+local shared = require('bodby.shared')
+local with_args = shared.lib.with_args
+local border = shared.ui.border
+
 local strategies = require('telescope.pickers.layout_strategies')
 local builtin = require('telescope.builtin')
 
@@ -24,22 +28,19 @@ end
 return {
   mappings = {
     ['<Leader>fr'] = { modes = 'n', callback = builtin.oldfiles },
+    -- TODO: Symbols style (preferrably using the 'ui' table in shared.lua).
     ['<Leader>fw'] = { modes = 'n', callback = builtin.lsp_workspace_symbols },
     ['<Leader>ff'] = {
       modes = 'n',
-      callback = function()
-        builtin.find_files({ hidden = true })
-      end
+      callback = with_args(builtin.find_files, { hidden = true })
     },
 
     ['<Leader>fg'] = {
       modes = 'n',
-      callback = function()
-        builtin.live_grep({
-          grep_open_files = false,
-          disable_coordinates = true
-        })
-      end
+      callback = with_args(builtin.live_grep, {
+        grep_open_files = false,
+        disable_coordinates = true
+      })
     }
   },
 
@@ -66,9 +67,9 @@ return {
       preview = { msg_bg_fillchar = ' ' },
 
       borderchars = {
-        prompt = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-        results = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-        preview = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+        prompt = border.characters,
+        results = border.characters,
+        preview = border.characters
       },
 
       file_ignore_patterns = { '^.git/' },

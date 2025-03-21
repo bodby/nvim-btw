@@ -71,6 +71,11 @@ return {
         auto_brackets = { enabled = false }
       },
 
+      trigger = {
+        -- '#' breaks snippet expansion in Lua.
+        show_on_blocked_trigger_characters = { '#', ' ', '\n', '\t' }
+      },
+
       menu = {
         enabled = true,
         min_width = 12,
@@ -199,7 +204,7 @@ return {
         snippets = {
           name = 'snippet',
           module = 'blink.cmp.sources.snippets',
-          score_offset = 1,
+          score_offset = 5,
           fallbacks = { },
           should_show_items = true,
 
