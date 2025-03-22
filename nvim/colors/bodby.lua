@@ -6,7 +6,7 @@ local colors = {
   gray2 = '#131720',
   gray3 = '#0e1119',
 
-  white1 = '#b5c8f2',
+  white1 = '#aec5f2',
   white2 = '#91a4ca',
   white3 = '#495674',
 
@@ -174,6 +174,9 @@ local highlights = {
   ['CursorLine'] = base.cursor_line,
   ['CursorLineNr'] = base.current_line_number,
   ['LineNr'] = base.line_number,
+  ['CursorLineNrWrapped'] = base.current_line_number,
+  ['LineNrWrapped'] = base.line_number,
+  ['LineNrVirt'] = base.line_number,
   ['WinSeparator'] = base.separator,
 
   ['Visual'] = base.visual,
@@ -277,6 +280,7 @@ local highlights = {
   ['@punctuation.special.bash'] = inherit(base.delimiter, { nocombine = true }),
 
   ['@markup.raw.markdown_inline'] = base.code,
+  ['@markup.quote.markdown'] = { },
   ['@markup.raw.block.markdown'] = base.delimiter,
   ['@markup.list'] = inherit(base.comment, { italic = false }),
   -- TODO: Resolved and unresolved link colors.
@@ -435,11 +439,6 @@ local statusline_mode_highlights = {
   ['Limbo'] = colors.white3
 }
 
---- "LineNr" and "CursorLineNr" prefixed highlights.
----
---- @type table<string, table>
-local statuscolumn_highlights = { 'Virt', 'Wrapped' }
-
 --- "TabLine" prefixed highlights.
 ---
 --- @type table<string, table>
@@ -483,11 +482,6 @@ for k, v in pairs(statusline_mode_highlights) do
   local opts = inherit(base.statusline, { fg = v, bold = true })
 
   hl('StatusLine' .. k, opts)
-end
-
-for _, v in ipairs(statuscolumn_highlights) do
-  hl('LineNr' .. v, base.line_number)
-  hl('CursorLineNr' .. v, base.current_line_number)
 end
 
 -- Tabline.

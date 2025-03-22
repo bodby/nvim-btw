@@ -38,7 +38,7 @@ local servers = {
 
         -- FIXME: Why won't 'vim.uv' work?
         diagnostics = {
-          globals = { 'vim' }
+          globals = { 'vim', 'uv' }
         },
 
         workspace = {

@@ -41,11 +41,9 @@ return {
   opts = {
     keymap = {
       preset = 'none',
-
       ['<C-Space>'] = { 'show' },
       ['<Tab>'] = { 'select_and_accept', 'fallback' },
       ['<S-CR>'] = { 'snippet_forward', 'fallback' },
-
       ['<C-n>'] = {
         function(cmp)
           if not cmp.is_menu_visible() then
@@ -84,11 +82,9 @@ return {
         scrolloff = 4,
         scrollbar = false,
         auto_show = options.show_menu,
-
         draw = {
           padding = 1,
           gap = 1,
-
           columns = function()
             if options.show_item_source then
               return {
@@ -127,7 +123,6 @@ return {
               highlight = function(context)
                 local base = 'BlinkCmpLabel'
                 local hl = context.deprecated and base .. 'Deprecated' or base
-
                 local highlights = {
                   { 0, #context.label, group = hl }
                 }
@@ -164,23 +159,18 @@ return {
 
     fuzzy = {
       implementation = options.fuzzy_impl,
-
       max_typos = function(keyword)
         return math.floor(#keyword / 4)
       end,
 
       use_frecency = true,
       use_proximity = true,
-
       prebuilt_binaries = { download = false }
     },
 
-    -- NOTE: Use 'should_show_items' to never hide a source's items.
-    --       E.g. always showing buffer items even when there are plenty of LSP
-    --       items.
+    -- NOTE: Use 'should_show_items' to always show a source's items.
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
-
       providers = {
         lsp = {
           name = 'lsp',
@@ -193,7 +183,6 @@ return {
           module = 'blink.cmp.sources.path',
           score_offset = 100,
           fallbacks = { },
-
           opts = {
             trailing_slash = options.trailing_slash,
             show_hidden_files_by_default = true,
@@ -207,7 +196,6 @@ return {
           score_offset = 5,
           fallbacks = { },
           should_show_items = true,
-
           opts = {
             friendly_snippets = false,
             -- 'root_path' is set by package.nix.
@@ -229,7 +217,6 @@ return {
       enabled = true,
       keymap = {
         preset = 'none',
-
         ['<Tab>'] = { 'show', 'accept', 'fallback' },
         ['<C-n>'] = { 'select_next' },
         ['<C-p>'] = { 'select_prev' }
