@@ -1,6 +1,6 @@
 {
-  "metadata": {
-    "prefix": "yaml-aliases-metadata",
+  "note-metadata": {
+    "prefix": "note-metadata",
     "body": [
       "---",
       "aliases:",
@@ -12,9 +12,18 @@
     ]
   },
 
-  "todo": {
-    "prefix": "todo",
-    "body": "- [ ] $0"
+  "blog-metadata": {
+    "prefix": "blog-metadata",
+    "body": [
+      "---",
+      "title: \"${1:Title}\"",
+      "abstract: \"${2:Short description}\"",
+      "date: ${3:YYYY-MM-DD}",
+      "---",
+      "",
+      "# ${1:Title}",
+      "$0"
+    ]
   },
 
   "link": {
