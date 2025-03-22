@@ -14,6 +14,9 @@ return {
   opts = {
     render_modes = { 'n', 'c', 't' },
     anti_conceal = { enabled = false },
+    completions = {
+      lsp = { enabled = true }
+    },
 
     win_options = {
       conceallevel = {
@@ -27,46 +30,8 @@ return {
       }
     },
 
-    -- TODO: Blockquote icon.
-    quote = {
-      icon = '|'
-    },
-
-    -- TODO: 'quote_icon's and remove unused callouts.
-    --       Setting 'quote_icon' may not be necessary if this uses the default
-    --       blockquote one.
-    callout = {
-      note = { rendered = 'Note' },
-      tip = { rendered = 'Tip' },
-      important = { rendered = 'Important' },
-      warning = { rendered = 'Warning' },
-      caution = { rendered = 'Caution' },
-      abstract = { rendered = 'Abstract' },
-      summary = { rendered = 'Summary' },
-      tldr = { rendered = 'Tldr' },
-      info = { rendered = 'Info' },
-      todo = { rendered = 'Todo' },
-      hint = { rendered = 'Hint' },
-      success = { rendered = 'Success' },
-      check = { rendered = 'Check' },
-      done = { rendered = 'Done' },
-      question = { rendered = 'Question' },
-      help = { rendered = 'Help' },
-      faq = { rendered = 'Faq' },
-      attention = { rendered = 'Attention' },
-      failure = { rendered = 'Failure' },
-      fail = { rendered = 'Fail' },
-      missing = { rendered = 'Missing' },
-      danger = { rendered = 'Danger' },
-      error = { rendered = 'Error' },
-      bug = { rendered = 'Bug' },
-      example = { rendered = 'Example' },
-      quote = { rendered = 'Quote' },
-      cite = { rendered = 'Cite' }
-    },
-
+    quote = { enabled = false },
     checkbox = { enabled = false },
-
     code = {
       style = 'normal',
       width = 'block',
@@ -77,10 +42,7 @@ return {
       inline_pad = 1
     },
 
-    dash = {
-      icon = '-'
-    },
-
+    dash = { icon = '-' },
     heading = {
       -- I love changelogs.
       icons = function(context)
@@ -93,13 +55,12 @@ return {
     },
 
     latex = { enabled = false },
-
     -- TODO: Icons?
     link = {
       footnote = {
-        superscript = false,
-        prefix = '[',
-        suffix = ']'
+        superscript = true
+        -- prefix = '[',
+        -- suffix = ']'
       },
 
       image = '',
@@ -123,7 +84,6 @@ return {
     bullet = { enabled = false },
     paragraph = { enabled = false },
     sign = { enabled = false },
-
     pipe_table = {
       preset = 'round',
       alignment_indicator = '',

@@ -50,7 +50,7 @@ local M = {
     branch = 'Branch',
     diff = 'Diff',
     macro = 'Macro',
-    -- Current file line count.
+    -- Current line's column count.
     lines = 'Lines',
     filetype = 'FileType',
     error = 'Error',
