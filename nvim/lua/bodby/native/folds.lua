@@ -2,13 +2,14 @@ local lib = require('bodby.shared').lib
 local trim = lib.trim
 local insert_elems = lib.insert_elems
 
+-- TODO: Per-filetype customizations and replacements, e.g. 'let ... in' in Nix,
+--       or disabled foldend text in Markdown.
 local M = { }
 
 function M.setup()
   vim.o.foldmethod = 'expr'
   vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
   vim.o.foldtext = 'v:lua.require("bodby.native.folds").text()'
-  vim.api.nvim_set_hl(0, 'FoldedRange', { link = 'Folded', default = true })
 end
 
 --- Return a list of pairs of text to highlight and their highlight.
@@ -100,12 +101,7 @@ function M.text()
     { ' ... ', 'Folded' },
     { vim.v.foldend .. ' ', 'FoldedRange' })
 
-  -- Prettier Nix folds. Sometimes.
-  -- TODO: Make this disable fold end in certain filetypes, e.g. Markdown,
-  --       because it doesn't work well there.
-  --       Also make this two tables, one for custom per-filetype folds and one
-  --       for custom delimiters, e.g. let ... in.
-  --       Also refactor. Very ugly.
+  -- FIXME: Move these to 'M'.
   if result[#result - 3] then
     if result[#result - 3][1] == 'let' then
       table.insert(result, { 'in', '@keyword.nix' })

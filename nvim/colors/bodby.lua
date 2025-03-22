@@ -6,7 +6,7 @@ local colors = {
   gray2 = '#131720',
   gray3 = '#0e1119',
 
-  white1 = '#bfd3ff',
+  white1 = '#b5c8f2',
   white2 = '#91a4ca',
   white3 = '#495674',
 
@@ -47,7 +47,6 @@ local base = {
   tag = { fg = colors.blue },
   module = { fg = colors.yellow },
   constant = { fg = colors.white1, bold = true },
-  -- TODO: Find where this is used.
   special = { fg = colors.purple },
   comment = { fg = colors.white3, italic = true },
 
