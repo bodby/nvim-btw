@@ -4,7 +4,7 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   outputs =
-    { self, nixpkgs, ... }:
+    { nixpkgs, ... }:
     let
       systems = [
         "x86_64-linux"
@@ -25,19 +25,6 @@
             viAlias = true;
             vimAlias = true;
           };
-
-          gui = let
-            package = self.packages.${system}.default;
-          in pkgs.writeShellApplication {
-            name = "nvim-gui";
-            runtimeInputs = [
-              pkgs.neovide
-              package
-            ];
-            text = /* bash */ ''
-              neovide --fork --no-tabs --neovim-bin ${package}/bin/nvim
-            '';
-          };
         });
 
       devShells = forall (system:
@@ -46,7 +33,6 @@
         in {
           default = pkgs.mkShell {
             packages = [ pkgs.lua-language-server ];
-            inputsFrom = [ ];
           };
         });
     };
