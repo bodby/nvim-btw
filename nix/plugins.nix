@@ -19,6 +19,7 @@ let
           vimdoc
           doxygen
           gitignore
+          gitcommit
           git_rebase
           jsonc
           json
