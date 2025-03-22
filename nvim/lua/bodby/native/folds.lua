@@ -31,10 +31,16 @@ local function fold_line(buffer, row)
     return vim.fn.foldtext()
   end
 
-  --- @type { [1]: string, [2]: string }[]
+  --- Text and highlight.
+  --- Apparently the highlight (2nd element) can also be a list of strings
+  --- rather than just a single string.
+  ---
+  --- @type { [1]: string, [2]: string | string[] }[]
   local result = { }
-  --- @type { [1]: integer, [2]: integer }[]
-  local ranges = { }
+  --- Start column, end column, and capture names and priorities.
+  ---
+  --- @type { [1]: integer, [2]: integer, [3]: { capture: string, priority: integer }[] }[]
+  local meta = { }
   local offset = 0
 
   local language = vim.treesitter.language.get_lang(vim.bo[buffer].filetype)
@@ -45,38 +51,57 @@ local function fold_line(buffer, row)
     return vim.fn.foldtext()
   end
 
-  for id, node, _ in query:iter_captures(tree:root(), buffer, row - 1, row) do
+  for id, node, metadata in query:iter_captures(tree:root(), buffer, row - 1, row) do
     local name = query.captures[id]
+
+    --- @type number
+    local priority = metadata.priority or vim.highlight.priorities.treesitter
 
     local _, sc, _, ec = node:range()
     if sc > offset then
-      table.insert(result, { line:sub(offset + 1, sc), 'Folded' })
-      table.insert(ranges, { offset, sc })
+      table.insert(result, { line:sub(offset + 1, sc) })
+      table.insert(meta, { offset, sc, { { capture = 'Folded', priority = priority } } })
     end
 
     offset = ec
 
     local text = line:sub(sc + 1, ec)
-    local highlight = '@' .. name .. '.' .. language
-    table.insert(result, { text, highlight })
-    table.insert(ranges, { sc, ec })
+    local capture = '@' .. name .. '.' .. language
+    table.insert(result, { text })
+    table.insert(meta, { sc, ec, {
+      { capture = capture, priority = priority }
+    } })
   end
 
-  -- Remove overlapping captures/ranges.
   local i = 1
-  while i <= #ranges do
+  while i <= #meta do
     local j = i + 1
-    while j <= #ranges
-      and ranges[j][1] >= ranges[i][1]
-      and ranges[j][2] <= ranges[i][2]
+    while j <= #meta
+      and meta[j][1] >= meta[i][1]
+      and meta[j][2] <= meta[i][2]
     do
+      for k, v in ipairs(meta[i][3]) do
+        if not vim.tbl_contains(meta[j][3], v) then
+          table.insert(meta[j][3], k, v)
+        end
+      end
       j = j + 1
     end
 
+    -- Remove overlapping captures/ranges.
     if j > i + 1 then
       table.remove(result, i)
-      table.remove(ranges, i)
+      table.remove(meta, i)
     else
+      if #meta[i][3] > 1 then
+        table.sort(meta[i][3], function(a, b)
+          return a.priority < b.priority
+        end)
+      end
+
+      result[i][2] = vim.tbl_map(function(tbl)
+        return tbl.capture
+      end, meta[i][3])
       i = i + 1
     end
   end
@@ -86,7 +111,7 @@ end
 
 --- Expression used in 'foldtext'.
 ---
---- @return table<string>[]
+--- @return table<string>[] | string
 function M.text()
   local buffer = vim.api.nvim_get_current_buf()
   local result = fold_line(buffer, vim.v.foldstart)
