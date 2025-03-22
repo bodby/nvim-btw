@@ -267,6 +267,8 @@ local highlights = {
   ['@namespace'] = { link = '@module' },
 
   ['@constructor.lua'] = { link = 'Delimiter' },
+  ['@variable.builtin.luadoc'] = { link = '@variable.parameter.builtin' },
+
   ['@constructor.ocaml'] = { link = 'Delimiter' },
 
   ['@tag.attribute.html'] = { link = '@property' },
