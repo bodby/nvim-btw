@@ -133,8 +133,7 @@ function M.text()
   if result[#result - 3] then
     if
       vim.bo[buffer].filetype == 'nix'
-      and result[1][1] == 'let'
-      or result[2][1] == 'let'
+      and (result[1][1] == 'let' or result[2][1] == 'let')
     then
       local whitespace = result[1][1]
       result = {
