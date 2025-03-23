@@ -19,7 +19,7 @@ end
 ---
 --- @param buffer integer
 --- @param row integer
---- @return table<string>[] | string
+--- @return table<string, string[]> | string
 local function fold_line(buffer, row)
   local ok, parser = pcall(vim.treesitter.get_parser, buffer)
   if not ok then
@@ -35,11 +35,12 @@ local function fold_line(buffer, row)
   --- Apparently the highlight (2nd element) can also be a list of strings
   --- rather than just a single string.
   ---
-  --- @type { [1]: string, [2]: string | string[] }[]
+  --- @type { [1]: string, [2]: string | string[] }
   local result = { }
+
   --- Start column, end column, and capture names and priorities.
   ---
-  --- @type { [1]: integer, [2]: integer, [3]: { capture: string, priority: integer }[] }[]
+  --- @type { [1]: integer, [2]: integer, [3]: { capture: string, priority: integer } }
   local meta = { }
   local offset = 0
 
@@ -112,7 +113,7 @@ end
 
 --- Expression used in 'foldtext'.
 ---
---- @return table<string>[] | string
+--- @return table<string, string[]> | string
 function M.text()
   local buffer = vim.api.nvim_get_current_buf()
   local result = fold_line(buffer, vim.v.foldstart)

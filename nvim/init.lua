@@ -33,7 +33,7 @@ local mapped = { }
 
 --- Table with plugin configs instead of just their filename.
 ---
---- @type { [string]: plugin_config }
+--- @type table<string, plugin_config>
 local config = vim.tbl_map(function(p)
   return require('bodby.plugins.' .. p)
 end, plugins)
@@ -44,15 +44,14 @@ end, plugins)
 local function setup(plugin)
   --- @type plugin_config
   local options = config[plugin]
-
   require(plugin).setup(options.opts)
+
   vim.schedule(function()
     if options.mappings then
       for k, v in pairs(options.mappings) do
         mappings.map(v.modes, k, v.callback, v.opts)
       end
     end
-
     if options.post then
       options.post()
     end
@@ -85,8 +84,7 @@ end
 for ev, ps in pairs(mapped) do
   for p, vs in pairs(ps) do
     local group = 'Lazy' .. ev .. p
-
-    vim.api.nvim_create_augroup(group, { })
+    vim.api.nvim_create_augroup(group, { clear = true })
     vim.api.nvim_create_autocmd(ev, {
       group = group,
       pattern = p,

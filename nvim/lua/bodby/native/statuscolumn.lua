@@ -40,7 +40,7 @@ end
 --- See https://github.com/mawkler/hml.nvim for the original implementation.
 ---
 --- @param window integer
---- @return integer, integer, integer
+--- @return [integer, integer, integer]
 local function hml(window)
   local scrolloff = vim.wo[window].scrolloff
   local buffer = vim.api.nvim_win_get_buf(window)

@@ -141,8 +141,8 @@ local base = {
 --- Override a `base` highlight, returning a table usable in highlights.
 ---
 --- @param orig base
---- @param opts table
---- @return table
+--- @param opts table<string, any>
+--- @return table<string, any>
 --- @nodiscard
 local function inherit(orig, opts)
   return vim.tbl_deep_extend('force', orig, opts)
@@ -151,7 +151,7 @@ end
 --- Shorter highlight function.
 ---
 --- @param name string
---- @param opts table
+--- @param opts table<string, any>
 local function hl(name, opts)
   vim.api.nvim_set_hl(0, name, opts)
 end
