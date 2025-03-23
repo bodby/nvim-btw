@@ -55,7 +55,8 @@ local function fold_line(buffer, row)
     local name = query.captures[id]
 
     --- @type number
-    local priority = metadata.priority or vim.highlight.priorities.treesitter
+    local priority =
+      tonumber(metadata.priority or vim.highlight.priorities.treesitter)
 
     local _, sc, _, ec = node:range()
     if sc > offset then
@@ -126,7 +127,7 @@ function M.text()
     { ' ... ', 'Folded' },
     { vim.v.foldend .. ' ', 'FoldedRange' })
 
-  -- FIXME: Move these to 'M'.
+  -- TODO: Move these to 'M'.
   if result[#result - 3] then
     if result[#result - 3][1] == 'let' then
       table.insert(result, { 'in', '@keyword.nix' })
