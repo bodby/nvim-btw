@@ -35,6 +35,7 @@ end
 --- @return string
 local function buffer_entry(buffer)
   -- TODO: Format help buffers differently.
+  --       And make the filetypes a table.
   local name = vim.fs.basename(vim.api.nvim_buf_get_name(buffer))
   if vim.bo[buffer].filetype == 'alpha' then
     name = 'Alpha'
@@ -70,7 +71,7 @@ end
 ---
 --- @return string
 function M.text()
-  -- FIXME: Truncate buffers if the screen width is too small.
+  -- TODO: Truncate buffers if the screen width is too small.
   local buffers = ''
   local windows = vim.api.nvim_tabpage_list_wins(0)
   local skip = { }

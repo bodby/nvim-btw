@@ -13,11 +13,12 @@ vim.schedule(function()
 end)
 
 -- TODO: Allow these to be configured like other plugins.
+--       And replace 'buffer' and 'window' variables with 'bufnr' and 'winid'.
 require('bodby.native.statusline').setup()
 require('bodby.native.statuscolumn').setup()
 require('bodby.native.tabline').setup()
 require('bodby.native.folds').setup()
--- TODO: Winbar to show Treesitter breadcrumbs.
+-- TODO: Winbar with Treesitter breadcrumbs.
 -- require('bodby.native.winbar').setup()
 
 --- Table of plugin module names and their config's filename.

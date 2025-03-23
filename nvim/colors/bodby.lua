@@ -284,7 +284,7 @@ local highlights = {
   ['@markup.raw.block.markdown'] = base.delimiter,
   ['@markup.list'] = inherit(base.comment, { italic = false }),
   -- TODO: Resolved and unresolved link colors.
-  --       The unresolved highlight belongs to LSP highlights.
+  --       The unresolved highlight comes from '@lsp'.
   ['@markup.link'] = base.url,
   ['@markup.strong'] = { fg = colors.white1, bold = true },
 
