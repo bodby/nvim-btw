@@ -98,9 +98,7 @@ function M.setup()
   }, {
     group = vim.api.nvim_create_augroup('status', { clear = false }),
     callback = function(_)
-      vim.schedule(function()
-        vim.cmd 'redrawstatus'
-      end)
+      vim.schedule(vim.cmd.redrawstatus)
     end
   })
 end
@@ -125,17 +123,17 @@ end
 
 --- Return the path of the passed buffer's file.
 ---
---- @param buffer integer
+--- @param bufnr integer
 --- @param length integer Length of all other statusline modules.
 --- @return string
-local function path(buffer, length)
+local function path(bufnr, length)
   -- TODO: Rewrite path module.
-  local full = vim.api.nvim_buf_get_name(buffer)
+  local full = vim.api.nvim_buf_get_name(bufnr)
   if full == '' then
     return ''
   end
 
-  local modified = vim.api.nvim_get_option_value('modified', { buf = buffer })
+  local modified = vim.api.nvim_get_option_value('modified', { buf = bufnr })
   local modified_symbol = modified and "'" or ''
   local highlight = hl(M.highlights.path)
 
@@ -210,10 +208,10 @@ local function path(buffer, length)
 end
 
 --- Return either the current branch or the status.
---- @param buffer integer
+--- @param bufnr integer
 --- @param type 'diff' | 'branch'
 --- @return statusline.module
-local function git(buffer, type)
+local function git(bufnr, type)
   --- @param num integer
   --- @param symbol string
   --- @return string
@@ -226,7 +224,7 @@ local function git(buffer, type)
   end
 
   --- @type table
-  local git_info = vim.b[buffer].gitsigns_status_dict
+  local git_info = vim.b[bufnr].gitsigns_status_dict
   if not git_info then
     return { text = '', length = 0 }
   end
@@ -273,30 +271,32 @@ end
 
 --- Return the character count of the current line.
 ---
+--- @param winid integer
+--- @param bufnr integer
 --- @return statusline.module
-local function line_length()
-  -- TODO: Make this get the window cursor position instead of using 'getline'.
-  local length = #vim.fn.getline('.')
+local function line_length(winid, bufnr)
   local highlight = hl(M.highlights.lines)
-
-  if length then
-    return {
-      text = highlight .. length .. ' ',
-      length = #tostring(length) + 1
-    }
-  else
-    return { text = '', length = 0 }
+  local row = vim.api.nvim_win_get_cursor(winid)[1]
+  local line = vim.api.nvim_buf_get_lines(bufnr, row - 1, row, true)
+  if next(line) then
+    local length = tonumber(#line[1])
+    if length > 0 then
+      return {
+        text = highlight .. length .. ' ',
+        length = length + 1
+      }
+    end
   end
+  return { text = '', length = 0 }
 end
 
 --- Return the filetype, or "none" if it is unset.
 ---
---- @param buffer integer
+--- @param bufnr integer
 --- @return statusline.module
-local function filetype(buffer)
-  local ft = vim.bo[buffer].filetype
+local function filetype(bufnr)
   local highlight = hl(M.highlights.filetype)
-
+  local ft = vim.bo[bufnr].filetype
   if ft ~= '' then
     return { text = highlight .. ft .. ' ', length = #ft + 1 }
   else
@@ -308,19 +308,19 @@ end
 ---
 --- @return string
 function M.text()
-  local window = vim.api.nvim_get_current_win()
-  local buffer = vim.api.nvim_win_get_buf(window)
+  local winid = vim.api.nvim_get_current_win()
+  local bufnr = vim.api.nvim_win_get_buf(winid)
 
   -- Instead of having to recalculate the values twice.
-  local _lines = line_length()
-  local _filetype = filetype(buffer)
-  local _diff = git(buffer, 'diff')
-  local _branch = git(buffer, 'branch')
+  local _lines = line_length(winid, bufnr)
+  local _filetype = filetype(bufnr)
+  local _diff = git(bufnr, 'diff')
+  local _branch = git(bufnr, 'branch')
 
   -- 7 is the combined length of the mode module and the macro register.
   local length = 7 + _diff.length + _branch.length
 
-  local blocked = elem(vim.bo[buffer].filetype, M.blocked_filetypes)
+  local blocked = elem(vim.bo[bufnr].filetype, M.blocked_filetypes)
   local file_info = blocked and '' or _lines.text .. _filetype.text
   if not blocked then
     length = length + _lines.length + _filetype.length
@@ -328,7 +328,7 @@ function M.text()
 
   return table.concat({
     mode(true).text,
-    path(buffer, length),
+    path(bufnr, length),
     _diff.text,
     macro().text,
     '%#StatusLine#%=',
