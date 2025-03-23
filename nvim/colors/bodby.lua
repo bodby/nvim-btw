@@ -2,13 +2,13 @@
 
 --- @type table<string, string>
 local colors = {
-  gray1 = '#1d232f',
-  gray2 = '#131720',
-  gray3 = '#0e1119',
-
   white1 = '#aec5f2',
   white2 = '#91a4ca',
   white3 = '#495674',
+
+  gray1 = '#1d232f',
+  gray2 = '#131720',
+  gray3 = '#0e1119',
 
   purple = '#9d7dff',
   blue = '#809cff',
@@ -260,7 +260,6 @@ local highlights = {
   ['@keyword.operator'] = { link = 'Operator' },
   ['@punctuation.special'] = { link = 'Delimiter' },
   ['@tag.delimiter'] = { link = 'Delimiter' },
-  ['@property.toml'] = { link = 'Tag' },
   ['@character.special'] = { link = 'Operator' },
   ['@constant.builtin'] = { link = 'Boolean' },
   ['@function.builtin'] = { link = '@function' },
