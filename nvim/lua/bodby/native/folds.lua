@@ -129,9 +129,25 @@ function M.text()
     { vim.v.foldend .. ' ', 'FoldedRange' })
 
   -- TODO: Move these to 'M'.
+  --       And please don't make this as ugly as it currently is.
   if result[#result - 3] then
-    if result[#result - 3][1] == 'let' then
-      table.insert(result, { 'in', '@keyword.nix' })
+    if
+      vim.bo[buffer].filetype == 'nix'
+      and result[1][1] == 'let'
+      or result[2][1] == 'let'
+    then
+      local whitespace = result[1][1]
+      result = {
+        { 'let', '@keyword.nix' },
+        { ' ' .. vim.v.foldstart, 'FoldedRange' },
+        { ' ... ', 'Folded' },
+        { vim.v.foldend .. ' ', 'FoldedRange' },
+        { 'in', '@keyword.nix' }
+      }
+
+      if whitespace ~= 'let' then
+        table.insert(result, 1, { whitespace, 'Folded' })
+      end
     elseif vim.bo[buffer].filetype ~= 'markdown' then
       for _, v in ipairs(foldend) do
         table.insert(result, v)
