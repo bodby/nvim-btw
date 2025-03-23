@@ -279,10 +279,12 @@ local function line_length(winid, bufnr)
   local row = vim.api.nvim_win_get_cursor(winid)[1]
   local line = vim.api.nvim_buf_get_lines(bufnr, row - 1, row, true)
   if next(line) then
-    local length = tonumber(#line[1])
+    local value = tonumber(#line[1])
+    -- Character count of the number, not the value of the number itself.
+    local length = #tostring(value)
     if length > 0 then
       return {
-        text = highlight .. length .. ' ',
+        text = highlight .. value .. ' ',
         length = length + 1
       }
     end
