@@ -62,7 +62,7 @@ local options = {
   spellsuggest = 'best',
 
   foldenable = true,
-  foldlevelstart = 0
+  foldlevel = 99
 }
 
 --- Global options prefixed with "neovide_".

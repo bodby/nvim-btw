@@ -35,7 +35,7 @@ local base = {
   _function = { fg = colors.blue },
   operator = { fg = colors.cyan },
   delimiter = { fg = colors.cyan },
-  boolean = { fg = colors.yellow },
+  boolean = { fg = colors.purple },
   character = { fg = colors.green },
   --- Nix paths and escape codes.
   special_char = { fg = colors.cyan, italic = true },
