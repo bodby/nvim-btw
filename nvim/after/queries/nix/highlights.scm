@@ -54,3 +54,13 @@ function: (_
 (variable_expression
   name: (identifier) @module.builtin
   (#eq? @module.builtin "builtins"))
+
+(inherit_from
+  expression: (variable_expression
+    name: (identifier))
+  attrs: (inherited_attrs
+    attr: (identifier) @variable.member))
+
+(inherit
+  attrs: (inherited_attrs
+    attr: (identifier) @variable))
