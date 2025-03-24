@@ -5,9 +5,9 @@ local servers = {
   'clangd',
   'nixd',
   'ocamllsp',
-  'rust_analyzer',
   'mesonlsp',
   'tinymist',
+  'rust_analyzer',
   ['markdown_oxide'] = {
     capabilities = {
       workspace = {
@@ -17,7 +17,6 @@ local servers = {
       }
     }
   },
-
   ['hls'] = {
     settings = {
       haskell = {
@@ -27,7 +26,6 @@ local servers = {
       }
     }
   },
-
   ['lua_ls'] = {
     settings = {
       Lua = {
@@ -35,28 +33,23 @@ local servers = {
           version = 'LuaJIT',
           path = vim.split(package.path, ';')
         },
-
         -- FIXME: Why won't 'vim.uv' work?
         diagnostics = {
           globals = { 'vim', 'uv' }
         },
-
         workspace = {
           library = { vim.env.VIMRUNTIME },
           checkThirdParty = false
         },
-
         completion = {
           callSnippet = 'Replace',
           keywordSnippet = 'Disable',
           showWord = 'Disable'
         },
-
         type = {
           weakNilCheck = true,
           weakUnionCheck = true
         },
-
         format = { enable = false },
         hint = { enable = false },
         telemetry = { enable = false },
@@ -70,9 +63,8 @@ local servers = {
 local diag_config = {
   underline = true,
   virtual_text = false,
-  update_in_insert = true,
+  update_in_insert = false,
   severity_sort = true,
-
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = 'X',
@@ -81,7 +73,6 @@ local diag_config = {
       [vim.diagnostic.severity.HINT] = '?'
     }
   },
-
   float = {
     scope = 'line',
     severity_sort = true,
@@ -95,7 +86,6 @@ local opts = {
   capabilities = require('blink.cmp').get_lsp_capabilities(),
   silent = true
 }
-
 for k, v in pairs(servers) do
   if type(v) == 'table' then
     lspconfig[k].setup(vim.tbl_deep_extend('keep', v, opts))

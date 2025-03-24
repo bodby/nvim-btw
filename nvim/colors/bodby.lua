@@ -5,11 +5,9 @@ local colors = {
   white1 = '#aec5f2',
   white2 = '#91a4ca',
   white3 = '#495674',
-
   gray1 = '#1d232f',
   gray2 = '#131720',
   gray3 = '#0e1119',
-
   purple = '#9d7dff',
   blue = '#809cff',
   yellow = '#ffc175',
@@ -28,8 +26,7 @@ local base = {
   property = { fg = colors.white2 },
   keyword = { fg = colors.cyan, italic = true },
   preprocessor = { fg = colors.cyan, italic = true },
-
-  conditional = { fg = colors.purple },
+  conditional = { fg = colors.purple, italic = true },
   --- Only works for langauges with a Treesitter parser.
   function_keyword = { fg = colors.purple },
   _function = { fg = colors.blue },
@@ -49,7 +46,6 @@ local base = {
   constant = { fg = colors.white1, bold = true },
   special = { fg = colors.purple },
   comment = { fg = colors.white3, italic = true },
-
   -- UI.
   normal = { fg = colors.white2, bg = colors.gray2 },
   popup = { fg = colors.white2, bg = colors.gray3 },
@@ -71,7 +67,6 @@ local base = {
     bg = colors.gray1,
     bold = true
   },
-
   matching_punctuation = { fg = colors.yellow, bold = true },
   key = { fg = colors.purple, bold = true },
   directory = { fg = colors.white2 },
@@ -81,7 +76,6 @@ local base = {
     fg = colors.white1,
     underline = true
   },
-
   spell_bad = { sp = colors.red, undercurl = true },
   spell_rare = { sp = colors.purple, undercurl = true },
   spell_casing = { sp = colors.blue, undercurl = true },
@@ -91,7 +85,6 @@ local base = {
     bold = true,
     italic = true
   },
-
   statusline = { bg = colors.gray3 },
   statusline_cwd = { fg = colors.cyan },
   statusline_prefix = { fg = colors.white1, bold = true, italic = true },
@@ -103,7 +96,6 @@ local base = {
     fg = colors.white2,
     italic = true
   },
-
   tabline = { bg = colors.gray2 },
   tab_inactive = { fg = colors.white3 },
   tab = {
@@ -112,7 +104,6 @@ local base = {
     bold = true,
     underline = true
   },
-
   buffer_inactive = { fg = colors.white3 },
   buffer = {
     fg = colors.white1,
@@ -121,7 +112,6 @@ local base = {
     italic = true,
     underline = true
   },
-
   -- Diagnostics.
   error = { fg = colors.red },
   warn = { fg = colors.yellow },
@@ -132,7 +122,6 @@ local base = {
   diff_changed = { fg = colors.yellow },
   diff_removed = { fg = colors.red },
   deprecated = { fg = colors.white3, strikethrough = true },
-
   -- Todo comments.
   todo = { fg = colors.cyan },
   assignee = { fg = colors.blue },
@@ -178,7 +167,6 @@ local highlights = {
   ['LineNrWrapped'] = base.line_number,
   ['LineNrVirt'] = base.line_number,
   ['WinSeparator'] = base.separator,
-
   ['Visual'] = base.visual,
   ['Search'] = base.matching_search,
   ['IncSearch'] = { link = 'Search' },
@@ -188,7 +176,6 @@ local highlights = {
   ['NonText'] = base.ghost,
   ['Conceal'] = { link = 'NonText' },
   ['SnippetTabstop'] = base.snippet_tabstop,
-
   ['Keyword'] = base.keyword,
   ['PreProc'] = base.preprocessor,
   ['Typedef'] = base.keyword,
@@ -216,7 +203,6 @@ local highlights = {
   ['Tag'] = { link = 'Function' },
   ['Macro'] = { link = 'Function' },
   ['Comment'] = base.comment,
-
   ['Underlined'] = base.url,
   ['Directory'] = base.directory,
   ['Todo'] = base.todo,
@@ -226,7 +212,6 @@ local highlights = {
   ['DiffAdd'] = { link = 'Added' },
   ['DiffChange'] = { link = 'Changed' },
   ['DiffDelete'] = { link = 'Removed' },
-
   -- Diagnostics.
   ['Error'] = base.error,
   ['Warning'] = base.warn,
@@ -245,11 +230,9 @@ local highlights = {
   ['DiagnosticUnderlineHint'] = inherit(base.hint, { underline = true }),
   ['DiagnosticUnderlineOk'] = inherit(base.success, { underline = true }),
   ['DiagnosticUnderlineWarn'] = inherit(base.warn, { underline = true }),
-
   ['SpellBad'] = base.spell_bad,
   ['SpellRare'] = base.spell_rare,
   ['SpellCap'] = base.spell_casing,
-
   -- Treesitter.
   ['@variable'] = { link = 'Identifier' },
   ['@property'] = base.property,
@@ -267,17 +250,12 @@ local highlights = {
   ['@module'] = base.module,
   ['@module.builtin'] = { link = '@module' },
   ['@namespace'] = { link = '@module' },
-
   ['@constructor.lua'] = { link = 'Delimiter' },
   ['@variable.builtin.luadoc'] = { link = '@variable.parameter.builtin' },
-
   ['@constructor.ocaml'] = { link = 'Delimiter' },
-
   ['@tag.attribute.html'] = { link = '@property' },
-
   ['@variable.builtin.bash'] = { link = 'Constant' },
   ['@punctuation.special.bash'] = inherit(base.delimiter, { nocombine = true }),
-
   ['@markup.raw.markdown_inline'] = base.code,
   ['@markup.quote.markdown'] = { },
   ['@markup.raw.block.markdown'] = base.delimiter,
@@ -286,28 +264,23 @@ local highlights = {
   --       The unresolved highlight comes from '@lsp'.
   ['@markup.link'] = base.url,
   ['@markup.strong'] = { fg = colors.white1, bold = true },
-
   ['@module.latex'] = { link = 'Keyword' },
   ['@punctuation.bracket.latex'] = inherit(base.delimiter, { nocombine = true }),
   ['@string.special.symbol.bibtex'] = { link = 'Identifier' },
-
   ['@string.special.path'] = { link = 'String' },
   ['@variable.parameter.builtin'] = { link = 'Delimiter' },
-
   ['@keyword.import.nix'] = { link = 'Function' },
-
   -- Todo comments.
   ['@comment.warning'] = { link = 'Todo' },
   ['@comment.error'] = { link = 'Todo' },
   ['@comment.todo'] = { link = 'Todo' },
   ['@comment.note'] = { link = 'Todo' },
   ['@constant.comment'] = base.assignee,
-
   -- LSP highlights.
   ['@lsp.type.comment'] = { },
   ['@lsp.type.macro'] = { },
   ['@lsp.mod.global'] = { link = '@module' },
-
+  ['@lsp.type.keyword'] = { },
   -- :)
   ['GaslightingUnderline'] = { fg = colors.gray1 }
 }
@@ -332,7 +305,6 @@ local blink_highlights = {
   ['Source'] = { link = 'NormalFloat' },
   ['LabelMatch'] = base.matching_char,
   ['Deprecated'] = { link = 'DiagnosticDeprecated' },
-
   -- Types.
   ['KindText'] = { link = 'NormalFloat' },
   ['KindMethod'] = { link = 'Function' },
@@ -371,13 +343,11 @@ local telescope_highlights = {
   ['ResultsBorder'] = { link = 'FloatBorder' },
   ['PreviewNormal'] = { link = 'NormalFloat' },
   ['PreviewBorder'] = { link = 'FloatBorder' },
-
   ['Matching'] = base.matching_char,
   ['Selection'] = { link = 'PmenuSel' },
   ['SelectionCaret'] = base.caret,
   ['MultiSelection'] = { link = 'NormalFloat' },
   ['MultiIcon'] = base.accent,
-
   -- Symbols.
   ['ResultsMethod'] = { link = 'Function' },
   ['ResultsFunction'] = { link = 'Function' },
@@ -416,7 +386,6 @@ local statusline_highlights = {
   ['Macro'] = base.key,
   ['FileType'] = base.statusline_filetype,
   ['Lines'] = base.statusline_lines,
-
   ['Error'] = inherit(base.error, { bg = base.statusline.bg }),
   ['Warn'] = inherit(base.warn, { bg = base.statusline.bg }),
   ['Info'] = inherit(base.info, { bg = base.statusline.bg }),
