@@ -18,6 +18,7 @@ let
           luadoc
           vimdoc
           doxygen
+          jsdoc
           gitignore
           gitcommit
           git_rebase
