@@ -11,6 +11,12 @@ function: (_
   name: (identifier) @module.builtin
     (#any-of? @module.builtin "nixpkgs" "builtins" "lib" "pkgs"))
 
+(select_expression
+  expression: (variable_expression)
+  attrpath: (attrpath
+    attr: (identifier) @module.builtin
+      (#any-of? @module.builtin "nixpkgs" "builtins" "lib" "pkgs")))
+
 (binding
   attrpath: (attrpath
     attr: (identifier) @variable)
