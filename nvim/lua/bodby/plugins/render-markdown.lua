@@ -31,9 +31,8 @@ return {
     code = {
       style = 'normal',
       width = 'block',
-      -- TODO: 2 instead?
-      left_pad = 1,
-      right_pad = 1,
+      left_pad = 0,
+      right_pad = 0,
       border = 'thick',
       inline_pad = 1
     },

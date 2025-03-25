@@ -25,6 +25,7 @@ local colors = {
 local base = {
   -- Syntax.
   identifier = { fg = colors.white1 },
+  parameter = { fg = colors.white1, italic = true },
   field = { fg = colors.white2 },
   property = { fg = colors.white2 },
   keyword = { fg = colors.cyan, italic = true },
@@ -124,6 +125,7 @@ local base = {
   diff_changed = { fg = colors.yellow },
   diff_removed = { fg = colors.red },
   deprecated = { fg = colors.white3, strikethrough = true },
+  unnecessary = { sp = colors.white3, underline = true },
   -- Todo comments.
   todo = { fg = colors.cyan },
   assignee = { fg = colors.blue },
@@ -131,9 +133,10 @@ local base = {
 
 --- Override a `base` highlight, returning a table usable in highlights.
 ---
+--- @generic T
 --- @param orig Base
---- @param opts table<string, any>
---- @return table<string, any>
+--- @param opts table<string, T>
+--- @return table<string, T>
 local function inherit(orig, opts)
   return vim.tbl_deep_extend('force', orig, opts)
 end
@@ -148,7 +151,7 @@ end
 
 --- Normal/uncategorized highlights.
 ---
---- @type table<string, Highlights>
+--- @type Highlights
 local highlights = {
   prefix = nil,
   highlights = {
@@ -223,6 +226,7 @@ local highlights = {
     ['WarningMsg'] = { link = 'Warning' },
     ['MoreMsg'] = { link = 'Question' },
     ['Question'] = base.popup,
+    ['DiagnosticUnnecessary'] = base.unnecessary,
     ['DiagnosticDeprecated'] = base.deprecated,
     ['DiagnosticError'] = base.error,
     ['DiagnosticInfo'] = base.info,
@@ -240,11 +244,12 @@ local highlights = {
   },
 }
 
---- @type table<string, Highlights>
+--- @type Highlights
 local treesitter_highlights = {
   prefix = '@',
   highlights = {
     ['variable'] = { link = 'Identifier' },
+    ['variable.parameter'] = base.parameter,
     ['property'] = base.property,
     ['variable.member'] = base.field,
     ['constructor'] = base.constructor,
@@ -294,7 +299,7 @@ local treesitter_highlights = {
   }
 }
 
---- @type table<string, Highlights>
+--- @type Highlights
 local alpha_highlights = {
   prefix = 'Alpha',
   highlights = {
@@ -306,7 +311,7 @@ local alpha_highlights = {
   },
 }
 
---- @type table<string, Highlights>
+--- @type Highlights
 local blink_highlights = {
   prefix = 'BlinkCmp',
   highlights = {
@@ -344,7 +349,7 @@ local blink_highlights = {
   },
 }
 
---- @type table<string, Highlights>
+--- @type Highlights
 local telescope_highlights = {
   prefix = 'Telescope',
   highlights = {
@@ -374,7 +379,7 @@ local telescope_highlights = {
   },
 }
 
---- @type table<string, Highlights>
+--- @type Highlights
 local render_md_highlights = {
   prefix = 'RenderMarkdown',
   highlights = {
@@ -387,7 +392,7 @@ local render_md_highlights = {
   },
 }
 
---- @type table<string, Highlights>
+--- @type Highlights
 local statusline_highlights = {
   prefix = 'StatusLine',
   base = base.statusline,
@@ -416,7 +421,7 @@ local statusline_highlights = {
   },
 }
 
---- @type table<string, Highlights>
+--- @type Highlights
 local tabline_highlights = {
   prefix = 'TabLine',
   base = base.tabline,
@@ -428,7 +433,7 @@ local tabline_highlights = {
   },
 }
 
---- @type table<string, Highlights>
+--- @type Highlights
 local gaslighting_highlights = {
   prefix = 'Gaslighting',
   highlights = {
@@ -458,9 +463,9 @@ local all = {
 
 for _, v in ipairs(all) do
   local prefix = v.prefix or ''
-  local base = v.base or { }
+  local b = v.base or { }
   for k, opts in pairs(v.highlights) do
-    hl(prefix .. k, inherit(base, opts))
+    hl(prefix .. k, inherit(b, opts))
   end
 end
 

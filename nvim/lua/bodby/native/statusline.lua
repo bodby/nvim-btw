@@ -37,6 +37,7 @@ local M = {
 
   --- The line length and filetype won't be shown if the current buffer's
   --- filetype is one of these.
+  --- @type string[]
   blocked_filetypes = {
     'alpha',
     'TelescopePrompt',
@@ -63,6 +64,8 @@ local M = {
   --- The order here matters; more specific paths should be listed first.
   --- If a path prefix shown isn't here, then the path module will show the
   --- relative path of the open file.
+  ---
+  --- @type { pattern: string, replacement: string }[]
   prefixes = {
     { pattern = '^' .. vim.env.HOME .. '/dev/noots/', replacement = 'nixos' },
     { pattern = '^' .. vim.env.HOME .. '/dev/nvim/', replacement = 'nvim' },
@@ -123,17 +126,17 @@ end
 
 --- Return the path of the passed buffer's file.
 ---
---- @param bufnr integer
+--- @param buffer integer
 --- @param length integer Length of all other statusline modules.
 --- @return string
-local function path(bufnr, length)
+local function path(buffer, length)
   -- TODO: Rewrite path module.
-  local full = vim.api.nvim_buf_get_name(bufnr)
+  local full = vim.api.nvim_buf_get_name(buffer)
   if full == '' then
     return ''
   end
 
-  local modified = vim.api.nvim_get_option_value('modified', { buf = bufnr })
+  local modified = vim.api.nvim_get_option_value('modified', { buf = buffer })
   local modified_symbol = modified and "'" or ''
   local highlight = hl(M.highlights.path)
 
@@ -208,10 +211,10 @@ local function path(bufnr, length)
 end
 
 --- Return either the current branch or the status.
---- @param bufnr integer
+--- @param buffer integer
 --- @param type 'diff' | 'branch'
 --- @return StatusLineModule
-local function git(bufnr, type)
+local function git(buffer, type)
   --- @param num integer
   --- @param symbol string
   --- @return string
@@ -224,7 +227,7 @@ local function git(bufnr, type)
   end
 
   --- @type table
-  local git_info = vim.b[bufnr].gitsigns_status_dict
+  local git_info = vim.b[buffer].gitsigns_status_dict
   if not git_info then
     return { text = '', length = 0 }
   end
@@ -271,18 +274,18 @@ end
 
 --- Return the character count of the current line.
 ---
---- @param winid integer
---- @param bufnr integer
+--- @param window integer
+--- @param buffer integer
 --- @return StatusLineModule
-local function line_length(winid, bufnr)
+local function line_length(window, buffer)
   local highlight = hl(M.highlights.lines)
-  local row = vim.api.nvim_win_get_cursor(winid)[1]
-  local line = vim.api.nvim_buf_get_lines(bufnr, row - 1, row, true)
+  local row = vim.api.nvim_win_get_cursor(window)[1]
+  local line = vim.api.nvim_buf_get_lines(buffer, row - 1, row, true)
   if next(line) then
     local value = tonumber(#line[1])
     -- Character count of the number, not the value of the number itself.
     local length = #tostring(value)
-    if length > 0 then
+    if value > 0 then
       return {
         text = highlight .. value .. ' ',
         length = length + 1
@@ -294,11 +297,11 @@ end
 
 --- Return the filetype, or "none" if it is unset.
 ---
---- @param bufnr integer
+--- @param buffer integer
 --- @return StatusLineModule
-local function filetype(bufnr)
+local function filetype(buffer)
   local highlight = hl(M.highlights.filetype)
-  local ft = vim.bo[bufnr].filetype
+  local ft = vim.bo[buffer].filetype
   if ft ~= '' then
     return { text = highlight .. ft .. ' ', length = #ft + 1 }
   else
@@ -310,19 +313,19 @@ end
 ---
 --- @return string
 function M.text()
-  local winid = vim.api.nvim_get_current_win()
-  local bufnr = vim.api.nvim_win_get_buf(winid)
+  local window = vim.api.nvim_get_current_win()
+  local buffer = vim.api.nvim_win_get_buf(window)
 
   -- Instead of having to recalculate the values twice.
-  local _lines = line_length(winid, bufnr)
-  local _filetype = filetype(bufnr)
-  local _diff = git(bufnr, 'diff')
-  local _branch = git(bufnr, 'branch')
+  local _lines = line_length(window, buffer)
+  local _filetype = filetype(buffer)
+  local _diff = git(buffer, 'diff')
+  local _branch = git(buffer, 'branch')
 
   -- 7 is the combined length of the mode module and the macro register.
   local length = 7 + _diff.length + _branch.length
 
-  local blocked = elem(vim.bo[bufnr].filetype, M.blocked_filetypes)
+  local blocked = elem(vim.bo[buffer].filetype, M.blocked_filetypes)
   local file_info = blocked and '' or _lines.text .. _filetype.text
   if not blocked then
     length = length + _lines.length + _filetype.length
@@ -330,7 +333,7 @@ function M.text()
 
   return table.concat({
     mode(true).text,
-    path(bufnr, length),
+    path(buffer, length),
     _diff.text,
     macro().text,
     '%#StatusLine#%=',

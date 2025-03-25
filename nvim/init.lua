@@ -15,6 +15,7 @@ require('bodby.lsp')
 require('bodby.native.statusline').setup()
 require('bodby.native.statuscolumn').setup()
 require('bodby.native.tabline').setup()
+-- TODO: Folds opts.
 require('bodby.native.folds').setup()
 -- TODO: Winbar with Treesitter breadcrumbs.
 -- require('bodby.native.winbar').setup()
