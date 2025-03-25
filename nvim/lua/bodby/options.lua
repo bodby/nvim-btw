@@ -5,7 +5,6 @@ local options = {
   tabstop = 2,
   softtabstop = 2,
   textwidth = 80,
-
   number = true,
   relativenumber = true,
   cursorline = true,
@@ -13,7 +12,6 @@ local options = {
   signcolumn = 'yes',
   laststatus = 3,
   showtabline = 2,
-
   pumheight = 16,
   scrolloff = 6,
   sidescrolloff = 8,
@@ -24,19 +22,15 @@ local options = {
   conceallevel = 0,
   concealcursor = '',
   mouse = '',
-
   hlsearch = false,
   ignorecase = true,
   smartcase = true,
-
-  guicursor = { a = 'Cursor/Cursor' },
+  -- guicursor = { a = 'Cursor/Cursor' },
   linespace = 6,
-
   list = true,
   fillchars = {
     eob = ' ',
     fold = ' ',
-
     horiz = ' ',
     horizup = ' ',
     horizdown = ' ',
@@ -45,22 +39,18 @@ local options = {
     vertright = ' ',
     verthoriz = ' '
   },
-
   listchars = {
     tab = '> ',
     trail = '_',
     extends = '+',
     precedes = '-'
   },
-
   confirm = true,
   undofile = true,
   undolevels = 10000,
   shortmess = 'oOstTWIcCFSqc',
-
   spelllang = 'en',
   spellsuggest = 'best',
-
   foldenable = true,
   foldlevel = 99
 }
