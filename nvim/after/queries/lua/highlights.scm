@@ -1,7 +1,7 @@
 ;; extends
 
-((identifier) @module.builtin
-  (#eq? @module.builtin "vim"))
+((identifier) @module
+  (#any-of? @module "vim" "M"))
 
 (field
   name: (identifier) @variable

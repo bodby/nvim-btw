@@ -4,7 +4,7 @@ local options = {
   delete_user_commands = true
 }
 
---- @type plugin_config
+--- @type Plugin
 return {
   event = 'BufEnter',
   opts = {

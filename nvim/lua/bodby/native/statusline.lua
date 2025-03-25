@@ -2,7 +2,7 @@ local lib = require('bodby.shared').lib
 local nil_str = lib.nil_str
 local elem = lib.elem
 
---- @class statusline.module
+--- @class (exact) StatusLineModule
 --- @field text string
 --- @field length integer
 
@@ -28,18 +28,18 @@ local M = {
     ['rm'] = 'Prompt',
     ['r?'] = 'Prompt',
     ['!'] = 'Shell',
-    ['t'] = 'Shell'
+    ['t'] = 'Shell',
   }, {
       __index = function(_, _)
         return 'Limbo'
-      end
+      end,
     }),
 
   --- The line length and filetype won't be shown if the current buffer's
   --- filetype is one of these.
   blocked_filetypes = {
     'alpha',
-    'TelescopePrompt'
+    'TelescopePrompt',
   },
 
   -- Mode highlights are derived from `M.modes`.
@@ -56,7 +56,7 @@ local M = {
     error = 'Error',
     warn = 'Warn',
     info = 'Info',
-    hint = 'Hint'
+    hint = 'Hint',
   },
 
   --- Substitutions for the path module prefix (if there is enough space).
@@ -64,13 +64,13 @@ local M = {
   --- If a path prefix shown isn't here, then the path module will show the
   --- relative path of the open file.
   prefixes = {
-    { pattern = '^' .. vim.env.HOME .. '/dev/noots/', replacement = '$nixos/' },
-    { pattern = '^' .. vim.env.HOME .. '/dev/nvim/', replacement = '$nvim/' },
-    { pattern = '^' .. vim.env.HOME .. '/', replacement = '$home/' },
-    { pattern = '^/nix/store/%w+-', replacement = '$store/' },
-    { pattern = '^/etc/nixos/', replacement = '$nixos/' },
-    { pattern = '^/', replacement = '$root/' }
-  }
+    { pattern = '^' .. vim.env.HOME .. '/dev/noots/', replacement = 'nixos' },
+    { pattern = '^' .. vim.env.HOME .. '/dev/nvim/', replacement = 'nvim' },
+    { pattern = '^' .. vim.env.HOME .. '/', replacement = 'home' },
+    { pattern = '^/nix/store/%w+-', replacement = 'store' },
+    { pattern = '^/etc/nixos/', replacement = 'nixos' },
+    { pattern = '^/', replacement = 'root' },
+  },
 }
 
 --- Return a highlight string.
@@ -106,7 +106,7 @@ end
 --- Show a pipe character and optionally the current mode name.
 ---
 --- @param show_name boolean
---- @return statusline.module
+--- @return StatusLineModule
 local function mode(show_name)
   local current = M.modes[vim.api.nvim_get_mode().mode]
   local highlight = hl(current)
@@ -145,7 +145,7 @@ local function path(bufnr, length)
   for _, v in ipairs(M.prefixes) do
     local _, match = full:find(v.pattern)
     if match then
-      prefix = v.replacement
+      prefix = '$' .. v.replacement .. '/'
       e1 = match + 1
       break
     end
@@ -190,7 +190,7 @@ local function path(bufnr, length)
       highlight,
       suffix,
       modified_symbol,
-      ' '
+      ' ',
     })
   else
     local formatted = vim.fn.fnamemodify(full, ':~:.')
@@ -210,7 +210,7 @@ end
 --- Return either the current branch or the status.
 --- @param bufnr integer
 --- @param type 'diff' | 'branch'
---- @return statusline.module
+--- @return StatusLineModule
 local function git(bufnr, type)
   --- @param num integer
   --- @param symbol string
@@ -256,7 +256,7 @@ end
 
 --- Return the current macro register if one is being recorded.
 ---
---- @return statusline.module
+--- @return StatusLineModule
 local function macro()
   local reg = vim.fn.reg_recording()
   if not nil_str(reg) then
@@ -273,7 +273,7 @@ end
 ---
 --- @param winid integer
 --- @param bufnr integer
---- @return statusline.module
+--- @return StatusLineModule
 local function line_length(winid, bufnr)
   local highlight = hl(M.highlights.lines)
   local row = vim.api.nvim_win_get_cursor(winid)[1]
@@ -295,7 +295,7 @@ end
 --- Return the filetype, or "none" if it is unset.
 ---
 --- @param bufnr integer
---- @return statusline.module
+--- @return StatusLineModule
 local function filetype(bufnr)
   local highlight = hl(M.highlights.filetype)
   local ft = vim.bo[bufnr].filetype
@@ -335,7 +335,7 @@ function M.text()
     macro().text,
     '%#StatusLine#%=',
     file_info,
-    _branch.text
+    _branch.text,
   })
 end
 

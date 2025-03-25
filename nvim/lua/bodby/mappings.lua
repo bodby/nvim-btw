@@ -1,11 +1,11 @@
 local M = { }
 
---- @class mapping
+--- @class (exact) Mapping
 --- @field modes string
 --- @field callback string | fun(): string?
 --- @field opts? table
 
---- @type table<string, mapping>
+--- @type table<string, Mapping>
 local mappings = {
   -- Register mappings.
   ['<Leader>d'] = { modes = 'nv', callback = '"_d' },
@@ -16,13 +16,11 @@ local mappings = {
   ['<Leader>X'] = { modes = 'nv', callback = '"_X' },
   ['<Leader>s'] = { modes = 'nv', callback = '"_s' },
   ['<Leader>S'] = { modes = 'nv', callback = '"_S' },
-
   -- System clipboard mappings.
   ['<Leader>y'] = { modes = 'nv', callback = '"+y' },
   ['<Leader>Y'] = { modes = 'nv', callback = '"+Y' },
   ['<Leader>p'] = { modes = 'n', callback = '"+p' },
   ['<Leader>P'] = { modes = 'n', callback = '"+P' },
-
   -- Misc. mappings.
   ['<C-c>'] = { modes = 'nv', callback = '<Cmd>normal gcc<CR>' },
   ['<S-CR>'] = {
@@ -31,42 +29,38 @@ local mappings = {
       if vim.snippet.active({ direction = 1 }) then
         vim.snippet.jump(1)
       end
-    end
+    end,
   },
-
   -- Extra LSP actions.
   ['gd'] = { modes = 'nv', callback = vim.lsp.buf.definition },
-
   -- TODO: Remove these when 0.11 comes out/they become defaults.
   ['grn'] = { modes = 'n', callback = vim.lsp.buf.rename },
   ['grr'] = { modes = 'n', callback = vim.lsp.buf.references },
-  ['gra'] = { modes = 'n', callback = vim.lsp.buf.code_action }
+  ['gra'] = { modes = 'n', callback = vim.lsp.buf.code_action },
 }
 
 --- Neovide zoom mappings.
 ---
---- @type table<string, mapping>
+--- @type table<string, Mapping>
 local neovide_mappings = {
   ['<C-+>'] = {
     modes = 'niv',
     callback = function()
       vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.125
-    end
+    end,
   },
-
   ['<C-_>'] = {
     modes = 'niv',
     callback = function()
       vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.125
-    end
+    end,
   },
-
   ['<C-)>'] = {
     modes = 'niv',
     callback = function()
       vim.g.neovide_scale_factor = 1.0
-    end
-  }
+    end,
+  },
 }
 
 --- Create a mapping.

@@ -4,16 +4,14 @@ local mappings = require('bodby.mappings')
 vim.cmd.colorscheme('bodby')
 require('bodby.options')
 
-vim.schedule(function()
-  vim.g.mapleader = ' '
-  mappings.setup()
-
-  -- TODO: Lazy load this somehow?
-  require('bodby.lsp')
-end)
+-- Why does NvChad defer mappings?
+vim.g.mapleader = ' '
+mappings.setup()
+-- TODO: Lazy load this somehow?
+require('bodby.lsp')
 
 -- TODO: Allow these to be configured like other plugins.
---       And replace 'buffer' and 'window' variables with 'bufnr' and 'winid'.
+--       And decide on either 'buffer' and 'window' or 'bufnr' and 'winid'.
 require('bodby.native.statusline').setup()
 require('bodby.native.statuscolumn').setup()
 require('bodby.native.tabline').setup()
@@ -33,7 +31,7 @@ local mapped = { }
 
 --- Table with plugin configs instead of just their filename.
 ---
---- @type table<string, plugin_config>
+--- @type table<string, Plugin>
 local config = vim.tbl_map(function(p)
   return require('bodby.plugins.' .. p)
 end, plugins)
@@ -42,7 +40,7 @@ end, plugins)
 ---
 --- @param plugin string
 local function setup(plugin)
-  --- @type plugin_config
+  --- @type Plugin
   local options = config[plugin]
   require(plugin).setup(options.opts)
 

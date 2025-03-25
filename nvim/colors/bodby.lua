@@ -1,6 +1,6 @@
---- @class highlights
+--- @class (exact) Highlights
 --- @field prefix? string
---- @field base? base
+--- @field base? Base
 --- @field highlights table<string, table>
 
 --- @type table<string, string>
@@ -21,7 +21,7 @@ local colors = {
 
 --- Atomic highlights that others can inherit from.
 ---
---- @enum base
+--- @enum Base
 local base = {
   -- Syntax.
   identifier = { fg = colors.white1 },
@@ -131,7 +131,7 @@ local base = {
 
 --- Override a `base` highlight, returning a table usable in highlights.
 ---
---- @param orig base
+--- @param orig Base
 --- @param opts table<string, any>
 --- @return table<string, any>
 local function inherit(orig, opts)
@@ -148,7 +148,7 @@ end
 
 --- Normal/uncategorized highlights.
 ---
---- @type table<string, highlights>
+--- @type table<string, Highlights>
 local highlights = {
   prefix = nil,
   highlights = {
@@ -240,7 +240,7 @@ local highlights = {
   },
 }
 
---- @type table<string, highlights>
+--- @type table<string, Highlights>
 local treesitter_highlights = {
   prefix = '@',
   highlights = {
@@ -294,7 +294,7 @@ local treesitter_highlights = {
   }
 }
 
---- @type table<string, highlights>
+--- @type table<string, Highlights>
 local alpha_highlights = {
   prefix = 'Alpha',
   highlights = {
@@ -306,7 +306,7 @@ local alpha_highlights = {
   },
 }
 
---- @type table<string, highlights>
+--- @type table<string, Highlights>
 local blink_highlights = {
   prefix = 'BlinkCmp',
   highlights = {
@@ -344,7 +344,7 @@ local blink_highlights = {
   },
 }
 
---- @type table<string, highlights>
+--- @type table<string, Highlights>
 local telescope_highlights = {
   prefix = 'Telescope',
   highlights = {
@@ -374,7 +374,7 @@ local telescope_highlights = {
   },
 }
 
---- @type table<string, highlights>
+--- @type table<string, Highlights>
 local render_md_highlights = {
   prefix = 'RenderMarkdown',
   highlights = {
@@ -387,7 +387,7 @@ local render_md_highlights = {
   },
 }
 
---- @type table<string, highlights>
+--- @type table<string, Highlights>
 local statusline_highlights = {
   prefix = 'StatusLine',
   base = base.statusline,
@@ -416,7 +416,7 @@ local statusline_highlights = {
   },
 }
 
---- @type table<string, highlights>
+--- @type table<string, Highlights>
 local tabline_highlights = {
   prefix = 'TabLine',
   base = base.tabline,
@@ -428,7 +428,7 @@ local tabline_highlights = {
   },
 }
 
---- @type table<string, highlights>
+--- @type table<string, Highlights>
 local gaslighting_highlights = {
   prefix = 'Gaslighting',
   highlights = {
@@ -442,6 +442,8 @@ vim.cmd.syntax('reset')
 
 --- List of all the highlight groups to apply.
 --- You can comment out the ones you don't need.
+---
+--- @type table<string, Highlights>[]
 local all = {
   highlights,
   treesitter_highlights,

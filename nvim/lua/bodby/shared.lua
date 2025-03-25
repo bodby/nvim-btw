@@ -1,14 +1,14 @@
 local M = {
-  --- TODO: UI config (borders, icons, etc.).
+  --- TODO: UI config (icons).
   ui = {
     border = {
       name = 'none',
-      characters = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
-    }
+      characters = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+    },
   },
 
   --- Helpful utility functions.
-  lib = { }
+  lib = { },
 }
 
 --- Return whether or not an element exists in an array.

@@ -2,7 +2,7 @@ local gitsigns = require('gitsigns')
 
 -- TODO: Full line and word diffs with translucent backgrounds.
 
---- @type plugin_config
+--- @type Plugin
 return {
   event = 'BufEnter',
   mappings = {

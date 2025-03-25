@@ -108,7 +108,7 @@ local header_margin = {
   })
 }
 
---- @type plugin_config
+--- @type Plugin
 return {
   opts = {
     opts = { noautocmd = true },

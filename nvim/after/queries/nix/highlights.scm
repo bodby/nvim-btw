@@ -35,7 +35,7 @@ function: (_
   (binding_set
     binding: (binding
       attrpath: (attrpath
-        attr: (identifier) @varaiable))))
+        attr: (identifier) @variable))))
 
 (binding
   attrpath: (attrpath

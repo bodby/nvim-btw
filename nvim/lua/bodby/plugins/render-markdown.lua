@@ -1,35 +1,31 @@
 local render_md = require('render-markdown')
 
---- @type plugin_config
+--- @type Plugin
 return {
   event = 'FileType',
   pattern = 'markdown',
   mappings = {
     ['<Leader>m'] = {
       modes = 'n',
-      callback = render_md.toggle
-    }
+      callback = render_md.toggle,
+    },
   },
-
   opts = {
     render_modes = { 'n', 'c', 't' },
     anti_conceal = { enabled = false },
     completions = {
-      lsp = { enabled = true }
+      lsp = { enabled = true },
     },
-
     win_options = {
       conceallevel = {
         default = vim.wo.conceallevel,
-        rendered = 3
+        rendered = 3,
       },
-
       concealcursor = {
         default = vim.wo.concealcursor,
-        rendered = 'nc'
-      }
+        rendered = 'nc',
+      },
     },
-
     quote = { enabled = false },
     checkbox = { enabled = false },
     code = {

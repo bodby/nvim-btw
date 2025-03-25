@@ -32,10 +32,10 @@ local options = {
 
   --- The maximum number of items to show in the menu.
   --- @type integer
-  max_items = 100
+  max_items = 100,
 }
 
---- @type plugin_config
+--- @type Plugin
 return {
   event = 'BufEnter',
   opts = {
@@ -50,17 +50,16 @@ return {
             cmp.show()
           end
           cmp.select_next()
-        end
+        end,
       },
-
       ['<C-p>'] = {
         function(cmp)
           if not cmp.is_menu_visible() then
             cmp.show()
           end
           cmp.select_prev()
-        end
-      }
+        end,
+      },
     },
 
     completion = {

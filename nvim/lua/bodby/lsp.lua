@@ -12,51 +12,51 @@ local servers = {
     capabilities = {
       workspace = {
         didChangeWatchedFiles = {
-          dynamicRegistration = true
-        }
-      }
-    }
+          dynamicRegistration = true,
+        },
+      },
+    },
   },
   ['hls'] = {
     settings = {
       haskell = {
         maxCompletions = 100,
         checkProject = false,
-        checkParents = 'CheckOnSave'
-      }
-    }
+        checkParents = 'CheckOnSave',
+      },
+    },
   },
   ['lua_ls'] = {
     settings = {
       Lua = {
         runtime = {
           version = 'LuaJIT',
-          path = vim.split(package.path, ';')
+          path = vim.split(package.path, ';'),
         },
         -- FIXME: Why won't 'vim.uv' work?
         diagnostics = {
-          globals = { 'vim', 'uv' }
+          globals = { 'vim', 'uv' },
         },
         workspace = {
           library = { vim.env.VIMRUNTIME },
-          checkThirdParty = false
+          checkThirdParty = false,
         },
         completion = {
           callSnippet = 'Replace',
           keywordSnippet = 'Disable',
-          showWord = 'Disable'
+          showWord = 'Disable',
         },
         type = {
           weakNilCheck = true,
-          weakUnionCheck = true
+          weakUnionCheck = true,
         },
         format = { enable = false },
         hint = { enable = false },
         telemetry = { enable = false },
-        semantic = { enable = false }
-      }
-    }
-  }
+        semantic = { enable = false },
+      },
+    },
+  },
 }
 
 --- @type table<string, any>
@@ -70,7 +70,7 @@ local diag_config = {
       [vim.diagnostic.severity.ERROR] = 'X',
       [vim.diagnostic.severity.WARN] = '!',
       [vim.diagnostic.severity.INFO] = 'i',
-      [vim.diagnostic.severity.HINT] = '?'
+      [vim.diagnostic.severity.HINT] = '?',
     }
   },
   float = {
@@ -78,13 +78,13 @@ local diag_config = {
     severity_sort = true,
     header = '',
     source = false,
-    prefix = ''
-  }
+    prefix = '',
+  },
 }
 
 local opts = {
   capabilities = require('blink.cmp').get_lsp_capabilities(),
-  silent = true
+  silent = true,
 }
 for k, v in pairs(servers) do
   if type(v) == 'table' then
