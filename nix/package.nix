@@ -9,12 +9,12 @@
   ...
 }:
 let
-  inherit (pkgs) stdenv lib;
-  inherit (lib)
+  inherit (pkgs.lib)
     concatStringsSep
     optionalString
     makeBinPath
-    concatMapStringsSep;
+    concatMapStringsSep
+    escapeShellArgs;
 
   mkNeovim = {
     appName,
@@ -43,7 +43,7 @@ let
         defaultPlugin // (if p ? plugin then p else { plugin = p; })) extraPlugins;
     };
 
-    nvimRtp = stdenv.mkDerivation {
+    nvimRtp = pkgs.stdenv.mkDerivation {
       name = "nvim-rtp";
       src = ../nvim;
 
@@ -86,8 +86,8 @@ let
     nvim-wrapped = pkgs.wrapNeovimUnstable nvim-unwrapped
       (nvimConfig // {
         luaRcContent = initLua;
-        wrapperArgs = lib.strings.concatStringsSep " " [
-          (lib.escapeShellArgs nvimConfig.wrapperArgs)
+        wrapperArgs = concatStringsSep " " [
+          (escapeShellArgs nvimConfig.wrapperArgs)
           makeWrapperArgs
           luaCWrapperArgs
           luaWrapperArgs
@@ -102,8 +102,8 @@ let
       else finalAttrs.meta.mainProgram;
 
     buildPhase = finalAttrs.buildPhase
-      + lib.optionalString modifiedAppName /* bash */ ''
-        mv $out/bin/nvim $out/bin/${lib.escapeShellArgs appName}
+      + optionalString modifiedAppName /* bash */ ''
+        mv $out/bin/nvim $out/bin/${escapeShellArgs appName}
       '';
   });
 in
