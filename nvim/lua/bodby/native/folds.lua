@@ -333,8 +333,8 @@ function M.text()
   -- local last_token = result[#result][1] or { '', 'Folded' }
   result = insert_elems(result,
     { ' ' .. vim.v.foldstart, 'FoldedRange' },
-    { '..', 'Folded' },
-    { tostring(vim.v.foldend), 'FoldedRange' },
+    { ' .. ', 'Folded' },
+    { tostring(vim.v.foldend) .. ' ', 'FoldedRange' },
     { match_delimiters(buffer, vim.v.foldstart), '@punctuation.bracket' })
 
   -- -- TODO: Count the number of brackets, parentheses, etc. in the line and add
