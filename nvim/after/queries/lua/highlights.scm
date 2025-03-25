@@ -3,8 +3,8 @@
 ((identifier) @module.builtin
   (#eq? @module.builtin "vim"))
 
-((field
+(field
   name: (identifier) @variable
   value: (table_constructor
     (field)
-      (_))))
+      (_)))
